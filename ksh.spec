@@ -1,4 +1,4 @@
-%define       releasedate   2004-12-25
+%define       releasedate   2005-02-02
 ExcludeArch:  ia64
 
 Name:         ksh
@@ -6,8 +6,8 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      Common Public License Version 1.0
-Version:      20041225
-Release:      2
+Version:      20050202
+Release:      1
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.%{releasedate}.tgz
@@ -77,7 +77,6 @@ fi
 
 %files 
 %defattr(-, root, root)
-%doc "-- *NOTICE*"
 %doc README LICENSE
 /bin/*
 %{_datadir}/locale/*/LC_MESSAGES/*
@@ -87,6 +86,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Mar 02 2005 Karsten Hopp <karsten@redhat.de> 20050202-1 
+- update and rebuild with gcc-4
+
 * Tue Mar 01 2005 Karsten Hopp <karsten@redhat.de> 20041225-2 
 - fix gcc4 build 
 
