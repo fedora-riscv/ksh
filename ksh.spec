@@ -7,7 +7,7 @@ URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      Common Public License Version 1.0
 Version:      20050202
-Release:      1
+Release:      2
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.%{releasedate}.tgz
@@ -41,7 +41,7 @@ cp lib/package/LICENSES/ast LICENSE
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT{/bin,%{_mandir}/man1}
+mkdir -p $RPM_BUILD_ROOT{/bin,/usr/bin,%{_mandir}/man1}
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/{C,pt,fr,de,it,es}/LC_MESSAGES
 install -c -s -m 755 arch/*/bin/ksh $RPM_BUILD_ROOT/bin/ksh
 install -c -m 644 arch/*/man/man1/sh.1 $RPM_BUILD_ROOT%{_mandir}/man1/ksh.1
@@ -49,6 +49,7 @@ for i in C pt fr de it es; do
 install -m 644 share/lib/locale/$i/LC_MESSAGES/* \
                $RPM_BUILD_ROOT%{_datadir}/locale/$i/LC_MESSAGES/
 done
+ln -sf /bin/ksh $RPM_BUILD_ROOT/usr/bin/ksh
 
 %post
 if [ ! -f /etc/shells ]; then
@@ -79,6 +80,7 @@ fi
 %defattr(-, root, root)
 %doc README LICENSE
 /bin/*
+/usr//bin/ksh
 %{_datadir}/locale/*/LC_MESSAGES/*
 %{_mandir}/man1/*
 
@@ -86,6 +88,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Mar 15 2005 Karsten Hopp <karsten@redhat.de> 20050202-2
+- add /usr/bin/ksh link for compatibility with pdksh scripts (#151134)
+
 * Wed Mar 02 2005 Karsten Hopp <karsten@redhat.de> 20050202-1 
 - update and rebuild with gcc-4
 
