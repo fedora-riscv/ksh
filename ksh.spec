@@ -7,11 +7,12 @@ URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      Common Public License Version 1.0
 Version:      20041225
-Release:      1
+Release:      2
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.%{releasedate}.tgz
 Patch0:       ksh-2004-02-29-ppc64.patch
+Patch1:       ksh-20041225-gcc4.patch
 
 #   build information
 BuildRoot:    %{_tmppath}/%{name}-%{version}-root
@@ -31,6 +32,7 @@ with "sh" (the Bourne Shell).
 %setup -q -T -D -a 1
 %setup -q -T -D -a 2
 #%patch0 -p1 -b .ppc64
+%patch1 -p1 -b .gcc4
 
 %build
 ./bin/package "read" ||:
@@ -85,6 +87,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Mar 01 2005 Karsten Hopp <karsten@redhat.de> 20041225-2 
+- fix gcc4 build 
+
 * Fri Jan 21 2005 Karsten Hopp <karsten@redhat.de> 20041225-1
 - rebuild with new ksh tarball (license change)
 
