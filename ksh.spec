@@ -1,4 +1,5 @@
 %define       releasedate   2004-02-29
+ExcludeArch:  ia64
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
@@ -6,7 +7,7 @@ URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      AT&T Open Source
 Version:      20040229
-Release:      9
+Release:      10
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.%{releasedate}.tgz
@@ -99,6 +100,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Nov 02 2004 Karsten Hopp <karsten@redhat.de> 20040229-10
+- disable ia64 for now
+
 * Fri Oct 15 2004 Karsten Hopp <karsten@redhat.de> 20040229-9 
 - rebuild
 
