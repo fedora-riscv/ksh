@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      AT&T Open Source
 Version:      20040229
-Release:      8
+Release:      9
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.%{releasedate}.tgz
@@ -99,6 +99,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Oct 15 2004 Karsten Hopp <karsten@redhat.de> 20040229-9 
+- rebuild
+
 * Thu Sep 02 2004 Nalin Dahyabhai <nalin@redhat.com> 20040229-8
 - remove '&' from summary
 
