@@ -1,13 +1,13 @@
-%define       releasedate   2004-02-29
+%define       releasedate   2004-12-25
 # ExcludeArch:  ia64
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        Applications/Shells
-License:      AT&T Open Source
-Version:      20040229
-Release:      11
+License:      Common Public License Version 1.0
+Version:      20041225
+Release:      1
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.%{releasedate}.tgz
@@ -26,26 +26,11 @@ AT&T Bell Laboratories.
 KornShell is a shell programming language, which is upward compatible
 with "sh" (the Bourne Shell).
 
-Proprietary Notice:
-This  product  contains   certain  software  code  or  other
-information  ("AT&T  Software")  proprietary  to  AT&T  Corp.
-("AT&T"). The  AT&T Software is provided  to you "AS IS". YOU
-ASSUME  TOTAL RESPONSIBILITY  AND  RISK FOR  USE OF  THE AT&T
-SOFTWARE. AT&T  DOES NOT  MAKE, AND EXPRESSLY  DISCLAIMS, ANY
-EXPRESS  OR  IMPLIED   WARRANTIES  OF  ANY  KIND  WHATSOEVER,
-INCLUDING,  WITHOUT  LIMITATION,  THE  IMPLIED WARRANTIES  OF
-MERCHANTABILITY   OR  FITNESS   FOR  A   PARTICULAR  PURPOSE,
-WARRANTIES OF  TITLE OR NON-INFRINGEMENT  OF ANY INTELLECTUAL
-PROPERTY RIGHTS,  ANY WARRANTIES  ARISING BY USAGE  OF TRADE,
-COURSE OF  DEALING OR COURSE OF  PERFORMANCE, OR ANY WARRANTY
-THAT  THE AT&T  SOFTWARE IS  "ERROR FREE"  OR WILL  MEET YOUR
-REQUIREMENTS.
-
 %prep
 %setup -q -c
 %setup -q -T -D -a 1
 %setup -q -T -D -a 2
-%patch0 -p1 -b .ppc64
+#%patch0 -p1 -b .ppc64
 
 %build
 ./bin/package "read" ||:
@@ -100,6 +85,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Jan 21 2005 Karsten Hopp <karsten@redhat.de> 20041225-1
+- rebuild with new ksh tarball (license change)
+
 * Tue Nov 02 2004 Karsten Hopp <karsten@redhat.de> 20040229-11
 - disable ia64 for now
 
