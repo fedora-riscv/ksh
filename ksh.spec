@@ -1,5 +1,5 @@
 %define       releasedate   2004-12-25
-# ExcludeArch:  ia64
+ExcludeArch:  ia64
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
