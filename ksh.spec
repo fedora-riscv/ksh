@@ -1,49 +1,68 @@
+%define       releasedate   2004-02-29
+
 Name:         ksh
-Summary:      The Original AT&T Korn Shell
+Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
-Group:        System Environment/Shells
-License:      AT&T
-Version:      20020628
-Release:      1
-Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.2002-06-28.tgz
-Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.2002-06-28.tgz
-BuildRoot:    %{_tmppath}/%{name}-%{version}.root
+Group:        Applications/Shells
+License:      AT&T Open Source
+Version:      20040229
+Release:      8
+Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
+Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
+Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.%{releasedate}.tgz
+Patch0:       ksh-2004-02-29-ppc64.patch
+
+#   build information
+BuildRoot:    %{_tmppath}/%{name}-%{version}-root
+Provides:     ksh93
+Obsoletes:    ksh93
+Provides:     pdksh
 Obsoletes:    pdksh
 
 %description
-The KornShell language was designed and developed by David G. Korn
-at AT&T Bell Laboratories. It is an interactive command language
-that provides access to the UNIX system and to many other systems,
-on the many different computers and workstations on which it is
-implemented. This is Ksh93 which is intended to conform to the Shell
-Language Standard developed by the IEEE POSIX 1003.2 Shell and
-Utilities Language Committee.
+KSH-93 is the most recent version of the KornShell by David Korn of 
+AT&T Bell Laboratories.
+KornShell is a shell programming language, which is upward compatible
+with "sh" (the Bourne Shell).
+
+Proprietary Notice:
+This  product  contains   certain  software  code  or  other
+information  ("AT&T  Software")  proprietary  to  AT&T  Corp.
+("AT&T"). The  AT&T Software is provided  to you "AS IS". YOU
+ASSUME  TOTAL RESPONSIBILITY  AND  RISK FOR  USE OF  THE AT&T
+SOFTWARE. AT&T  DOES NOT  MAKE, AND EXPRESSLY  DISCLAIMS, ANY
+EXPRESS  OR  IMPLIED   WARRANTIES  OF  ANY  KIND  WHATSOEVER,
+INCLUDING,  WITHOUT  LIMITATION,  THE  IMPLIED WARRANTIES  OF
+MERCHANTABILITY   OR  FITNESS   FOR  A   PARTICULAR  PURPOSE,
+WARRANTIES OF  TITLE OR NON-INFRINGEMENT  OF ANY INTELLECTUAL
+PROPERTY RIGHTS,  ANY WARRANTIES  ARISING BY USAGE  OF TRADE,
+COURSE OF  DEALING OR COURSE OF  PERFORMANCE, OR ANY WARRANTY
+THAT  THE AT&T  SOFTWARE IS  "ERROR FREE"  OR WILL  MEET YOUR
+REQUIREMENTS.
 
 %prep
-%setup0 -q -c -n ksh-%{version}
-%setup1 -q -T -D -a 1
+%setup -q -c
+%setup -q -T -D -a 1
+%setup -q -T -D -a 2
+%patch0 -p1 -b .ppc64
 
 %build
-./bin/package read || true
-./bin/package make CFLAGS="$RPM_OPT_FLAGS -D_LARGEFILE64_SOURCE"
+./bin/package "read" ||:
+./bin/package "make"
+cp lib/package/LICENSES/ast LICENSE
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p -m 755 \
-	$RPM_BUILD_ROOT%{_bindir} \
-        $RPM_BUILD_ROOT%{_mandir}/man1
-install -c -m 755 \
-        arch/*/bin/ksh $RPM_BUILD_ROOT%{_bindir}/ksh
-install -c -m 644 \
-        arch/*/man/man1/sh.1 $RPM_BUILD_ROOT%{_mandir}/man1/ksh.1
+mkdir -p $RPM_BUILD_ROOT{/bin,%{_mandir}/man1}
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/{C,pt,fr,de,it,es}/LC_MESSAGES
+install -c -s -m 755 arch/*/bin/ksh $RPM_BUILD_ROOT/bin/ksh
+install -c -m 644 arch/*/man/man1/sh.1 $RPM_BUILD_ROOT%{_mandir}/man1/ksh.1
+for i in C pt fr de it es; do
+install -m 644 share/lib/locale/$i/LC_MESSAGES/* \
+               $RPM_BUILD_ROOT%{_datadir}/locale/$i/LC_MESSAGES/
+done
 
-# rename license file
-mv lib/package/LICENSES/ast LICENSE
-
-%clean
-rm -rf $RPM_BUILD_ROOT
-
-%post 
+%post
 if [ ! -f /etc/shells ]; then
         echo "/bin/ksh" > /etc/shells
 else
@@ -52,18 +71,49 @@ else
         fi
 fi
 
-%postun 
+%postun
 if [ ! -f /bin/ksh ]; then
-        grep -v /bin/ksh /etc/shells > /etc/shells.new
+        grep -v '^/bin/ksh$' /etc/shells >/etc/shells.new
         mv /etc/shells.new /etc/shells
+        chmod 644 /etc/shells
 fi
 
-%files
-%{_bindir}/ksh
+%verifyscript
+echo -n "Looking for ksh in /etc/shells... "
+if ! grep '^/bin/ksh$' /etc/shells > /dev/null; then
+    echo "missing"
+    echo "ksh missing from /etc/shells" >&2
+else
+    echo "found"
+fi
+
+%files 
+%defattr(-, root, root)
+%doc "-- *NOTICE*"
+%doc README LICENSE
+/bin/*
+%{_datadir}/locale/*/LC_MESSAGES/*
 %{_mandir}/man1/*
-%doc LICENSE
+
+%clean
+    rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Wed Jul 17 2002 Preston Brown <pbrown@redhat.com>
-- initial Red Hat packaging of ksh93
+* Thu Sep 02 2004 Nalin Dahyabhai <nalin@redhat.com> 20040229-8
+- remove '&' from summary
+
+* Thu Sep 02 2004 Bill Nottingham <notting@redhat.com> 20040229-7
+- obsolete pdksh (#131303)
+
+* Mon Aug 02 2004 Karsten Hopp <karsten@redhat.de> 20040229-6
+- obsolete ksh93, provide ksh93
+
+* Mon Jul 05 2004 Karsten Hopp <karsten@redhat.de> 20040229-3 
+- add /bin/ksh to /etc/shells
+
+* Wed Jun 16 2004 Karsten Hopp <karsten@redhat.de> 20040229-2 
+- add ppc64 patch to avoid ppc64 dot symbol problem
+
+* Fri May 28 2004 Karsten Hopp <karsten@redhat.de> 20040229-1 
+- initial version
 
