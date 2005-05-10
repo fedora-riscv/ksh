@@ -43,7 +43,7 @@ cp lib/package/LICENSES/ast LICENSE
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT{/bin,/usr/bin,%{_mandir}/man1}
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/{C,pt,fr,de,it,es}/LC_MESSAGES
-install -c -s -m 755 arch/*/bin/ksh $RPM_BUILD_ROOT/bin/ksh
+install -c -m 755 arch/*/bin/ksh $RPM_BUILD_ROOT/bin/ksh
 install -c -m 644 arch/*/man/man1/sh.1 $RPM_BUILD_ROOT%{_mandir}/man1/ksh.1
 for i in C pt fr de it es; do
 install -m 644 share/lib/locale/$i/LC_MESSAGES/* \
