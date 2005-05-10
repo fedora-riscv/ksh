@@ -7,7 +7,7 @@ URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      Common Public License Version 1.0
 Version:      20050202
-Release:      2
+Release:      3
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.%{releasedate}.tgz
@@ -88,6 +88,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue May 10 2005 Karsten Hopp <karsten@redhat.de> 20050202-3
+- enable debuginfo
+
 * Tue Mar 15 2005 Karsten Hopp <karsten@redhat.de> 20050202-2
 - add /usr/bin/ksh link for compatibility with pdksh scripts (#151134)
 
