@@ -7,7 +7,7 @@ URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      Common Public License Version 1.0
 Version:      20050202
-Release:      2
+Release:      4
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.%{releasedate}.tgz
@@ -92,12 +92,12 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Thu Feb 02 2006 Karsten Hopp <karsten@redhat.de> 20050202-2
+* Thu Feb 02 2006 Karsten Hopp <karsten@redhat.de> 20050202-4
 - fix uname -i output
 - fix loop (*-path.patch)
 - conflict pdksh instead of obsoleting it
 
-* Fri Dec 16 2005 Jesse Keating <jkeating@redhat.com>
+* Fri Dec 16 2005 Jesse Keating <jkeating@redhat.com> 20050202-3.1
 - rebuilt for new gcj
 
 * Tue May 10 2005 Karsten Hopp <karsten@redhat.de> 20050202-3
