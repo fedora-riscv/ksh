@@ -7,7 +7,7 @@ URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      Common Public License Version 1.0
 Version:      20050202
-Release:      4.1
+Release:      5
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.%{releasedate}.tgz
@@ -92,6 +92,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Feb 10 2006 Karsten Hopp <karsten@redhat.de> 20050202-5
+- rebuild
+
 * Tue Feb 07 2006 Jesse Keating <jkeating@redhat.com> - 20050202-4.1
 - rebuilt for new gcc4.1 snapshot and glibc changes
 
