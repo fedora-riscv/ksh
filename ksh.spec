@@ -1,4 +1,4 @@
-%define       releasedate   2005-02-02
+%define       releasedate   2006-01-24
 #ExcludeArch:  ia64
 
 Name:         ksh
@@ -6,8 +6,8 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      Common Public License Version 1.0
-Version:      20050202
-Release:      5.1
+Version:      20060124
+Release:      1
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.%{releasedate}.tgz
@@ -34,7 +34,7 @@ with "sh" (the Bourne Shell).
 %setup -q -T -D -a 2
 #%patch0 -p1 -b .ppc64
 %patch1 -p1 -b .gcc4
-%patch2 -p1 -b .path
+#patch2 -p1 -b .path
 %patch3 -p1 -b .uname
 
 %build
@@ -92,6 +92,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Feb 13 2006 Karsten Hopp <karsten@redhat.de> 20060124-1
+- version 20060124
+
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 20050202-5.1
 - bump again for double-long bug on ppc(64)
 
