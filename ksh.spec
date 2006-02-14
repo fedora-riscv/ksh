@@ -15,6 +15,7 @@ Patch0:       ksh-2004-02-29-ppc64.patch
 Patch1:       ksh-20041225-gcc4.patch
 Patch2:       ksh-20050202-path.patch
 Patch3:       ksh-20050202-uname.patch
+Patch4:       ksh-20060124-syntax.patch
 
 #   build information
 BuildRoot:    %{_tmppath}/%{name}-%{version}-root
@@ -36,10 +37,13 @@ with "sh" (the Bourne Shell).
 %patch1 -p1 -b .gcc4
 #patch2 -p1 -b .path
 %patch3 -p1 -b .uname
+%patch4 -p1 -b .syntax
 
 %build
 ./bin/package "read" ||:
+# Use this for debugging:
 #export CCFLAGS="-O0 -ggdb"
+#./bin/package DEBUG "make"
 ./bin/package "make"
 cp lib/package/LICENSES/ast LICENSE
 
@@ -94,6 +98,7 @@ fi
 %changelog
 * Mon Feb 13 2006 Karsten Hopp <karsten@redhat.de> 20060124-1
 - version 20060124
+- make it build in chroots (#180561)
 
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 20050202-5.1
 - bump again for double-long bug on ppc(64)
