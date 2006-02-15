@@ -1,3 +1,4 @@
+#ExclusiveArch:  x86_64
 %define       releasedate   2006-01-24
 #ExcludeArch:  ia64
 
@@ -16,6 +17,7 @@ Patch1:       ksh-20041225-gcc4.patch
 Patch2:       ksh-20050202-path.patch
 Patch3:       ksh-20050202-uname.patch
 Patch4:       ksh-20060124-syntax.patch
+Patch5:       ksh-20060124-iffedebug.patch
 
 #   build information
 BuildRoot:    %{_tmppath}/%{name}-%{version}-root
@@ -38,6 +40,7 @@ with "sh" (the Bourne Shell).
 #patch2 -p1 -b .path
 %patch3 -p1 -b .uname
 %patch4 -p1 -b .syntax
+#%patch5 -p1 -b .iffedebug
 
 %build
 ./bin/package "read" ||:
