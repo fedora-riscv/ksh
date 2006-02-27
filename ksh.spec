@@ -8,7 +8,7 @@ URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      Common Public License Version 1.0
 Version:      20060124
-Release:      2
+Release:      3
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.%{releasedate}.tgz
@@ -100,7 +100,7 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Mon Feb 27 2006 Karsten Hopp <karsten@redhat.de> 20060124-2
+* Mon Feb 27 2006 Karsten Hopp <karsten@redhat.de> 20060124-3
 - PreReq grep, coreutils (#182835)
 
 * Tue Feb 14 2006 Karsten Hopp <karsten@redhat.de> 20060124-2
