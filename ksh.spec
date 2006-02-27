@@ -24,6 +24,7 @@ BuildRoot:    %{_tmppath}/%{name}-%{version}-root
 Provides:     ksh93
 Obsoletes:    ksh93
 Conflicts:    pdksh
+PreReq:       grep, coreutils
 
 %description
 KSH-93 is the most recent version of the KornShell by David Korn of 
@@ -99,6 +100,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Feb 27 2006 Karsten Hopp <karsten@redhat.de> 20060124-2
+- PreReq grep, coreutils (#182835)
+
 * Tue Feb 14 2006 Karsten Hopp <karsten@redhat.de> 20060124-2
 - make it build in chroots (#180561)
 
