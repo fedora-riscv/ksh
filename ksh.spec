@@ -1,5 +1,5 @@
 #ExclusiveArch:  x86_64
-%define       releasedate   2006-01-24
+%define       releasedate   2006-02-14
 #ExcludeArch:  ia64
 
 Name:         ksh
@@ -7,8 +7,8 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      Common Public License Version 1.0
-Version:      20060124
-Release:      3
+Version:      20060214
+Release:      1
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.%{releasedate}.tgz
@@ -100,6 +100,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Jun 01 2006 Karsten Hopp <karsten@redhat.de> 20060214-1
+- new upstream source
+
 * Mon Feb 27 2006 Karsten Hopp <karsten@redhat.de> 20060124-3
 - PreReq grep, coreutils (#182835)
 
