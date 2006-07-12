@@ -8,7 +8,7 @@ URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      Common Public License Version 1.0
 Version:      20060214
-Release:      1
+Release:      1.1
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.%{releasedate}.tgz
@@ -100,6 +100,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - 20060214-1.1
+- rebuild
+
 * Thu Jun 01 2006 Karsten Hopp <karsten@redhat.de> 20060214-1
 - new upstream source
 
