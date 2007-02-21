@@ -1,5 +1,5 @@
 #ExclusiveArch:  x86_64
-%define       releasedate   2006-02-14
+%define       releasedate   2007-01-11
 #ExcludeArch:  ia64
 
 Name:         ksh
@@ -7,24 +7,25 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      Common Public License Version 1.0
-Version:      20060214
-Release:      1.1
+Version:      20070111
+Release:      1
+#Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.linux.i386.tgz
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
-Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
+Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tar
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.%{releasedate}.tgz
-Patch0:       ksh-2004-02-29-ppc64.patch
-Patch1:       ksh-20041225-gcc4.patch
-Patch2:       ksh-20050202-path.patch
-Patch3:       ksh-20050202-uname.patch
-Patch4:       ksh-20060124-syntax.patch
-Patch5:       ksh-20060124-iffedebug.patch
+Patch0:       ksh-20041225-gcc4.patch
+Patch1:       ksh-20070111-uname.patch
+Patch2:       ksh-20070111-useex.patch
+# for debugging only:
+#Patch100:     ksh-20060124-iffedebug.patch
 
 #   build information
-BuildRoot:    %{_tmppath}/%{name}-%{version}-root
+BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Provides:     ksh93
 Obsoletes:    ksh93
 Conflicts:    pdksh
-PreReq:       grep, coreutils
+Requires(post): grep, coreutils
+Requires(preun): grep, coreutils
 
 %description
 KSH-93 is the most recent version of the KornShell by David Korn of 
@@ -36,19 +37,17 @@ with "sh" (the Bourne Shell).
 %setup -q -c
 %setup -q -T -D -a 1
 %setup -q -T -D -a 2
-#%patch0 -p1 -b .ppc64
-%patch1 -p1 -b .gcc4
-#patch2 -p1 -b .path
-%patch3 -p1 -b .uname
-%patch4 -p1 -b .syntax
-#%patch5 -p1 -b .iffedebug
+%patch0 -p1 -b .gcc4
+%patch1 -p1 -b .uname
+%patch2 -p1 -b .use_ex
+#patch100 -p1 -b .iffedebug
 
 %build
 ./bin/package "read" ||:
 # Use this for debugging:
 #export CCFLAGS="-O0 -ggdb"
 #./bin/package DEBUG "make"
-./bin/package "make"
+./bin/package "make" %{?_smp_mflags}
 cp lib/package/LICENSES/ast LICENSE
 
 %install
@@ -89,7 +88,7 @@ else
 fi
 
 %files 
-%defattr(-, root, root)
+%defattr(-, root, root,-)
 %doc README LICENSE
 /bin/*
 /usr//bin/ksh
@@ -100,6 +99,10 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Feb 21 2007 Karsten Hopp <karsten@redhat.com> 20070111-1
+- new upstream version
+- fix invalid write in uname function
+
 * Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - 20060214-1.1
 - rebuild
 
