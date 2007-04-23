@@ -1,5 +1,5 @@
 #ExclusiveArch:  x86_64
-%define       releasedate   2007-01-11
+%define       releasedate   2007-03-28
 #ExcludeArch:  ia64
 
 Name:         ksh
@@ -7,15 +7,17 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      Common Public License Version 1.0
-Version:      20070111
+Version:      20070328
 Release:      1
 #Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.linux.i386.tgz
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
-Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tar
+Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.%{releasedate}.tgz
 Patch0:       ksh-20041225-gcc4.patch
-Patch1:       ksh-20070111-uname.patch
-Patch2:       ksh-20070111-useex.patch
+Patch1:       ksh-20070328-uname.patch
+Patch2:       ksh-20070328-useex.patch
+Patch3:       ksh-20070328-loginsh.patch
+Patch4:       ksh-20070328-leak.patch
 # for debugging only:
 #Patch100:     ksh-20060124-iffedebug.patch
 
@@ -40,6 +42,8 @@ with "sh" (the Bourne Shell).
 %patch0 -p1 -b .gcc4
 %patch1 -p1 -b .uname
 %patch2 -p1 -b .use_ex
+%patch3 -p1 -b .loginsh
+%patch4 -p1 -b .leak
 #patch100 -p1 -b .iffedebug
 
 %build
@@ -99,6 +103,11 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Apr 19 2007 Tomas Smetana <tsmetana@redhat.com> 20070328-1
+- new upstream source
+- fix login shell invocation (#182397)
+- fix memory leak
+
 * Wed Feb 21 2007 Karsten Hopp <karsten@redhat.com> 20070111-1
 - new upstream version
 - fix invalid write in uname function

@@ -1,0 +1,52 @@
+--- ksh-20070328/bin/mamprobe.useex	2007-04-17 13:45:27.000000000 +0200
++++ ksh-20070328/bin/mamprobe	2007-04-17 13:46:14.000000000 +0200
+@@ -200,14 +200,15 @@
+ 
+ # STD* are standard commands/flags with possible execrate(1)
+ 
+-if	(
+-ed <<!
+-q
+-!
+-) < /dev/null > /dev/null 2>&1
+-then	STDED=ed
+-else	STDED=ex
+-fi
++#if	(
++#ed <<!
++#q
++#!
++#) < /dev/null > /dev/null 2>&1
++#then	STDED=ed
++#else	STDED=ex
++#fi
++STDED=ex
+ STDEDFLAGS=-
+ set STDCAT cat STDCHMOD chmod STDCMP cmp STDCP cp STDLN ln STDMV mv STDRM rm
+ while	:
+--- ksh-20070328/src/cmd/INIT/mamprobe.sh.useex	2007-04-17 13:46:45.000000000 +0200
++++ ksh-20070328/src/cmd/INIT/mamprobe.sh	2007-04-17 13:47:24.000000000 +0200
+@@ -219,14 +219,15 @@
+ 
+ # STD* are standard commands/flags with possible execrate(1)
+ 
+-if	(
+-ed <<!
+-q
+-!
+-) < /dev/null > /dev/null 2>&1
+-then	STDED=ed
+-else	STDED=ex
+-fi
++#if	(
++#ed <<!
++#q
++#!
++#) < /dev/null > /dev/null 2>&1
++#then	STDED=ed
++#else	STDED=ex
++#fi
++STDED=ex
+ STDEDFLAGS=-
+ set STDCAT cat STDCHMOD chmod STDCMP cmp STDCP cp STDLN ln STDMV mv STDRM rm
+ while	:
