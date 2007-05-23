@@ -1,0 +1,19 @@
+--- ksh-20070328/src/cmd/ksh93/sh/jobs.c.ttou	2007-05-22 12:47:38.000000000 +0200
++++ ksh-20070328/src/cmd/ksh93/sh/jobs.c	2007-05-22 12:50:24.000000000 +0200
+@@ -609,9 +609,16 @@
+ {
+ 	/* save the terminal state for current job */
+ #ifdef SIGTSTP
++	Sig_handler_t saved_handler;
++
++	saved_handler = signal(SIGTTOU, SIG_IGN);
+ 	job_fgrp(pw,tcgetpgrp(job.fd));
+ 	if(tcsetpgrp(job.fd,sh.pid) !=0)
++	{
++		signal(SIGTTOU, saved_handler);
+ 		return;
++	}
++	signal(SIGTTOU, saved_handler);
+ #endif	/* SIGTSTP */
+ 	/* force the following tty_get() to do a tcgetattr() */
+ 	tty_set(-1, 0, NIL(struct termios*));

@@ -8,7 +8,7 @@ URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      Common Public License Version 1.0
 Version:      20070328
-Release:      1
+Release:      2%{?dist}
 #Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.linux.i386.tgz
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
@@ -18,6 +18,9 @@ Patch1:       ksh-20070328-uname.patch
 Patch2:       ksh-20070328-useex.patch
 Patch3:       ksh-20070328-loginsh.patch
 Patch4:       ksh-20070328-leak.patch
+Patch5:       ksh-20070328-exit19.patch
+Patch6:       ksh-20070328-builtins.patch
+Patch7:       ksh-20070328-ttou.patch
 # for debugging only:
 #Patch100:     ksh-20060124-iffedebug.patch
 
@@ -26,6 +29,7 @@ BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Provides:     ksh93
 Obsoletes:    ksh93
 Conflicts:    pdksh
+Requires: coreutils, glibc-common, diffutils
 Requires(post): grep, coreutils
 Requires(preun): grep, coreutils
 
@@ -44,14 +48,16 @@ with "sh" (the Bourne Shell).
 %patch2 -p1 -b .use_ex
 %patch3 -p1 -b .loginsh
 %patch4 -p1 -b .leak
+%patch5 -p1 -b .exit19
+%patch6 -p1 -b .builtins
+%patch7 -p1 -b .ttou
 #patch100 -p1 -b .iffedebug
 
 %build
 ./bin/package "read" ||:
-# Use this for debugging:
-#export CCFLAGS="-O0 -ggdb"
-#./bin/package DEBUG "make"
-./bin/package "make" %{?_smp_mflags}
+export CCFLAGS="$RPM_OPT_FLAGS"
+export CC=gcc
+./bin/package "make"
 cp lib/package/LICENSES/ast LICENSE
 
 %install
@@ -103,6 +109,12 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue May 22 2007 Tomas Smetana <tsmetana@redhat.com> 20070328-2
+- fix wrong exit status of spawned process after SIGSTOP
+- fix building of debuginfo package, add %%{?dist} to release
+- fix handling of SIGTTOU in non-interactive shell
+- remove useless builtins
+
 * Thu Apr 19 2007 Tomas Smetana <tsmetana@redhat.com> 20070328-1
 - new upstream source
 - fix login shell invocation (#182397)
