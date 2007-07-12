@@ -1,5 +1,5 @@
 #ExclusiveArch:  x86_64
-%define       releasedate   2007-03-28
+%define       releasedate   2007-06-28
 #ExcludeArch:  ia64
 
 Name:         ksh
@@ -7,20 +7,17 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      Common Public License Version 1.0
-Version:      20070328
-Release:      2%{?dist}
-#Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.linux.i386.tgz
+Version:      20070628
+Release:      1%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
-Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.%{releasedate}.tgz
+Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.2007-03-28.tgz
 Patch0:       ksh-20041225-gcc4.patch
 Patch1:       ksh-20070328-uname.patch
 Patch2:       ksh-20070328-useex.patch
-Patch3:       ksh-20070328-loginsh.patch
-Patch4:       ksh-20070328-leak.patch
-Patch5:       ksh-20070328-exit19.patch
-Patch6:       ksh-20070328-builtins.patch
-Patch7:       ksh-20070328-ttou.patch
+Patch3:       ksh-20070328-builtins.patch
+Patch4:       ksh-20070328-ttou.patch
+Patch5:       ksh-20070628-unaligned.patch
 # for debugging only:
 #Patch100:     ksh-20060124-iffedebug.patch
 
@@ -46,11 +43,9 @@ with "sh" (the Bourne Shell).
 %patch0 -p1 -b .gcc4
 %patch1 -p1 -b .uname
 %patch2 -p1 -b .use_ex
-%patch3 -p1 -b .loginsh
-%patch4 -p1 -b .leak
-%patch5 -p1 -b .exit19
-%patch6 -p1 -b .builtins
-%patch7 -p1 -b .ttou
+%patch3 -p1 -b .builtins
+%patch4 -p1 -b .ttou
+%patch5 -p1 -b .unaligned
 #patch100 -p1 -b .iffedebug
 
 %build
@@ -109,6 +104,10 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Jul 12 2007 Tomas Smetana <tsmetana@redhat.com> 20070628-1
+- new upstream version
+- fix unaligned access messages (Related: #219420)
+
 * Tue May 22 2007 Tomas Smetana <tsmetana@redhat.com> 20070328-2
 - fix wrong exit status of spawned process after SIGSTOP
 - fix building of debuginfo package, add %%{?dist} to release
