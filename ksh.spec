@@ -8,7 +8,7 @@ URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      Common Public License Version 1.0
 Version:      20070628
-Release:      1%{?dist}
+Release:      1.1%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.2007-03-28.tgz
@@ -104,6 +104,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Aug 22 2007 Tomas Smetana <tsmetana@redhat.com> 20070628-1.1
+- rebuild
+
 * Thu Jul 12 2007 Tomas Smetana <tsmetana@redhat.com> 20070628-1
 - new upstream version
 - fix unaligned access messages (Related: #219420)
