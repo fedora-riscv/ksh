@@ -1,5 +1,5 @@
 #ExclusiveArch:  x86_64
-%define       releasedate   2007-06-28
+%define       releasedate   2007-11-05
 #ExcludeArch:  ia64
 
 Name:         ksh
@@ -7,12 +7,12 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        Applications/Shells
 License:      Common Public License Version 1.0
-Version:      20070628
-Release:      1.1%{?dist}
+Version:      200711205
+Release:      1%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
-Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.2007-03-28.tgz
-Patch0:       ksh-20041225-gcc4.patch
+Source2:      http://www.research.att.com/~gsf/download/tgz/ast-ksh-locale.%{releasedate}.tgz
+#Patch0:       ksh-20041225-gcc4.patch
 Patch1:       ksh-20070328-uname.patch
 Patch2:       ksh-20070328-useex.patch
 Patch3:       ksh-20070328-builtins.patch
@@ -40,7 +40,7 @@ with "sh" (the Bourne Shell).
 %setup -q -c
 %setup -q -T -D -a 1
 %setup -q -T -D -a 2
-%patch0 -p1 -b .gcc4
+#%patch0 -p1 -b .gcc4
 %patch1 -p1 -b .uname
 %patch2 -p1 -b .use_ex
 %patch3 -p1 -b .builtins
@@ -104,6 +104,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Nov 07 2007 Tomas Smetana <tsmetana@redhat.com> 20071105-1
+- new upstream version
+
 * Wed Aug 22 2007 Tomas Smetana <tsmetana@redhat.com> 20070628-1.1
 - rebuild
 
