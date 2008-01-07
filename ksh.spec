@@ -5,10 +5,10 @@
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
-Group:        Applications/Shells
+Group:        System Environment/Shells
 License:      Common Public License Version 1.0
 Version:      20071105
-Release:      1%{?dist}
+Release:      2%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-ksh-locale.%{releasedate}.tgz
@@ -18,6 +18,7 @@ Patch2:       ksh-20070328-useex.patch
 Patch3:       ksh-20070328-builtins.patch
 Patch4:       ksh-20070328-ttou.patch
 Patch5:       ksh-20070628-unaligned.patch
+Patch6:       ksh-20071105-ifs.patch
 # for debugging only:
 #Patch100:     ksh-20060124-iffedebug.patch
 
@@ -46,6 +47,7 @@ with "sh" (the Bourne Shell).
 %patch3 -p1 -b .builtins
 %patch4 -p1 -b .ttou
 %patch5 -p1 -b .unaligned
+%patch6 -p1 -b .ifs
 #patch100 -p1 -b .iffedebug
 
 %build
@@ -104,6 +106,10 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Jan 07 2008 Tomas Smetana <tsmetana@redhat.com> 20071105-2
+- fix #405381 - ksh will not handle $(xxx) when typeset -r IFS
+- fix #386501 - bad group in spec file
+
 * Wed Nov 07 2007 Tomas Smetana <tsmetana@redhat.com> 20071105-1
 - new upstream version
 
