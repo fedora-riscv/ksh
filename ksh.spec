@@ -1,5 +1,5 @@
 #ExclusiveArch:  x86_64
-%define       releasedate   2007-11-05
+%define       releasedate   2008-02-02
 #ExcludeArch:  ia64
 
 Name:         ksh
@@ -7,8 +7,8 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      Common Public License Version 1.0
-Version:      20071105
-Release:      3%{?dist}
+Version:      20080202
+Release:      1%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-ksh-locale.%{releasedate}.tgz
@@ -18,8 +18,6 @@ Patch2:       ksh-20070328-useex.patch
 Patch3:       ksh-20070328-builtins.patch
 Patch4:       ksh-20070328-ttou.patch
 Patch5:       ksh-20070628-unaligned.patch
-Patch6:       ksh-20071105-ifs.patch
-Patch7:       ksh-20071105-optind.patch
 # for debugging only:
 #Patch100:     ksh-20060124-iffedebug.patch
 
@@ -48,8 +46,6 @@ with "sh" (the Bourne Shell).
 %patch3 -p1 -b .builtins
 %patch4 -p1 -b .ttou
 %patch5 -p1 -b .unaligned
-%patch6 -p1 -b .ifs
-%patch7 -p1 -b .optind
 #patch100 -p1 -b .iffedebug
 
 %build
@@ -108,6 +104,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Feb 11 2008 Tomas Smetana <tsmetana@redhat.com> 20080202-1
+- new upstream version
+
 * Wed Jan 30 2008 Tomas Smetana <tsmetana@redhat.com> 20071105-3
 - fix #430602 - ksh segfaults after unsetting OPTIND
 
