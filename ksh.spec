@@ -1,5 +1,5 @@
 #ExclusiveArch:  x86_64
-%define       releasedate   2008-02-02
+%define       releasedate   2008-07-25
 #ExcludeArch:  ia64
 
 Name:         ksh
@@ -7,7 +7,7 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      Common Public License Version 1.0
-Version:      20080202
+Version:      20080725
 Release:      1%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
@@ -16,7 +16,7 @@ Source2:      http://www.research.att.com/~gsf/download/tgz/ast-ksh-locale.%{rel
 Patch1:       ksh-20070328-uname.patch
 Patch2:       ksh-20070328-useex.patch
 Patch3:       ksh-20070328-builtins.patch
-Patch4:       ksh-20070328-ttou.patch
+Patch4:       ksh-20080725-ttou.patch
 Patch5:       ksh-20070628-unaligned.patch
 # for debugging only:
 #Patch100:     ksh-20060124-iffedebug.patch
@@ -44,7 +44,7 @@ with "sh" (the Bourne Shell).
 %patch1 -p1 -b .uname
 %patch2 -p1 -b .use_ex
 %patch3 -p1 -b .builtins
-%patch4 -p1 -b .ttou
+#%patch4 -p1 -b .ttou
 %patch5 -p1 -b .unaligned
 #patch100 -p1 -b .iffedebug
 
@@ -104,6 +104,12 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Jul 28 2008 Tomas Smetana <tsmetana@redhat.com> 20080725-1
+- new upstream version
+
+* Thu Jun 26 2008 Tomas Smetana <tsmetana@redhat.com> 20080624-1
+- new upstream version
+
 * Mon Feb 11 2008 Tomas Smetana <tsmetana@redhat.com> 20080202-1
 - new upstream version
 
