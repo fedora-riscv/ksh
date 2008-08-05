@@ -6,9 +6,9 @@ Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
-License:      Common Public License Version 1.0
+License:      CPL
 Version:      20080725
-Release:      1%{?dist}
+Release:      2%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-ksh-locale.%{releasedate}.tgz
@@ -104,6 +104,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Aug  5 2008 Tom "spot" Callaway <tcallawa@redhat.com> 20080725-2
+- fix license tag
+
 * Mon Jul 28 2008 Tomas Smetana <tsmetana@redhat.com> 20080725-1
 - new upstream version
 
