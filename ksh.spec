@@ -8,7 +8,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20080725
-Release:      2%{?dist}
+Release:      3%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-ksh-locale.%{releasedate}.tgz
@@ -27,11 +27,12 @@ Provides:     ksh93
 Obsoletes:    ksh93
 Conflicts:    pdksh
 Requires: coreutils, glibc-common, diffutils
+BuildRequires: bison
 Requires(post): grep, coreutils
 Requires(preun): grep, coreutils
 
 %description
-KSH-93 is the most recent version of the KornShell by David Korn of 
+KSH-93 is the most recent version of the KornShell by David Korn of
 AT&T Bell Laboratories.
 KornShell is a shell programming language, which is upward compatible
 with "sh" (the Bourne Shell).
@@ -104,6 +105,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Aug 06 2008 Tomas Smetana <tsmetana@redhat.com> 20080725-3
+- fix BuildRequires, rebuild
+
 * Tue Aug  5 2008 Tom "spot" Callaway <tcallawa@redhat.com> 20080725-2
 - fix license tag
 
