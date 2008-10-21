@@ -8,10 +8,13 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      Common Public License Version 1.0
 Version:      20080202
-Release:      1%{?dist}
+Release:      2%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-ksh-locale.%{releasedate}.tgz
+Source3:      kshrc.rhs
+Source4:      dotkshrc
+
 #Patch0:       ksh-20041225-gcc4.patch
 Patch1:       ksh-20070328-uname.patch
 Patch2:       ksh-20070328-useex.patch
@@ -66,6 +69,10 @@ install -m 644 share/lib/locale/$i/LC_MESSAGES/* \
                $RPM_BUILD_ROOT%{_datadir}/locale/$i/LC_MESSAGES/
 done
 ln -sf /bin/ksh $RPM_BUILD_ROOT/usr/bin/ksh
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/skel
+install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/skel/.kshrc
+install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/kshrc
+
 
 %post
 if [ ! -f /etc/shells ]; then
@@ -99,11 +106,16 @@ fi
 /usr//bin/ksh
 %{_datadir}/locale/*/LC_MESSAGES/*
 %{_mandir}/man1/*
+%config(noreplace) %{_sysconfdir}/skel/.kshrc
+%config(noreplace) %{_sysconfdir}/kshrc
 
 %clean
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Oct 21 2008 Michal Hlavinka <mhlavink@redhat.com> 20080202-2
+- fix #467025 - Ksh fails to initialise environment when login from graphic console
+
 * Mon Feb 11 2008 Tomas Smetana <tsmetana@redhat.com> 20080202-1
 - new upstream version
 
