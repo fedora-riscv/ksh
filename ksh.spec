@@ -63,9 +63,7 @@ fi
 
 %postun
 if [ ! -f /bin/ksh ]; then
-        grep -v '^/bin/ksh$' /etc/shells >/etc/shells.new
-        mv /etc/shells.new /etc/shells
-        chmod 644 /etc/shells
+	sed -i '/^\/bin\/ksh$/ d' /etc/shells
 fi
 
 %verifyscript
@@ -90,7 +88,7 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Tue Oct 21 2008 Michal Hlavinka <mhlavink@redhat.com> 20080202-4
+* Tue Jan 20 2009 Michal Hlavinka <mhlavink@redhat.com> 20091104-1
 - update to 2008-11-04
 - ast-ksh-locales are not useable remove them
 
