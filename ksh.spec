@@ -1,29 +1,20 @@
-#ExclusiveArch:  x86_64
-%define       releasedate   2008-07-25
-#ExcludeArch:  ia64
+%define       releasedate   2008-11-04
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
-Version:      20080725
-Release:      4%{?dist}
+Version:      20081104
+Release:      1%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
-Source2:      http://www.research.att.com/~gsf/download/tgz/ast-ksh-locale.%{releasedate}.tgz
 Source3:      kshrc.rhs
 Source4:      dotkshrc
-#Patch0:       ksh-20041225-gcc4.patch
-Patch1:       ksh-20070328-uname.patch
-Patch2:       ksh-20070328-useex.patch
-Patch3:       ksh-20070328-builtins.patch
-Patch4:       ksh-20080725-ttou.patch
-Patch5:       ksh-20070628-unaligned.patch
-# for debugging only:
-#Patch100:     ksh-20060124-iffedebug.patch
 
-#   build information
+#don't use not wanted/needed builtins
+Patch1:       ksh-20070328-builtins.patch
+
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Provides:     ksh93
 Obsoletes:    ksh93
@@ -42,14 +33,7 @@ with "sh" (the Bourne Shell).
 %prep
 %setup -q -c
 %setup -q -T -D -a 1
-%setup -q -T -D -a 2
-#%patch0 -p1 -b .gcc4
-%patch1 -p1 -b .uname
-%patch2 -p1 -b .use_ex
-%patch3 -p1 -b .builtins
-#%patch4 -p1 -b .ttou
-%patch5 -p1 -b .unaligned
-#patch100 -p1 -b .iffedebug
+%patch1 -p1 -b .builtins
 
 %build
 ./bin/package "read" ||:
@@ -60,15 +44,10 @@ cp lib/package/LICENSES/ast LICENSE
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT{/bin,/usr/bin,%{_mandir}/man1}
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/{C,pt,fr,de,it,es}/LC_MESSAGES
+mkdir -p $RPM_BUILD_ROOT{/bin,%{_bindir},%{_mandir}/man1}
 install -c -m 755 arch/*/bin/ksh $RPM_BUILD_ROOT/bin/ksh
 install -c -m 644 arch/*/man/man1/sh.1 $RPM_BUILD_ROOT%{_mandir}/man1/ksh.1
-for i in C pt fr de it es; do
-install -m 644 share/lib/locale/$i/LC_MESSAGES/* \
-               $RPM_BUILD_ROOT%{_datadir}/locale/$i/LC_MESSAGES/
-done
-ln -sf /bin/ksh $RPM_BUILD_ROOT/usr/bin/ksh
+ln -sf ../../bin/ksh $RPM_BUILD_ROOT%{_bindir}/ksh
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/skel
 install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/skel/.kshrc
 install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/kshrc
@@ -101,9 +80,8 @@ fi
 %files 
 %defattr(-, root, root,-)
 %doc README LICENSE
-/bin/*
-/usr//bin/ksh
-%{_datadir}/locale/*/LC_MESSAGES/*
+/bin/ksh
+%{_bindir}/ksh
 %{_mandir}/man1/*
 %config(noreplace) %{_sysconfdir}/skel/.kshrc
 %config(noreplace) %{_sysconfdir}/kshrc
@@ -112,6 +90,10 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Oct 21 2008 Michal Hlavinka <mhlavink@redhat.com> 20080202-4
+- update to 2008-11-04
+- ast-ksh-locales are not useable remove them
+
 * Tue Oct 21 2008 Michal Hlavinka <mhlavink@redhat.com> 20080202-4
 - fix #467025 - Ksh fails to initialise environment when login from graphic console
 
