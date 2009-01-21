@@ -16,8 +16,6 @@ Source4:      dotkshrc
 Patch1:       ksh-20070328-builtins.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Provides:     ksh93
-Obsoletes:    ksh93
 Conflicts:    pdksh
 Requires: coreutils, glibc-common, diffutils
 BuildRequires: bison
@@ -47,7 +45,6 @@ rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT{/bin,%{_bindir},%{_mandir}/man1}
 install -c -m 755 arch/*/bin/ksh $RPM_BUILD_ROOT/bin/ksh
 install -c -m 644 arch/*/man/man1/sh.1 $RPM_BUILD_ROOT%{_mandir}/man1/ksh.1
-ln -sf ../../bin/ksh $RPM_BUILD_ROOT%{_bindir}/ksh
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/skel
 install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/skel/.kshrc
 install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/kshrc
@@ -79,7 +76,6 @@ fi
 %defattr(-, root, root,-)
 %doc README LICENSE
 /bin/ksh
-%{_bindir}/ksh
 %{_mandir}/man1/*
 %config(noreplace) %{_sysconfdir}/skel/.kshrc
 %config(noreplace) %{_sysconfdir}/kshrc
@@ -88,7 +84,7 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Tue Jan 20 2009 Michal Hlavinka <mhlavink@redhat.com> 20091104-1
+* Tue Jan 21 2009 Michal Hlavinka <mhlavink@redhat.com> 20091104-1
 - update to 2008-11-04
 - ast-ksh-locales are not useable remove them
 
