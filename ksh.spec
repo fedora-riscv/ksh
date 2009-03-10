@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20081104
-Release:      2%{?dist}
+Release:      3%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -84,14 +84,17 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Mar 10 2009 Michal Hlavinka <mhlavink@redhat.com> - 20081104-3
+- fix typos in spec file
+
 * Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20081104-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
-* Tue Jan 21 2009 Michal Hlavinka <mhlavink@redhat.com> 20091104-1
+* Tue Jan 21 2009 Michal Hlavinka <mhlavink@redhat.com> 20081104-1
 - update to 2008-11-04
 - ast-ksh-locales are not useable remove them
 
-* Tue Oct 21 2008 Michal Hlavinka <mhlavink@redhat.com> 20080202-4
+* Tue Oct 21 2008 Michal Hlavinka <mhlavink@redhat.com> 20080725-4
 - fix #467025 - Ksh fails to initialise environment when login from graphic console
 
 * Wed Aug 06 2008 Tomas Smetana <tsmetana@redhat.com> 20080725-3
