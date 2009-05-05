@@ -1,6 +1,7 @@
---- ksh-20070328/src/cmd/ksh93/data/builtins.c.builtoff	2007-05-22 13:14:33.000000000 +0200
-+++ ksh-20070328/src/cmd/ksh93/data/builtins.c	2007-05-22 13:14:51.000000000 +0200
-@@ -128,6 +128,7 @@
+diff -up ksh-20090501/src/cmd/ksh93/data/builtins.c.builtins ksh-20090501/src/cmd/ksh93/data/builtins.c
+--- ksh-20090501/src/cmd/ksh93/data/builtins.c.builtins	2009-04-12 09:38:03.000000000 +0200
++++ ksh-20090501/src/cmd/ksh93/data/builtins.c	2009-05-05 11:20:30.601284246 +0200
+@@ -125,6 +125,7 @@ const struct shtable3 shtab_builtins[] =
  #ifdef SHOPT_CMDLIB_HDR
  #include SHOPT_CMDLIB_HDR
  #else
@@ -8,11 +9,11 @@
  	CMDLIST(basename)
  	CMDLIST(chmod)
  	CMDLIST(dirname)
-@@ -141,6 +142,7 @@
+@@ -139,6 +140,7 @@ const struct shtable3 shtab_builtins[] =
  	CMDLIST(wc)
  	CMDLIST(sync)
  #endif
 +#endif
- 	"",		0, 0 
- };
- 
+ #if SHOPT_REGRESS
+ 	"__regress__",		NV_BLTIN|BLT_ENV,	bltin(__regress__),
+ #endif
