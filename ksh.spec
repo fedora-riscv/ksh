@@ -11,7 +11,7 @@ Version:      20090501
 Release:      1%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
-Source2:      http://www.research.att.com/~gsf/download/tgz/ast-ksh-locale.%{releasedate}.tgz
+Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.2007-11-05.tgz
 Source3:      kshrc.rhs
 Source4:      dotkshrc
 #Patch0:       ksh-20041225-gcc4.patch
@@ -114,6 +114,7 @@ fi
 %changelog
 * Tue May 05 2009 Michal Hlavinka <mhlavink@redhat.com> 20090501-1
 - updated to 2009-05-01
+- change language catalogue to ast-base-locale (493570)
 
 * Tue Oct 21 2008 Michal Hlavinka <mhlavink@redhat.com> 20080202-4
 - fix #467025 - Ksh fails to initialise environment when login from graphic console
