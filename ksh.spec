@@ -1,14 +1,12 @@
-#ExclusiveArch:  x86_64
-%define       releasedate   2009-05-01
-#ExcludeArch:  ia64
+%define       releasedate   2009-05-05
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
-Version:      20090501
-Release:      1%{?dist}
+Version:      20090505
+Release:      5%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      http://www.research.att.com/~gsf/download/tgz/ast-base-locale.2007-11-05.tgz
@@ -112,6 +110,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon May 11 2009 Michal Hlavinka <mhlavink@redhat.com> 20090505-1
+- updated to 2009-05-05
+
 * Tue May 05 2009 Michal Hlavinka <mhlavink@redhat.com> 20090501-1
 - updated to 2009-05-01
 - change language catalogue to ast-base-locale (493570)
