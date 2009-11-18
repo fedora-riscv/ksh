@@ -1,18 +1,18 @@
-%define       releasedate   2009-06-30
+%define       releasedate   2009-10-21
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
-Version:      20090630
+Version:      20091021
 Release:      1%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
 Source4:      dotkshrc
 
-#don't use not wanted/needed builtins
+#don't use not wanted/needed builtins - Fedora specific
 Patch1:       ksh-20070328-builtins.patch
 
 #435159 - check if there is looped list
@@ -88,6 +88,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Nov 18 2009 Michal Hlavinka <mhlavink@redhat.com> - 20091021-1
+- updated to 2009-10-21
+
 * Thu Aug 27 2009 Michal Hlavinka <mhlavink@redhat.com> - 20090630-1
 - updated to 2009-06-30
 - fixes #518942
