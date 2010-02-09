@@ -1,11 +1,11 @@
-%define       releasedate   2009-12-24
+%define       releasedate   2010-02-02
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
-Version:      20091224
+Version:      20100202
 Release:      1%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
@@ -88,6 +88,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Jan 04 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100202-1
+- updated to 2010-02-02
+
 * Tue Jan 05 2010 Michal Hlavinka <mhlavink@redhat.com> - 20091224-1
 - updated to 2009-12-24
 
