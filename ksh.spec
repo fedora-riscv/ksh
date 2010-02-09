@@ -88,7 +88,7 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Mon Jan 04 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100202-1
+* Tue Feb 09 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100202-1
 - updated to 2010-02-02
 
 * Tue Jan 05 2010 Michal Hlavinka <mhlavink@redhat.com> - 20091224-1
