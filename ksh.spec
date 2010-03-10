@@ -1,11 +1,11 @@
-%define       releasedate   2010-02-02
+%define       releasedate   2010-03-09
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
-Version:      20100202
+Version:      20100309
 Release:      1%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
@@ -36,6 +36,9 @@ with "sh" (the Bourne Shell).
 %setup -q -T -D -a 1
 %patch1 -p1 -b .builtins
 %patch2 -p1 -b .jlist
+
+#/dev/fd test does not work because of mock
+sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
 
 %build
 ./bin/package "read" ||:
@@ -88,6 +91,10 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Mar 10 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100309-1
+- updated to 2010-03-09
+- fix mock building - detection of /dev/fd/X
+
 * Mon Jan 04 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100202-1
 - updated to 2010-02-02
 
