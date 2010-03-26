@@ -1,0 +1,15 @@
+The ed_viread method is used for reading when locale has an encoding that uses
+wide characters (utf8 for example). So we need to cook the raw'ed terminal
+before exit, otherwise we end up with a terminal that cannot echo.
+
+--- a/src/cmd/ksh93/sh/fault.c	2010-01-18 21:41:18.000000000 +0530
++++ b/src/cmd/ksh93/sh/fault.c	2010-03-10 21:23:56.000000000 +0530
+@@ -614,7 +614,7 @@ void sh_done(void *ptr, register int sig
+ 	sh_accend();
+ #endif	/* SHOPT_ACCT */
+ #if SHOPT_VSH || SHOPT_ESH
+-	if(sh_isoption(SH_EMACS)||sh_isoption(SH_VI)||sh_isoption(SH_GMACS))
++	if(sh_isoption(mbwide()||SH_EMACS)||sh_isoption(SH_VI)||sh_isoption(SH_GMACS))
+ 		tty_cooked(-1);
+ #endif
+ #ifdef JOBS
