@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20100309
-Release:      2%{?dist}
+Release:      3%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -95,6 +95,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Mar 29 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100309-3
+- fix typo in last patch
+
 * Fri Mar 26 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100309-2
 - restore tty settings after timed out read for utf-8 locale
 

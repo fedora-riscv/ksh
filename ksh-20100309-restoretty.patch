@@ -9,7 +9,7 @@ before exit, otherwise we end up with a terminal that cannot echo.
  #endif	/* SHOPT_ACCT */
  #if SHOPT_VSH || SHOPT_ESH
 -	if(sh_isoption(SH_EMACS)||sh_isoption(SH_VI)||sh_isoption(SH_GMACS))
-+	if(sh_isoption(mbwide()||SH_EMACS)||sh_isoption(SH_VI)||sh_isoption(SH_GMACS))
++	if(mbwide()||sh_isoption(SH_EMACS)||sh_isoption(SH_VI)||sh_isoption(SH_GMACS))
  		tty_cooked(-1);
  #endif
  #ifdef JOBS
