@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20100309
-Release:      3%{?dist}
+Release:      4%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -15,11 +15,18 @@ Source4:      dotkshrc
 #don't use not wanted/needed builtins - Fedora specific
 Patch1:       ksh-20070328-builtins.patch
 
-#435159 - check if there is looped list
+#debugging, 435159 - check if there is looped list
 Patch2:       ksh-20090630-jlist.patch
 
 #sent upstream, 572291 - tty settings not restored after timed out read for utf-8 locale
 Patch3:       ksh-20100309-restoretty.patch
+
+#sent upstream, rhbz#584704
+Patch4:       ksh-20100309-compsubst.patch
+
+#sent upstream, rhbz#587127, for ksh <2010-03-19
+Patch5:       ksh-20100309-fixwhence.patch
+
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -40,6 +47,8 @@ with "sh" (the Bourne Shell).
 %patch1 -p1 -b .builtins
 %patch2 -p1 -b .jlist
 %patch3 -p1 -b .restoretty
+%patch4 -p1 -b .compsubst
+%patch5 -p1 -b .fixwhence
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -95,6 +104,10 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed May 05 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100309-4
+- fix infinite loop when whence builtin is used with -q option (#587127)
+- fix stdin for double command substitution (#584007)
+
 * Mon Mar 29 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100309-3
 - fix typo in last patch
 
@@ -105,11 +118,8 @@ fi
 - updated to 2010-03-09
 - fix mock building - detection of /dev/fd/X
 
-* Tue Feb 09 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100202-1
+* Mon Jan 04 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100202-1
 - updated to 2010-02-02
-
-* Tue Jan 05 2010 Michal Hlavinka <mhlavink@redhat.com> - 20091224-1
-- updated to 2009-12-24
 
 * Mon Dec 07 2009 Michal Hlavinka <mhlavink@redhat.com> - 20091206-1
 - updated to 2009-12-06
@@ -122,12 +132,17 @@ fi
 
 * Thu Aug 27 2009 Michal Hlavinka <mhlavink@redhat.com> - 20090630-1
 - updated to 2009-06-30
+- fixes #518942
 
-* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20090505-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+* Wed Jul 29 2009 Michal Hlavinka <mhlavink@redhat.com> - 20081212-1
+- going back to 2008-12-12 because there is nothing else usable enough
+- fixes #510833
 
 * Mon May 11 2009 Michal Hlavinka <mhalvink@redhat.com> - 20090505-1
 - updated to 2009-05-05
+
+* Tue May 05 2009 Michal Hlavinka <mhlavink@reshat.com> - 20090501-2
+- skip release -1 because of broken koji
 
 * Tue May 05 2009 Michal Hlavinka <mhalvink@redhat.com> - 20090501-1
 - updated to 2009-05-01
