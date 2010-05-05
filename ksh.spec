@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20100309
-Release:      3%{?dist}
+Release:      4%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -15,11 +15,18 @@ Source4:      dotkshrc
 #don't use not wanted/needed builtins - Fedora specific
 Patch1:       ksh-20070328-builtins.patch
 
-#435159 - check if there is looped list
+#debugging, 435159 - check if there is looped list
 Patch2:       ksh-20090630-jlist.patch
 
 #sent upstream, 572291 - tty settings not restored after timed out read for utf-8 locale
 Patch3:       ksh-20100309-restoretty.patch
+
+#sent upstream, rhbz#584704
+Patch4:       ksh-20100309-compsubst.patch
+
+#sent upstream, rhbz#587127, for ksh <2010-03-19
+Patch5:       ksh-20100309-fixwhence.patch
+
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -40,6 +47,8 @@ with "sh" (the Bourne Shell).
 %patch1 -p1 -b .builtins
 %patch2 -p1 -b .jlist
 %patch3 -p1 -b .restoretty
+%patch4 -p1 -b .compsubst
+%patch5 -p1 -b .fixwhence
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -95,6 +104,10 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed May 05 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100309-4
+- fix infinite loop when whence builtin is used with -q option (#587127)
+- fix stdin for double command substitution (#584007)
+
 * Mon Mar 29 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100309-3
 - fix typo in last patch
 
