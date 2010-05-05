@@ -118,8 +118,11 @@ fi
 - updated to 2010-03-09
 - fix mock building - detection of /dev/fd/X
 
-* Mon Jan 04 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100202-1
+* Tue Feb 09 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100202-1
 - updated to 2010-02-02
+
+* Tue Jan 05 2010 Michal Hlavinka <mhlavink@redhat.com> - 20091224-1
+- updated to 2009-12-24
 
 * Mon Dec 07 2009 Michal Hlavinka <mhlavink@redhat.com> - 20091206-1
 - updated to 2009-12-06
@@ -132,17 +135,12 @@ fi
 
 * Thu Aug 27 2009 Michal Hlavinka <mhlavink@redhat.com> - 20090630-1
 - updated to 2009-06-30
-- fixes #518942
 
-* Wed Jul 29 2009 Michal Hlavinka <mhlavink@redhat.com> - 20081212-1
-- going back to 2008-12-12 because there is nothing else usable enough
-- fixes #510833
+* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20090505-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
 * Mon May 11 2009 Michal Hlavinka <mhalvink@redhat.com> - 20090505-1
 - updated to 2009-05-05
-
-* Tue May 05 2009 Michal Hlavinka <mhlavink@reshat.com> - 20090501-2
-- skip release -1 because of broken koji
 
 * Tue May 05 2009 Michal Hlavinka <mhalvink@redhat.com> - 20090501-1
 - updated to 2009-05-01
