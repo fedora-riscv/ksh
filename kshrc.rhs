@@ -20,6 +20,21 @@ _src_etc_profile_d()
         unset i
     fi
 }
+
+pathmunge () {
+case ":${PATH}:" in
+*:"$1":*)
+    ;;
+*)
+    if [ "$2" = "after" ]; then
+        PATH=$PATH:$1
+    else
+        PATH=$1:$PATH
+    fi
+esac
+}
+
 _src_etc_profile_d
 
 unset -f _src_etc_profile_d
+unset -f pathmunge
