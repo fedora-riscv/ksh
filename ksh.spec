@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20100309
-Release:      5%{?dist}
+Release:      6%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -107,6 +107,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon May 31 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100309-6
+- add pathmunge to /etc/kshrc
+
 * Wed May 05 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100309-5
 - fix rare cd builtin crash (#578582)
 
