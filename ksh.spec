@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20100527
-Release:      1%{?dist}
+Release:      2%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -47,6 +47,7 @@ cp lib/package/LICENSES/ast LICENSE
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT{/bin,%{_bindir},%{_mandir}/man1}
 install -c -m 755 arch/*/bin/ksh $RPM_BUILD_ROOT/bin/ksh
+install -c -m 755 arch/*/bin/shcomp $RPM_BUILD_ROOT%{_bindir}/shcomp
 install -c -m 644 arch/*/man/man1/sh.1 $RPM_BUILD_ROOT%{_mandir}/man1/ksh.1
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/skel
 install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/skel/.kshrc
@@ -79,6 +80,7 @@ fi
 %defattr(-, root, root,-)
 %doc README LICENSE
 /bin/ksh
+/usr/bin/shcomp
 %{_mandir}/man1/*
 %config(noreplace) %{_sysconfdir}/skel/.kshrc
 %config(noreplace) %{_sysconfdir}/kshrc
@@ -87,6 +89,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Jun 15 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100527-2
+- add shcomp for shell compiling
+
 * Thu Jun 10 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100527-1
 - updated to 2010-05-27
 
