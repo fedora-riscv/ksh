@@ -1,12 +1,12 @@
-%define       releasedate   2010-05-27
+%define       releasedate   2010-06-21
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
-Version:      20100527
-Release:      2%{?dist}
+Version:      20100621
+Release:      1%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -41,7 +41,9 @@ sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
 export CCFLAGS="$RPM_OPT_FLAGS"
 export CC=gcc
 ./bin/package "make"
-cp lib/package/LICENSES/ast LICENSE
+
+#missing in 2010-06-21, chech later if added back
+#cp lib/package/LICENSES/ast LICENSE
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -78,7 +80,8 @@ fi
 
 %files 
 %defattr(-, root, root,-)
-%doc README LICENSE
+#%doc README LICENSE
+%doc README
 /bin/ksh
 /usr/bin/shcomp
 %{_mandir}/man1/*
@@ -89,6 +92,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Jun 25 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100621-1
+- updated to 2010-05-27
+
 * Tue Jun 15 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100527-2
 - add shcomp for shell compiling
 
