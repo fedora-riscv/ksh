@@ -91,7 +91,7 @@ fi
 
 %changelog
 * Fri Jun 25 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100621-1
-- updated to 2010-05-27
+- updated to 2010-06-21
 
 * Mon May 31 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100309-6
 - add pathmunge to /etc/kshrc
