@@ -93,7 +93,7 @@ fi
 
 %changelog
 * Fri Jun 25 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100621-1
-- updated to 2010-05-27
+- updated to 2010-06-21
 
 * Tue Jun 15 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100527-2
 - add shcomp for shell compiling
