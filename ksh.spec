@@ -1,4 +1,4 @@
-%define       releasedate   2010-07-01
+%global       releasedate   2010-07-01
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
