@@ -11,9 +11,14 @@ Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedat
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
 Source4:      dotkshrc
+#expected results of test suite
+Source5:      expectedresults.log
 
-#don't use not wanted/needed builtins - Fedora specific
+#don't use not wanted/needed builtins - Fedora/RHEL specific
 Patch1:       ksh-20070328-builtins.patch
+
+#fix regression test suite to be usable during packagebuild - Fedora/RHEL specific
+Patch2:       ksh-20100826-fixregr.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -32,18 +37,20 @@ with "sh" (the Bourne Shell).
 %setup -q -c
 %setup -q -T -D -a 1
 %patch1 -p1 -b .builtins
+%patch2 -p1 -b .fixregr
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
 
 %build
-./bin/package "read" ||:
+./bin/package
+./bin/package make mamake ||:
+./bin/package make mamake ||:
 export CCFLAGS="$RPM_OPT_FLAGS"
 export CC=gcc
 ./bin/package "make"
 
-#missing in 2010-06-21, chech later if added back
-#cp lib/package/LICENSES/ast LICENSE
+cp lib/package/LICENSES/ast LICENSE
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -54,6 +61,18 @@ install -c -m 644 arch/*/man/man1/sh.1 $RPM_BUILD_ROOT%{_mandir}/man1/ksh.1
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/skel
 install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/skel/.kshrc
 install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/kshrc
+
+%check
+export SHELL=$(ls $(pwd)/arch/*/bin/ksh)
+cd src/cmd/ksh93/tests/
+ulimit -c unlimited
+$SHELL ./shtests 2>&1 | tee testresults.log
+sed -e '/begins at/d' -e '/ 0 error/d' -e 's/at [^\[]*\[/\[/' testresults.log -e '/tests skipped/d' >filteredresults.log
+if ! cmp filteredresults.log %{SOURCE5} >/dev/null || ls core.*
+then
+  echo "Regression tests failed"
+  exit -1
+fi
 
 %post
 if [ ! -f /etc/shells ]; then
@@ -80,8 +99,7 @@ fi
 
 %files 
 %defattr(-, root, root,-)
-#%doc README LICENSE
-%doc README
+%doc README LICENSE
 /bin/ksh
 /usr/bin/shcomp
 %{_mandir}/man1/*
@@ -94,7 +112,7 @@ fi
 %changelog
 * Mon Aug 30 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100826-1
 - ksh updated to 2010-08-26
-
+- make regression test suite usable during package build
 
 * Fri Aug 13 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100811-1
 - ksh updated to 2010-08-11
