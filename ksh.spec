@@ -110,6 +110,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Sep 28 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100924-1
+- ksh updated to 2010-09-24
+
 * Mon Aug 30 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100826-1
 - ksh updated to 2010-08-26
 - make regression test suite usable during package build
