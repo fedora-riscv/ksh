@@ -1,6 +1,6 @@
 diff -up ksh-20100826/src/cmd/ksh93/tests/basic.sh.fixregr ksh-20100826/src/cmd/ksh93/tests/basic.sh
 --- ksh-20100826/src/cmd/ksh93/tests/basic.sh.fixregr	2010-08-13 16:23:58.000000000 +0200
-+++ ksh-20100826/src/cmd/ksh93/tests/basic.sh	2010-08-30 16:19:32.471423177 +0200
++++ ksh-20100826/src/cmd/ksh93/tests/basic.sh	2010-09-24 18:38:43.825176804 +0200
 @@ -185,7 +185,7 @@ then	err_exit " ( (/bin/echo);(/bin/echo
  fi
  cat > $tmp/script <<\!
@@ -12,7 +12,7 @@ diff -up ksh-20100826/src/cmd/ksh93/tests/basic.sh.fixregr ksh-20100826/src/cmd/
  else	print no
 diff -up ksh-20100826/src/cmd/ksh93/tests/builtins.sh.fixregr ksh-20100826/src/cmd/ksh93/tests/builtins.sh
 --- ksh-20100826/src/cmd/ksh93/tests/builtins.sh.fixregr	2010-08-13 20:56:49.000000000 +0200
-+++ ksh-20100826/src/cmd/ksh93/tests/builtins.sh	2010-08-30 17:19:52.554380441 +0200
++++ ksh-20100826/src/cmd/ksh93/tests/builtins.sh	2010-09-24 18:38:43.827176204 +0200
 @@ -32,7 +32,7 @@ tmp=$(mktemp -dt) || { err_exit mktemp -
  trap "cd /; rm -rf $tmp" EXIT
  
@@ -62,7 +62,7 @@ diff -up ksh-20100826/src/cmd/ksh93/tests/builtins.sh.fixregr ksh-20100826/src/c
  
 diff -up ksh-20100826/src/cmd/ksh93/tests/coprocess.sh.fixregr ksh-20100826/src/cmd/ksh93/tests/coprocess.sh
 --- ksh-20100826/src/cmd/ksh93/tests/coprocess.sh.fixregr	2010-06-29 15:49:14.000000000 +0200
-+++ ksh-20100826/src/cmd/ksh93/tests/coprocess.sh	2010-08-30 16:19:32.472414516 +0200
++++ ksh-20100826/src/cmd/ksh93/tests/coprocess.sh	2010-09-24 18:38:43.829176092 +0200
 @@ -205,7 +205,7 @@ done
  trap 'sleep_pid=; kill $pid; err_exit "coprocess 1 hung"' TERM
  { sleep 5; kill $$; } &
@@ -74,7 +74,7 @@ diff -up ksh-20100826/src/cmd/ksh93/tests/coprocess.sh.fixregr ksh-20100826/src/
  exec 5<&p 6>&p
 diff -up ksh-20100826/src/cmd/ksh93/tests/exit.sh.fixregr ksh-20100826/src/cmd/ksh93/tests/exit.sh
 --- ksh-20100826/src/cmd/ksh93/tests/exit.sh.fixregr	2009-04-20 08:52:54.000000000 +0200
-+++ ksh-20100826/src/cmd/ksh93/tests/exit.sh	2010-08-30 17:11:30.630726873 +0200
++++ ksh-20100826/src/cmd/ksh93/tests/exit.sh	2010-09-24 18:38:43.830175792 +0200
 @@ -40,7 +40,7 @@ function abspath
          print $newdir/$base
  }
@@ -95,7 +95,7 @@ diff -up ksh-20100826/src/cmd/ksh93/tests/exit.sh.fixregr ksh-20100826/src/cmd/k
  		v=${v%%:*}
 diff -up ksh-20100826/src/cmd/ksh93/tests/heredoc.sh.fixregr ksh-20100826/src/cmd/ksh93/tests/heredoc.sh
 --- ksh-20100826/src/cmd/ksh93/tests/heredoc.sh.fixregr	2010-06-26 05:42:14.000000000 +0200
-+++ ksh-20100826/src/cmd/ksh93/tests/heredoc.sh	2010-08-30 16:19:32.472414516 +0200
++++ ksh-20100826/src/cmd/ksh93/tests/heredoc.sh	2010-09-24 18:38:43.832176170 +0200
 @@ -109,7 +109,7 @@ EOF
  done
  ' 2> /dev/null  || err_exit '100 empty here docs fails'
@@ -116,7 +116,7 @@ diff -up ksh-20100826/src/cmd/ksh93/tests/heredoc.sh.fixregr ksh-20100826/src/cm
  	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 diff -up ksh-20100826/src/cmd/ksh93/tests/locale.sh.fixregr ksh-20100826/src/cmd/ksh93/tests/locale.sh
 --- ksh-20100826/src/cmd/ksh93/tests/locale.sh.fixregr	2010-08-26 23:44:23.000000000 +0200
-+++ ksh-20100826/src/cmd/ksh93/tests/locale.sh	2010-08-30 16:19:32.473414592 +0200
++++ ksh-20100826/src/cmd/ksh93/tests/locale.sh	2010-09-24 18:38:43.834424515 +0200
 @@ -106,6 +106,8 @@ fi
  #$SHELL -c 'export LANG='$locale'; printf "\u[20ac]\u[20ac]" > $tmp/two_euro_chars.txt'
  printf $'\342\202\254\342\202\254' > $tmp/two_euro_chars.txt
@@ -153,7 +153,7 @@ diff -up ksh-20100826/src/cmd/ksh93/tests/locale.sh.fixregr ksh-20100826/src/cmd
  {
 diff -up ksh-20100826/src/cmd/ksh93/tests/path.sh.fixregr ksh-20100826/src/cmd/ksh93/tests/path.sh
 --- ksh-20100826/src/cmd/ksh93/tests/path.sh.fixregr	2010-03-19 22:50:57.000000000 +0100
-+++ ksh-20100826/src/cmd/ksh93/tests/path.sh	2010-08-30 17:51:07.647726726 +0200
++++ ksh-20100826/src/cmd/ksh93/tests/path.sh	2010-09-24 18:38:43.836424895 +0200
 @@ -144,9 +144,9 @@ if	[[ $(PATH=:/usr/bin; date) != 'hello'
  then	err_exit "leading : in path not working"
  fi
