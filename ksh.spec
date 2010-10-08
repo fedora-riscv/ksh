@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20100924
-Release:      1%{?dist}
+Release:      2%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -66,11 +66,17 @@ install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/kshrc
 export SHELL=$(ls $(pwd)/arch/*/bin/ksh)
 cd src/cmd/ksh93/tests/
 ulimit -c unlimited
+if [ ! -e /dev/fd ]
+then
+  echo "ERROR: /dev/fd does not exist, regression tests skipped"
+#  exit 0
+fi
 $SHELL ./shtests 2>&1 | tee testresults.log
 sed -e '/begins at/d' -e '/ 0 error/d' -e 's/at [^\[]*\[/\[/' testresults.log -e '/tests skipped/d' >filteredresults.log
 if ! cmp filteredresults.log %{SOURCE5} >/dev/null || ls core.*
 then
   echo "Regression tests failed"
+  diff -Naurp %{SOURCE5} filteredresults.log
   exit -1
 fi
 
@@ -110,6 +116,10 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Oct 08 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100924-2
+- disable only known to be broken builtins, let other enabled
+- skip regression tests if /dev/fd is missing
+
 * Tue Sep 28 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100924-1
 - ksh updated to 2010-09-24
 
