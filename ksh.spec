@@ -69,7 +69,7 @@ ulimit -c unlimited
 if [ ! -e /dev/fd ]
 then
   echo "ERROR: /dev/fd does not exist, regression tests skipped"
-#  exit 0
+  exit 0
 fi
 $SHELL ./shtests 2>&1 | tee testresults.log
 sed -e '/begins at/d' -e '/ 0 error/d' -e 's/at [^\[]*\[/\[/' testresults.log -e '/tests skipped/d' >filteredresults.log
