@@ -1,0 +1,61 @@
+diff -up ksh-20100924/src/cmd/ksh93/tests/builtins.sh.fixregr ksh-20100924/src/cmd/ksh93/tests/builtins.sh
+--- ksh-20100924/src/cmd/ksh93/tests/builtins.sh.fixregr	2010-09-30 08:49:58.225268051 +0200
++++ ksh-20100924/src/cmd/ksh93/tests/builtins.sh	2010-09-30 08:53:58.429519220 +0200
+@@ -293,7 +293,7 @@ fi
+ # we won't get hit by the one second boundary twice, right?
+ [[ $(printf '%T\n' now) == "$(date)" ]] ||
+ [[ $(printf '%T\n' now) == "$(date)" ]] ||
+-err_exit 'printf "%T" now'
++err_exit 'printf "%T" now'"$(printf '%T\n' now) != $(date)"
+ behead()
+ {
+ 	read line
+diff -up ksh-20100924/src/cmd/ksh93/tests/locale.sh.fixregr ksh-20100924/src/cmd/ksh93/tests/locale.sh
+--- ksh-20100924/src/cmd/ksh93/tests/locale.sh.fixregr	2010-09-07 20:21:44.000000000 +0200
++++ ksh-20100924/src/cmd/ksh93/tests/locale.sh	2010-09-30 08:57:41.512270429 +0200
+@@ -103,6 +103,7 @@ if	(( $($SHELL -c $'export LC_ALL='$loca
+ then	LC_ALL=$locale $SHELL -c b1=$'"\342\202\254\342\202\254\342\202\254\342\202\254w\342\202\254\342\202\254\342\202\254\342\202\254"; [[ ${b1:4:1} == w ]]' || err_exit 'multibyte ${var:offset:len} not working correctly'
+ fi
+ 
++locale=en_US.UTF-8
+ #$SHELL -c 'export LANG='$locale'; printf "\u[20ac]\u[20ac]" > $tmp/two_euro_chars.txt'
+ printf $'\342\202\254\342\202\254' > $tmp/two_euro_chars.txt
+ exp="6 2 6"
+@@ -110,16 +111,16 @@ set -- $($SHELL -c "
+ 	unset LC_CTYPE
+ 	export LANG=$locale
+ 	export LC_ALL=C
+-	command wc -C < $tmp/two_euro_chars.txt
++	command wc -m < $tmp/two_euro_chars.txt
+ 	unset LC_ALL
+-	command wc -C < $tmp/two_euro_chars.txt
++	command wc -m < $tmp/two_euro_chars.txt
+ 	export LC_ALL=C
+-	command wc -C < $tmp/two_euro_chars.txt
++	command wc -m < $tmp/two_euro_chars.txt
+ ")
+ got=$*
+ [[ $got == $exp ]] || err_exit "command wc LC_ALL default failed -- expected '$exp', got '$got'"
+ set -- $($SHELL -c "
+-	if	builtin -f cmd wc 2>/dev/null
++	if	builtin wc 2>/dev/null
+ 	then	unset LC_CTYPE
+ 		export LANG=$locale
+ 		export LC_ALL=C
+@@ -133,6 +134,8 @@ set -- $($SHELL -c "
+ got=$*
+ [[ $got == $exp ]] || err_exit "builtin wc LC_ALL default failed -- expected '$exp', got '$got'"
+ 
++locale=C_EU.UTF-8
++
+ # multibyte char straddling buffer boundary
+ 
+ {
+@@ -189,6 +192,7 @@ do	exp=$1
+ done
+ 
+ # setocale(LC_ALL,"") after setlocale() initialization
++locale=en_US.UTF-8
+ 
+ printf 'f1\357\274\240f2\n' > input1
+ printf 't2\357\274\240f1\n' > input2

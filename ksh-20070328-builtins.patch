@@ -1,15 +1,28 @@
-diff -up ksh-20090501/src/cmd/ksh93/data/builtins.c.builtins ksh-20090501/src/cmd/ksh93/data/builtins.c
---- ksh-20090501/src/cmd/ksh93/data/builtins.c.builtins	2009-04-12 09:38:03.000000000 +0200
-+++ ksh-20090501/src/cmd/ksh93/data/builtins.c	2009-05-05 11:20:30.601284246 +0200
-@@ -125,6 +125,7 @@ const struct shtable3 shtab_builtins[] =
+diff -up ksh-20100924/src/cmd/ksh93/data/builtins.c.builtins ksh-20100924/src/cmd/ksh93/data/builtins.c
+--- ksh-20100924/src/cmd/ksh93/data/builtins.c.builtins	2010-08-10 20:58:54.000000000 +0200
++++ ksh-20100924/src/cmd/ksh93/data/builtins.c	2010-10-08 18:08:35.118675557 +0200
+@@ -125,20 +125,28 @@ const struct shtable3 shtab_builtins[] =
  #ifdef SHOPT_CMDLIB_HDR
  #include SHOPT_CMDLIB_HDR
  #else
-+#if 0
++#if 1
  	CMDLIST(basename)
  	CMDLIST(chmod)
  	CMDLIST(dirname)
-@@ -139,6 +140,7 @@ const struct shtable3 shtab_builtins[] =
+ 	CMDLIST(getconf)
+ 	CMDLIST(head)
++#if 0
++does not work when ACLs are used
+ 	CMDLIST(mkdir)
++#endif
+ 	CMDLIST(logname)
++#if 1
++//does not work in chrooted environments, because /dev/fd/? is missing
+ 	CMDLIST(cat)
++#endif
+ 	CMDLIST(cmp)
+ 	CMDLIST(cut)
+ 	CMDLIST(uname)
  	CMDLIST(wc)
  	CMDLIST(sync)
  #endif
