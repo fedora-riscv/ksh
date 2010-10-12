@@ -1,12 +1,12 @@
-%global       releasedate 2010-09-24
+%global       releasedate 2010-10-10
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
-Version:      20100924
-Release:      2%{?dist}
+Version:      20101010
+Release:      1%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -116,6 +116,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Oct 12 2010 Michal Hlavinka <mhlavink@redhat.com> - 20101010-1
+- ksh updated to 2010-10-10
+
 * Fri Oct 08 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100924-2
 - disable only known to be broken builtins, let other enabled
 - skip regression tests if /dev/fd is missing
