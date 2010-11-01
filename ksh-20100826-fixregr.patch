@@ -1,6 +1,6 @@
-diff -up ksh-20100924/src/cmd/ksh93/tests/builtins.sh.fixregr ksh-20100924/src/cmd/ksh93/tests/builtins.sh
---- ksh-20100924/src/cmd/ksh93/tests/builtins.sh.fixregr	2010-09-30 08:49:58.225268051 +0200
-+++ ksh-20100924/src/cmd/ksh93/tests/builtins.sh	2010-09-30 08:53:58.429519220 +0200
+diff -up ksh-20101026/src/cmd/ksh93/tests/builtins.sh.fixregr ksh-20101026/src/cmd/ksh93/tests/builtins.sh
+--- ksh-20101026/src/cmd/ksh93/tests/builtins.sh.fixregr	2010-10-27 08:52:38.000000000 +0200
++++ ksh-20101026/src/cmd/ksh93/tests/builtins.sh	2010-11-01 08:49:42.135892758 +0100
 @@ -293,7 +293,7 @@ fi
  # we won't get hit by the one second boundary twice, right?
  [[ $(printf '%T\n' now) == "$(date)" ]] ||
@@ -10,10 +10,10 @@ diff -up ksh-20100924/src/cmd/ksh93/tests/builtins.sh.fixregr ksh-20100924/src/c
  behead()
  {
  	read line
-diff -up ksh-20100924/src/cmd/ksh93/tests/locale.sh.fixregr ksh-20100924/src/cmd/ksh93/tests/locale.sh
---- ksh-20100924/src/cmd/ksh93/tests/locale.sh.fixregr	2010-09-07 20:21:44.000000000 +0200
-+++ ksh-20100924/src/cmd/ksh93/tests/locale.sh	2010-09-30 08:57:41.512270429 +0200
-@@ -103,6 +103,7 @@ if	(( $($SHELL -c $'export LC_ALL='$loca
+diff -up ksh-20101026/src/cmd/ksh93/tests/locale.sh.fixregr ksh-20101026/src/cmd/ksh93/tests/locale.sh
+--- ksh-20101026/src/cmd/ksh93/tests/locale.sh.fixregr	2010-10-26 12:12:34.000000000 +0200
++++ ksh-20101026/src/cmd/ksh93/tests/locale.sh	2010-11-01 09:37:38.719975976 +0100
+@@ -105,6 +105,7 @@ if	(( $($SHELL -c $'export LC_ALL='$loca
  then	LC_ALL=$locale $SHELL -c b1=$'"\342\202\254\342\202\254\342\202\254\342\202\254w\342\202\254\342\202\254\342\202\254\342\202\254"; [[ ${b1:4:1} == w ]]' || err_exit 'multibyte ${var:offset:len} not working correctly'
  fi
  
@@ -21,7 +21,7 @@ diff -up ksh-20100924/src/cmd/ksh93/tests/locale.sh.fixregr ksh-20100924/src/cmd
  #$SHELL -c 'export LANG='$locale'; printf "\u[20ac]\u[20ac]" > $tmp/two_euro_chars.txt'
  printf $'\342\202\254\342\202\254' > $tmp/two_euro_chars.txt
  exp="6 2 6"
-@@ -110,16 +111,16 @@ set -- $($SHELL -c "
+@@ -112,11 +113,11 @@ set -- $($SHELL -c "
  	unset LC_CTYPE
  	export LANG=$locale
  	export LC_ALL=C
@@ -36,13 +36,7 @@ diff -up ksh-20100924/src/cmd/ksh93/tests/locale.sh.fixregr ksh-20100924/src/cmd
  ")
  got=$*
  [[ $got == $exp ]] || err_exit "command wc LC_ALL default failed -- expected '$exp', got '$got'"
- set -- $($SHELL -c "
--	if	builtin -f cmd wc 2>/dev/null
-+	if	builtin wc 2>/dev/null
- 	then	unset LC_CTYPE
- 		export LANG=$locale
- 		export LC_ALL=C
-@@ -133,6 +134,8 @@ set -- $($SHELL -c "
+@@ -135,6 +136,8 @@ set -- $($SHELL -c "
  got=$*
  [[ $got == $exp ]] || err_exit "builtin wc LC_ALL default failed -- expected '$exp', got '$got'"
  
@@ -51,7 +45,7 @@ diff -up ksh-20100924/src/cmd/ksh93/tests/locale.sh.fixregr ksh-20100924/src/cmd
  # multibyte char straddling buffer boundary
  
  {
-@@ -189,6 +192,7 @@ do	exp=$1
+@@ -191,6 +194,7 @@ do	exp=$1
  done
  
  # setocale(LC_ALL,"") after setlocale() initialization

@@ -1,19 +1,15 @@
 	basic.sh[438]: early termination not causing broken pipe
-test basic failed [ 96 tests 1 error ]
+test basic failed [ 97 tests 1 error ]
 	basic.sh[438]: early termination not causing broken pipe
-test basic(C.UTF-8) failed [ 96 tests 1 error ]
+test basic(C.UTF-8) failed [ 97 tests 1 error ]
 	shcomp-basic.ksh[438]: early termination not causing broken pipe
-test basic(shcomp) failed [ 96 tests 1 error ]
-	locale.sh[209]: LC_ALL test script failed -- expected 'f1', got ''
-test locale failed [ 21 tests 1 error ]
-	shcomp-locale.ksh[209]: LC_ALL test script failed -- expected 'f1', got ''
-test locale(shcomp) failed [ 21 tests 1 error ]
+test basic(shcomp) failed [ 97 tests 1 error ]
 	signal.sh[55]: pipe with --pipefail PIPE trap hangs
 	signal.sh[296]: kill -PIPE $$ failed, required termination by signal 'KILL'
 test signal failed [ 37 tests 2 errors ]
 	signal.sh[55]: pipe with --pipefail PIPE trap hangs
 	signal.sh[296]: kill -PIPE $$ failed, required termination by signal 'KILL'
-test signal(C.UTF-8) failed [ 37 tests 2 errorss ]
+test signal(C.UTF-8) failed [ 37 tests 2 errors ]
 	shcomp-signal.ksh[55]: pipe with --pipefail PIPE trap hangs
 	shcomp-signal.ksh[296]: kill -PIPE $$ failed, required termination by signal 'KILL'
-test signal(shcomp) failed [ 37 tests 2 errorsss ]
+test signal(shcomp) failed [ 37 tests 2 errors ]
