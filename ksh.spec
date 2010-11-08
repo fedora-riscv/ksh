@@ -63,7 +63,9 @@ install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/skel/.kshrc
 install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/kshrc
 
 %check
-export SHELL=$(ls $(pwd)/arch/*/bin/ksh)
+SHELL=$(ls $(pwd)/arch/*/bin/ksh)
+cp $SHELL ${SHELL}4check
+export SHELL=${SHELL}4check
 cd src/cmd/ksh93/tests/
 ulimit -c unlimited
 if [ ! -e /dev/fd ]
@@ -72,6 +74,7 @@ then
   exit 0
 fi
 $SHELL ./shtests 2>&1 | tee testresults.log
+killall ksh4check -s SIGKILL && echo "Error: Some ksh test runs hanged" >>filteredresults.log
 sed -e '/begins at/d' -e '/ 0 error/d' -e 's/at [^\[]*\[/\[/' testresults.log -e '/tests skipped/d' >filteredresults.log
 if ! cmp filteredresults.log %{SOURCE5} >/dev/null || ls core.*
 then
