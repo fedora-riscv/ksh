@@ -1,11 +1,11 @@
-%global       releasedate 2010-10-26
+%global       releasedate 2010-11-22
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
-Version:      20101026
+Version:      20101122
 Release:      1%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
@@ -24,6 +24,8 @@ BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
 Requires: coreutils, glibc-common, diffutils
 BuildRequires: bison
+# regression test suite uses 'ps' from procps
+BuildRequires: procps
 Requires(post): grep, coreutils
 Requires(preun): grep, coreutils
 
@@ -63,9 +65,7 @@ install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/skel/.kshrc
 install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/kshrc
 
 %check
-SHELL=$(ls $(pwd)/arch/*/bin/ksh)
-cp $SHELL ${SHELL}4check
-export SHELL=${SHELL}4check
+export SHELL=$(ls $(pwd)/arch/*/bin/ksh)
 cd src/cmd/ksh93/tests/
 ulimit -c unlimited
 if [ ! -e /dev/fd ]
@@ -74,7 +74,6 @@ then
   exit 0
 fi
 $SHELL ./shtests 2>&1 | tee testresults.log
-killall ksh4check -s SIGKILL && echo "Error: Some ksh test runs hanged" >>filteredresults.log
 sed -e '/begins at/d' -e '/ 0 error/d' -e 's/at [^\[]*\[/\[/' testresults.log -e '/tests skipped/d' >filteredresults.log
 if ! cmp filteredresults.log %{SOURCE5} >/dev/null || ls core.*
 then
@@ -119,6 +118,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Nov 23 2010 Michal Hlavinka <mhlavink@redhat.com> - 20101122-1
+- ksh updated to 2010-11-22
+
 * Mon Nov 01 2010 Michal Hlavinka <mhlavink@redhat.com> - 20101026-1
 - ksh updated to 2010-10-26
 
