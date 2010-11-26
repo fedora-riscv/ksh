@@ -1,6 +1,0 @@
-	builtins.sh[296]: printf "%T" nowTue Nov 23 07:50:27 GMT 2010 != Tue Nov 23 07:50:27 UTC 2010
-test builtins failed [ 132 tests 1 error ]
-	builtins.sh[296]: printf "%T" nowTue Nov 23 07:50:27 GMT 2010 != Tue Nov 23 07:50:27 UTC 2010
-test builtins(C.UTF-8) failed [ 132 tests 1 error ]
-	shcomp-builtins.ksh[296]: printf "%T" nowTue Nov 23 07:50:27 GMT 2010 != Tue Nov 23 07:50:27 UTC 2010
-test builtins(shcomp) failed [ 132 tests 1 error ]
