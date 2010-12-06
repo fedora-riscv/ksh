@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20100621
-Release:      1%{?dist}
+Release:      2%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -14,6 +14,8 @@ Source4:      dotkshrc
 
 #don't use not wanted/needed builtins - Fedora specific
 Patch1:       ksh-20070328-builtins.patch
+
+Patch2:       ksh-20100621-filerace.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -32,6 +34,7 @@ with "sh" (the Bourne Shell).
 %setup -q -c
 %setup -q -T -D -a 1
 %patch1 -p1 -b .builtins
+%patch2 -p1 -b .filerace
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -90,6 +93,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Dec 06 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100621-2
+- fix file race condition when just created file does not exist yet
+
 * Fri Jun 25 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100621-1
 - updated to 2010-06-21
 

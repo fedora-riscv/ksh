@@ -1,0 +1,34 @@
+diff -up ksh-20101201/src/cmd/ksh93/include/defs.h.filerace ksh-20101201/src/cmd/ksh93/include/defs.h
+--- ksh-20101201/src/cmd/ksh93/include/defs.h.filerace	2010-11-03 21:04:52.000000000 +0100
++++ ksh-20101201/src/cmd/ksh93/include/defs.h	2010-12-06 16:09:05.823823786 +0100
+@@ -162,6 +162,7 @@ struct shared
+ 	Namval_t	*last_table;	/* last table used in last nv_open  */ \
+ 	Namval_t	*prev_table;	/* previous table used in nv_open  */ \
+ 	Sfio_t		*outpool;	/* ouput stream pool */ \
++	pid_t           outpipepid; \
+ 	long		timeout;	/* read timeout */ \
+ 	short		curenv;		/* current subshell number */ \
+ 	short		jobenv;		/* subshell number for jobs */ \
+diff -up ksh-20101201/src/cmd/ksh93/sh/io.c.filerace ksh-20101201/src/cmd/ksh93/sh/io.c
+--- ksh-20101201/src/cmd/ksh93/sh/io.c.filerace	2010-12-02 16:39:41.000000000 +0100
++++ ksh-20101201/src/cmd/ksh93/sh/io.c	2010-12-06 16:07:57.424149190 +0100
+@@ -1418,7 +1418,7 @@ int	sh_redirect(Shell_t *shp,struct iono
+ 			}
+ 			if(!np)
+ 			{
+-				if(flag==0 || tname)
++				if(flag==0 || tname || (flag==1 && fn==1 && (shp->fdstatus[fn]&IONOSEEK) && shp->outpipepid && shp->outpipepid==getpid()))
+ 				{
+ 					if(fd==fn)
+ 					{
+diff -up ksh-20101201/src/cmd/ksh93/sh/xec.c.filerace ksh-20101201/src/cmd/ksh93/sh/xec.c
+--- ksh-20101201/src/cmd/ksh93/sh/xec.c.filerace	2010-12-02 21:56:45.000000000 +0100
++++ ksh-20101201/src/cmd/ksh93/sh/xec.c	2010-12-06 16:09:54.632932987 +0100
+@@ -2947,6 +2947,7 @@ pid_t _sh_fork(Shell_t *shp,register pid
+ #if !_std_malloc
+ 	vmtrace(-1);
+ #endif
++	shp->outpipepid = ((flags&FPOU)?getpid():0);
+ 	/* This is the child process */
+ 	if(shp->trapnote&SH_SIGTERM)
+ 		sh_exit(SH_EXITSIG|SIGTERM);
