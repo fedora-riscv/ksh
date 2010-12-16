@@ -118,6 +118,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Dec 16 2010 Michal Hlavinka <mhlavink@redhat.com> - 20101212-1
+- ksh updated to 2010-12-12
+
 * Mon Dec 06 2010 Michal Hlavinka <mhlavink@redhat.com> - 20101201-2
 - fix file io race condition when file was created, but still does not exist
 
