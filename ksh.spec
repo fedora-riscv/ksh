@@ -40,7 +40,6 @@ with "sh" (the Bourne Shell).
 %setup -q -T -D -a 1
 %patch1 -p1 -b .builtins
 %patch2 -p1 -b .fixregr
-%patch3 -p1 -b .filerace
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
