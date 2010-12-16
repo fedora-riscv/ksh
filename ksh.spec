@@ -1,12 +1,12 @@
-%global       releasedate 2010-12-01
+%global       releasedate 2010-12-12
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
-Version:      20101201
-Release:      2%{?dist}
+Version:      20101212
+Release:      1%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -19,9 +19,6 @@ Patch1:       ksh-20070328-builtins.patch
 
 #fix regression test suite to be usable during packagebuild - Fedora/RHEL specific
 Patch2:       ksh-20100826-fixregr.patch
-
-#fix file io race condition, for ksh < 20101206
-Patch3:       ksh-20101201-filerace.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
