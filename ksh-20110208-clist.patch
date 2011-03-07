@@ -1,0 +1,12 @@
+diff -up ksh-20110208/src/cmd/ksh93/sh/subshell.c.clist ksh-20110208/src/cmd/ksh93/sh/subshell.c
+--- ksh-20110208/src/cmd/ksh93/sh/subshell.c.clist	2010-11-03 21:01:11.000000000 +0100
++++ ksh-20110208/src/cmd/ksh93/sh/subshell.c	2011-03-02 15:52:14.339083830 +0100
+@@ -242,7 +242,7 @@ Namval_t *sh_assignok(register Namval_t 
+ 	if(!sp->shpwd || np==SH_LEVELNOD || np==L_ARGNOD || np==SH_SUBSCRNOD || np==SH_NAMENOD)
+ 		return(np);
+ 	/* don't bother to save if in newer scope */
+-	if(sp->var!=shp->var_tree && shp->last_root==shp->var_tree)
++	if(sp->var!=shp->var_tree && sp->var!=shp->var_base && shp->last_root==shp->var_tree)
+ 		return(np);
+ 	if((ap=nv_arrayptr(np)) && (mp=nv_opensub(np)))
+ 	{
