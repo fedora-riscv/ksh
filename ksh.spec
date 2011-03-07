@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20100621
-Release:      2%{?dist}
+Release:      3%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -16,6 +16,8 @@ Source4:      dotkshrc
 Patch1:       ksh-20070328-builtins.patch
 
 Patch2:       ksh-20100621-filerace.patch
+
+Patch3:       ksh-20110208-clist.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -35,6 +37,7 @@ with "sh" (the Bourne Shell).
 %setup -q -T -D -a 1
 %patch1 -p1 -b .builtins
 %patch2 -p1 -b .filerace
+%patch3 -p1 -b .clist
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -93,6 +96,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Mar 07 2011 Michal Hlavinka <mhlavink@redhat.com> - 20100621-3
+- fix ( ) compound list altering environment
+
 * Mon Dec 06 2010 Michal Hlavinka <mhlavink@redhat.com> - 20100621-2
 - fix file race condition when just created file does not exist yet
 
