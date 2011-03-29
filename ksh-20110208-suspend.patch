@@ -1,0 +1,11 @@
+diff -up ksh-20110208/src/cmd/ksh93/sh/jobs.c.suspend ksh-20110208/src/cmd/ksh93/sh/jobs.c
+--- ksh-20110208/src/cmd/ksh93/sh/jobs.c.suspend	2010-12-01 17:57:47.000000000 +0100
++++ ksh-20110208/src/cmd/ksh93/sh/jobs.c	2011-03-29 17:01:32.880515568 +0200
+@@ -945,6 +945,7 @@ int job_walk(Sfio_t *file,int (*fun)(str
+ 			if(!(pw = job_bypid(pid)))
+ 			{
+ 				pw = &dummy;
++				pw->p_shp = sh_getinterp();
+ 				pw->p_pid = pid;
+ 				pw->p_pgrp = pid;
+ 			}
