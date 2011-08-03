@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20110630
-Release:      1%{?dist}
+Release:      2%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -19,6 +19,9 @@ Patch1:       ksh-20070328-builtins.patch
 
 #fix regression test suite to be usable during packagebuild - Fedora/RHEL specific
 Patch2:       ksh-20100826-fixregr.patch
+
+# for ksh < 2011-08-03
+Patch3:       ksh-2011063-ifsfix.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -40,6 +43,7 @@ with "sh" (the Bourne Shell).
 %setup -q -T -D -a 1
 %patch1 -p1 -b .builtins
 %patch2 -p1 -b .fixregr
+%patch3 -p1 -b .ifsfix
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -120,6 +124,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Aug 03 2011 Michal Hlavinka <mhlavink@redhat.com> - 20110630-2
+- fix: IFS manipulation in a function can cause crash
+
 * Fri Jul 01 2011 Michal Hlavinka <mhlavink@redhat.com> - 20110630-1
 - ksh updated to 2011-06-30
 
