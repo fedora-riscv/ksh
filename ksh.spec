@@ -21,7 +21,7 @@ Patch1:       ksh-20070328-builtins.patch
 Patch2:       ksh-20100826-fixregr.patch
 
 # for ksh < 2011-08-03
-Patch3:       ksh-2011063-ifsfix.patch
+Patch3:       ksh-20110630-ifsfix.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
