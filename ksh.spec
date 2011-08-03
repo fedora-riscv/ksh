@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20110505
-Release:      2%{?dist}
+Release:      3%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -21,6 +21,9 @@ Patch1:       ksh-20070328-builtins.patch
 Patch2:       ksh-20100826-fixregr.patch
 
 Patch3: ksh-20110505-resume.patch
+
+# for ksh < 2011-08-03
+Patch4:       ksh-20110630-ifsfix.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -43,6 +46,7 @@ with "sh" (the Bourne Shell).
 %patch1 -p1 -b .builtins
 %patch2 -p1 -b .fixregr
 %patch3 -p1 -b .resume
+%patch4 -p1 -b .fixifs
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -121,6 +125,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Aug 03 2011 Michal Hlavinka <mhlavink@redhat.com> - 20110505-3
+- fix: IFS manipulation in a function can cause crash
+
 * Wed Jun 08 2011 Michal Hlavinka <mhlavink@redhat.com> - 20110505-2
 - fix: resume of suspended process using pipes does not work (#708909)
 
