@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20110630
-Release:      2%{?dist}
+Release:      3%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -56,7 +56,7 @@ sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
 ./bin/package
 ./bin/package make mamake ||:
 ./bin/package make mamake ||:
-export CCFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -O0 -ggdb3"
+export CCFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 export CC=gcc
 ./bin/package "make"
 
@@ -128,6 +128,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Aug 12 2011 Michal Hlavinka <mhlavink@redhat.com> - 20110630-3
+- turn optimizations back on and rebuild
+
 * Fri Aug 12 2011 Michal Hlavinka <mhlavink@redhat.com> - 20110630-2
 - do not crash when killing last bg job when there is not any
 
