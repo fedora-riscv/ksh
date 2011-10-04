@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20110630
-Release:      1%{?dist}
+Release:      2%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -25,6 +25,8 @@ Patch3:       ksh-20110630-ifsfix.patch
 
 # sent upstream, for ksh <= 2011-08-12
 Patch4:       ksh-20110630-fixkill.patch
+
+Patch5:       ksh-20110630-tmoutfix.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -48,6 +50,7 @@ with "sh" (the Bourne Shell).
 %patch2 -p1 -b .fixregr
 %patch3 -p1 -b .ifsfix
 %patch4 -p1 -b .fixkill
+%patch5 -p1 -b .tmoutfix
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -128,6 +131,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Oct 04 2011 Michal Hlavinka <mhlavink@redhat.com> - 20110630-2
+- restore tty settings after timed out read (#572291)
+
 * Fri Aug 12 2011 Michal Hlavinka <mhlavink@redhat.com> - 20110630-1
 - do not crash when killing last bg job when there is not any
 - ksh updated to 2011-06-30
