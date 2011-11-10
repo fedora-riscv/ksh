@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20110630
-Release:      5%{?dist}
+Release:      6%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -66,8 +66,7 @@ export CCFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 export CC=gcc
 ./bin/package "make"
 
-#missing in latest tarball
-#cp lib/package/LICENSES/ast LICENSE
+cp lib/package/LICENSES/cpl LICENSE
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -123,8 +122,7 @@ fi
 
 %files 
 %defattr(-, root, root,-)
-# LICENSE missing in latest tarball
-%doc README
+%doc src/cmd/ksh93/COMPATIBILITY src/cmd/ksh93/RELEASE src/cmd/ksh93/TYPES LICENSE
 /bin/ksh
 /usr/bin/shcomp
 %{_mandir}/man1/*
@@ -135,6 +133,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Nov 10 2011 Michal Hlavinka <mhlavink@redhat.com> - 20110630-6
+- add files to %%doc
+
 * Thu Oct 06 2011 Michal Hlavinka <mhlavink@redhat.com> - 20110630-5
 - ksh sometimes returns wrong exit code when pid numbers are being recycled
 
