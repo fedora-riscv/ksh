@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20110630
-Release:      6%{?dist}
+Release:      7%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -29,6 +29,8 @@ Patch4:       ksh-20110630-fixkill.patch
 Patch5:       ksh-20110630-tmoutfix.patch
 
 Patch6:       ksh-20110630-joblimit.patch
+
+Patch7:       ksh-20110630-dontstop.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -54,6 +56,7 @@ with "sh" (the Bourne Shell).
 %patch4 -p1 -b .fixkill
 %patch5 -p1 -b .tmoutfix
 %patch6 -p1 -b .joblimit
+%patch7 -p1 -b .dontstop
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -79,6 +82,12 @@ install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/skel/.kshrc
 install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/kshrc
 
 %check
+%if 0%{?rhel} > 6
+%ifarch s390
+exit 0
+%endif
+%endif
+
 export SHELL=$(ls $(pwd)/arch/*/bin/ksh)
 cd src/cmd/ksh93/tests/
 ulimit -c unlimited
@@ -133,6 +142,10 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Dec 05 2011 Michal Hlavinka <mhlavink@redhat.com> - 20110630-7
+- fix: ksh can prematurely exit without crash or any error
+- make spec work in epel
+
 * Thu Nov 10 2011 Michal Hlavinka <mhlavink@redhat.com> - 20110630-6
 - add files to %%doc
 
