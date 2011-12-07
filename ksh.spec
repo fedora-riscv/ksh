@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20110630
-Release:      4%{?dist}
+Release:      5%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -27,6 +27,12 @@ Patch3:       ksh-20110630-ifsfix.patch
 Patch4:       ksh-20110630-fixkill.patch
 
 Patch5:       ksh-20110630-tmoutfix.patch
+
+Patch7:       ksh-20110630-dontstop.patch
+
+Patch8:       ksh-20110630-ddotfix.patch
+
+Patch9:       ksh-20110630-histfix.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -51,6 +57,9 @@ with "sh" (the Bourne Shell).
 %patch3 -p1 -b .ifsfix
 %patch4 -p1 -b .fixkill
 %patch5 -p1 -b .tmoutfix
+%patch7 -p1 -b .dontstop
+%patch8 -p1 -b .ddotfix
+%patch9 -p1 -b .histfix
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -131,6 +140,11 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Dec 07 2011 Michal Hlavinka <mhlavink@redhat.com> - 20110630-5
+- fix: ksh crashes when browsing through history containing comment (#733813)
+- fix: ksh crashes when two subseguent dots are used in variable or command name (#733544)
+- fix: ksh can prematurely exit without crash or any error
+
 * Tue Oct 04 2011 Michal Hlavinka <mhlavink@redhat.com> - 20110630-4
 - restore tty settings after timed out read (#572291)
 
