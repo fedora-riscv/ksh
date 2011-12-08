@@ -5,4 +5,7 @@ if [ -f /etc/kshrc ]; then
 	. /etc/kshrc
 fi
 
+# enable emacs edit mode, for browsing history and tab completion
+set -o emacs
+
 # User specific aliases and functions

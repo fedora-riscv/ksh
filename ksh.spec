@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20110630
-Release:      5%{?dist}
+Release:      6%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -140,6 +140,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Dec 08 2011 Michal Hlavinka <mhlavink@redhat.com> - 20110630-6
+- enable emacs editing mode for history browsing and tab completion
+
 * Wed Dec 07 2011 Michal Hlavinka <mhlavink@redhat.com> - 20110630-5
 - fix: ksh crashes when browsing through history containing comment (#733813)
 - fix: ksh crashes when two subseguent dots are used in variable or command name (#733544)
