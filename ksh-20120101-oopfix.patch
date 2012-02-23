@@ -1,0 +1,12 @@
+diff -up ksh-20110630/src/cmd/ksh93/sh/name.c.oopfix ksh-20110630/src/cmd/ksh93/sh/name.c
+--- ksh-20110630/src/cmd/ksh93/sh/name.c.oopfix	2012-02-22 16:57:52.580788505 +0100
++++ ksh-20110630/src/cmd/ksh93/sh/name.c	2012-02-22 16:58:31.332236782 +0100
+@@ -372,6 +372,8 @@ void nv_setlist(register struct argnod *
+ 					}
+ 				}
+ 				np = nv_open(cp,shp->var_tree,flag|NV_ASSIGN);
++				if(nv_isattr(np,NV_RDONLY) && np->nvfun && !(flags&NV_RDONLY))
++					errormsg(SH_DICT,ERROR_exit(1),e_readonly, nv_name(np));
+ 				if(nv_isattr(np,NV_NOFREE) && nv_isnull(np))
+ 					nv_offattr(np,NV_NOFREE);
+ 				if(nv_istable(np))

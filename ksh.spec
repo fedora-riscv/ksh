@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
 Version:      20110630
-Release:      6%{?dist}
+Release:      7%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -34,6 +34,8 @@ Patch8:       ksh-20110630-ddotfix.patch
 
 Patch9:       ksh-20110630-histfix.patch
 
+Patch10:      ksh-20120101-oopfix.patch
+
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
 Requires: coreutils, glibc-common, diffutils
@@ -60,6 +62,7 @@ with "sh" (the Bourne Shell).
 %patch7 -p1 -b .dontstop
 %patch8 -p1 -b .ddotfix
 %patch9 -p1 -b .histfix
+%patch10 -p1 -b .oopfix
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -140,6 +143,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Feb 23 2012 Michal Hlavinka <mhlavink@redhat.com> - 20110630-7
+- do not crash on (incorrect) oop code (#743837)
+
 * Thu Dec 08 2011 Michal Hlavinka <mhlavink@redhat.com> - 20110630-6
 - enable emacs editing mode for history browsing and tab completion
 
