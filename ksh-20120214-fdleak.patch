@@ -1,0 +1,11 @@
+diff -up ksh-20120214/src/cmd/ksh93/sh/xec.c.fdleak ksh-20120214/src/cmd/ksh93/sh/xec.c
+--- ksh-20120214/src/cmd/ksh93/sh/xec.c.fdleak	2012-02-27 10:47:59.619019430 +0100
++++ ksh-20120214/src/cmd/ksh93/sh/xec.c	2012-02-27 10:50:16.328138764 +0100
+@@ -108,6 +108,7 @@ static void iousepipe(Shell_t *shp)
+ 	usepipe++;
+ 	fcntl(subpipe[0],F_SETFD,FD_CLOEXEC);
+ 	subpipe[2] = fcntl(1,F_DUPFD,10);
++	fcntl(subpipe[2],F_SETFD,FD_CLOEXEC);
+ 	shp->fdstatus[subpipe[2]] = shp->fdstatus[1];
+ 	close(1);
+ 	fcntl(subpipe[1],F_DUPFD,1);
