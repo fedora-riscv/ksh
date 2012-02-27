@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      EPL
 Version:      20120214
-Release:      1%{?dist}
+Release:      2%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -19,6 +19,7 @@ Patch1:       ksh-20070328-builtins.patch
 
 #fix regression test suite to be usable during packagebuild - Fedora/RHEL specific
 Patch2:       ksh-20100826-fixregr.patch
+Patch3: ksh-20120214-fdleak.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -40,6 +41,7 @@ with "sh" (the Bourne Shell).
 %setup -q -T -D -a 1
 %patch1 -p1 -b .builtins
 %patch2 -p1 -b .fixregr
+%patch3 -p1 -b .fdleak
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -125,6 +127,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Feb 27 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120214-2
+- fix file descriptor leak
+
 * Thu Feb 23 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120214-1
 - ksh updated to 20120214
 
