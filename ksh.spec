@@ -1,12 +1,12 @@
-%global       releasedate 2012-02-14
+%global       releasedate 2012-02-29
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      EPL
-Version:      20120214
-Release:      3%{?dist}
+Version:      20120229
+Release:      1%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -19,7 +19,6 @@ Patch1:       ksh-20070328-builtins.patch
 
 #fix regression test suite to be usable during packagebuild - Fedora/RHEL specific
 Patch2:       ksh-20100826-fixregr.patch
-Patch3: ksh-20120214-fdleak.patch
 
 # for ksh <= 2012-03-09, fix tilda expansion, rhbz#802565
 Patch4: ksh-20120214-tildafix.patch
@@ -44,7 +43,6 @@ with "sh" (the Bourne Shell).
 %setup -q -T -D -a 1
 %patch1 -p1 -b .builtins
 %patch2 -p1 -b .fixregr
-%patch3 -p1 -b .fdleak
 %patch4 -p1 -b .tildafix
 
 #/dev/fd test does not work because of mock
@@ -131,6 +129,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Mar 14 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120229-1
+- ksh updated to 2012-02-29
+
 * Wed Mar 14 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120214-3
 - fix tilda expansion in scripts
 
