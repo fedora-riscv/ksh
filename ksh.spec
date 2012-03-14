@@ -20,9 +20,6 @@ Patch1:       ksh-20070328-builtins.patch
 #fix regression test suite to be usable during packagebuild - Fedora/RHEL specific
 Patch2:       ksh-20100826-fixregr.patch
 
-# for ksh <= 2012-03-09, fix tilda expansion, rhbz#802565
-Patch4: ksh-20120214-tildafix.patch
-
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
 Requires: coreutils, glibc-common, diffutils
@@ -43,7 +40,6 @@ with "sh" (the Bourne Shell).
 %setup -q -T -D -a 1
 %patch1 -p1 -b .builtins
 %patch2 -p1 -b .fixregr
-%patch4 -p1 -b .tildafix
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
