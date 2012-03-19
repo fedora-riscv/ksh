@@ -1,0 +1,21 @@
+diff -up ksh-20120229/src/cmd/ksh93/sh/xec.c.rc12hang ksh-20120229/src/cmd/ksh93/sh/xec.c
+--- ksh-20120229/src/cmd/ksh93/sh/xec.c.rc12hang	2012-03-02 17:37:09.000000000 +0100
++++ ksh-20120229/src/cmd/ksh93/sh/xec.c	2012-03-19 11:29:41.002964239 +0100
+@@ -1623,7 +1623,7 @@ int sh_exec(register const Shnode_t *t,
+ 					else
+ 						job_wait(parent);
+ 					if(shp->topfd > topfd)
+-						sh_iorestore(shp,topfd,sh.exitval);
++						sh_iorestore(shp,topfd,0);
+ 					if(usepipe && tsetio &&  subdup)
+ 						iounpipe(shp);
+ 					if(!sh_isoption(SH_MONITOR))
+@@ -3079,7 +3079,7 @@ pid_t _sh_fork(Shell_t *shp,register pid
+ 			if(!tsetio || !subdup)
+ 			{
+ 				if(shp->topfd > restorefd)
+-					sh_iorestore(shp,restorefd,sh.exitval);
++					sh_iorestore(shp,restorefd,0);
+ 				iounpipe(shp);
+ 			}
+ 		}
