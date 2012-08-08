@@ -1,8 +1,8 @@
-diff -up ksh-20100924/src/cmd/ksh93/data/builtins.c.builtins ksh-20100924/src/cmd/ksh93/data/builtins.c
---- ksh-20100924/src/cmd/ksh93/data/builtins.c.builtins	2010-08-10 20:58:54.000000000 +0200
-+++ ksh-20100924/src/cmd/ksh93/data/builtins.c	2010-10-08 18:08:35.118675557 +0200
-@@ -125,20 +125,28 @@ const struct shtable3 shtab_builtins[] =
- #ifdef SHOPT_CMDLIB_HDR
+diff -up ksh-20120620/src/cmd/ksh93/data/builtins.c.builtins ksh-20120620/src/cmd/ksh93/data/builtins.c
+--- ksh-20120620/src/cmd/ksh93/data/builtins.c.builtins	2012-06-19 10:02:12.000000000 +0200
++++ ksh-20120620/src/cmd/ksh93/data/builtins.c	2012-06-22 12:35:05.587717588 +0200
+@@ -131,20 +131,28 @@ const struct shtable3 shtab_builtins[] =
+ #undef	mktemp		/* undo possible map-libc mktemp => _ast_mktemp */
  #include SHOPT_CMDLIB_HDR
  #else
 +#if 1
