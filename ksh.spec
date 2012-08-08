@@ -1,12 +1,12 @@
-%global       releasedate 2011-06-30
+%global       releasedate 2012-08-01
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      CPL
-Version:      20110630
-Release:      8%{?dist}
+Version:      20120801
+Release:      1%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source3:      kshrc.rhs
@@ -19,23 +19,6 @@ Patch1:       ksh-20070328-builtins.patch
 
 #fix regression test suite to be usable during packagebuild - Fedora/RHEL specific
 Patch2:       ksh-20100826-fixregr.patch
-
-# for ksh < 2011-08-03
-Patch3:       ksh-20110630-ifsfix.patch
-
-# sent upstream, for ksh <= 2011-08-12
-Patch4:       ksh-20110630-fixkill.patch
-
-Patch5:       ksh-20110630-tmoutfix.patch
-
-Patch7:       ksh-20110630-dontstop.patch
-
-Patch8:       ksh-20110630-ddotfix.patch
-
-Patch9:       ksh-20110630-histfix.patch
-
-Patch10:      ksh-20120101-oopfix.patch
-Patch11:      ksh-20120214-fdleak.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -57,14 +40,6 @@ with "sh" (the Bourne Shell).
 %setup -q -T -D -a 1
 %patch1 -p1 -b .builtins
 %patch2 -p1 -b .fixregr
-%patch3 -p1 -b .ifsfix
-%patch4 -p1 -b .fixkill
-%patch5 -p1 -b .tmoutfix
-%patch7 -p1 -b .dontstop
-%patch8 -p1 -b .ddotfix
-%patch9 -p1 -b .histfix
-%patch10 -p1 -b .oopfix
-%patch11 -p1 -b .fdleak
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -73,12 +48,12 @@ sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
 ./bin/package
 ./bin/package make mamake ||:
 ./bin/package make mamake ||:
-export CCFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
+export CCFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -Wno-unknown-pragmas -Wno-parentheses -Wno-unused"
 export CC=gcc
 ./bin/package "make"
 
 #missing in latest tarball
-#cp lib/package/LICENSES/ast LICENSE
+#cp lib/package/LICENSES/epl LICENSE
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -152,6 +127,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Aug 08 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120801-1
+- ksh updated to 2012-08-01
+
 * Mon Feb 27 2012 Michal Hlavinka <mhlavink@redhat.com> - 20110630-8
 - fix file descriptor leak
 
