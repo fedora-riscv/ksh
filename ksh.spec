@@ -114,7 +114,8 @@ fi
 
 %files 
 %defattr(-, root, root,-)
-%doc src/cmd/ksh93/COMPATIBILITY src/cmd/ksh93/RELEASE src/cmd/ksh93/TYPES LICENSE
+%doc src/cmd/ksh93/COMPATIBILITY src/cmd/ksh93/RELEASE src/cmd/ksh93/TYPES 
+# LICENSE file is missing, temporarily?
 /bin/ksh
 /usr/bin/shcomp
 %{_mandir}/man1/*
