@@ -1,11 +1,11 @@
-%global       releasedate 2012-07-27
+%global       releasedate 2012-08-01
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      EPL
-Version:      20120727
+Version:      20120801
 Release:      1%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
@@ -52,7 +52,7 @@ export CCFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -Wno-unknown-pragmas -Wno-pa
 export CC=gcc
 ./bin/package "make"
 
-cp lib/package/LICENSES/epl LICENSE
+#cp lib/package/LICENSES/epl LICENSE
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -125,6 +125,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Aug 08 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120801-1
+- ksh updated to 20120801
+
 * Tue Jul 31 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120727-1
 - ksh updated to 2012-07-27
 
