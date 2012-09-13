@@ -6,9 +6,10 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      EPL
 Version:      20120727
-Release:      1%{?dist}
+Release:      2%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
+Source2:      kshcomp.conf
 Source3:      kshrc.rhs
 Source4:      dotkshrc
 #expected results of test suite
@@ -63,6 +64,7 @@ install -c -m 644 arch/*/man/man1/sh.1 $RPM_BUILD_ROOT%{_mandir}/man1/ksh.1
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/skel
 install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/skel/.kshrc
 install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/kshrc
+install -D -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %check
 %if 0%{?rhel} > 6
@@ -120,11 +122,15 @@ fi
 %{_mandir}/man1/*
 %config(noreplace) %{_sysconfdir}/skel/.kshrc
 %config(noreplace) %{_sysconfdir}/kshrc
+%config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %clean
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Sep 13 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120727-1
+- add support for direct execution of compiled scripts
+
 * Tue Jul 31 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120727-1
 - ksh updated to 2012-07-27
 
