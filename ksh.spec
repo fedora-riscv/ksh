@@ -1,11 +1,11 @@
-%global       releasedate 2012-07-27
+%global       releasedate 2012-08-01
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      EPL
-Version:      20120727
+Version:      20120801
 Release:      3%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
@@ -53,7 +53,7 @@ export CCFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -Wno-unknown-pragmas -Wno-pa
 export CC=gcc
 ./bin/package "make"
 
-cp lib/package/LICENSES/epl LICENSE
+#cp lib/package/LICENSES/epl LICENSE
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -118,7 +118,8 @@ fi
 
 %files 
 %defattr(-, root, root,-)
-%doc src/cmd/ksh93/COMPATIBILITY src/cmd/ksh93/RELEASE src/cmd/ksh93/TYPES LICENSE
+%doc src/cmd/ksh93/COMPATIBILITY src/cmd/ksh93/RELEASE src/cmd/ksh93/TYPES 
+# LICENSE file is missing, temporarily?
 /bin/ksh
 /usr/bin/shcomp
 %{_mandir}/man1/*
@@ -127,9 +128,13 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %clean
-    rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Sep 14 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120801-3
+- ksh updated to 2012-08-01
+- skip some release numbers to fix update path
+
 * Fri Sep 14 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120727-3
 - fix typo in binfmt config file
 - register binary format after package installation
