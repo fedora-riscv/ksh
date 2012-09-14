@@ -27,7 +27,7 @@ Requires: coreutils, glibc-common, diffutils
 BuildRequires: bison
 # regression test suite uses 'ps' from procps
 BuildRequires: procps
-Requires(post): grep, coreutils
+Requires(post): grep, coreutils, systemd-units
 Requires(preun): grep, coreutils
 
 %description
@@ -100,6 +100,8 @@ else
         fi
 fi
 
+/bin/systemctl try-restart systemd-binfmt.service >/dev/null 2>&1 || :
+
 %postun
 if [ ! -f /bin/ksh ]; then
 	sed -i '/^\/bin\/ksh$/ d' /etc/shells
@@ -129,7 +131,11 @@ fi
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Thu Sep 13 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120801-1
+* Fri Sep 14 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120801-3
+- fix typo in binfmt config file
+- register binary format after package installation
+
+* Thu Sep 13 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120801-2
 - add support for direct execution of compiled scripts
 
 * Wed Aug 08 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120801-1
