@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      EPL
 Version:      20120727
-Release:      2%{?dist}
+Release:      3%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      kshcomp.conf
@@ -27,7 +27,7 @@ Requires: coreutils, glibc-common, diffutils
 BuildRequires: bison
 # regression test suite uses 'ps' from procps
 BuildRequires: procps
-Requires(post): grep, coreutils
+Requires(post): grep, coreutils, systemd-units
 Requires(preun): grep, coreutils
 
 %description
@@ -100,6 +100,8 @@ else
         fi
 fi
 
+/bin/systemctl try-restart systemd-binfmt.service >/dev/null 2>&1 || :
+
 %postun
 if [ ! -f /bin/ksh ]; then
 	sed -i '/^\/bin\/ksh$/ d' /etc/shells
@@ -128,7 +130,11 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Thu Sep 13 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120727-1
+* Fri Sep 14 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120727-3
+- fix typo in binfmt config file
+- register binary format after package installation
+
+* Thu Sep 13 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120727-2
 - add support for direct execution of compiled scripts
 
 * Tue Jul 31 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120727-1
