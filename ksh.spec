@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      EPL
 Version:      20120801
-Release:      2%{?dist}
+Release:      3%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      kshcomp.conf
@@ -27,7 +27,7 @@ Requires: coreutils, glibc-common, diffutils
 BuildRequires: bison
 # regression test suite uses 'ps' from procps
 BuildRequires: procps
-Requires(post): grep, coreutils
+Requires(post): grep, coreutils, systemd-units
 Requires(preun): grep, coreutils
 
 %description
@@ -65,6 +65,9 @@ mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/skel
 install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/skel/.kshrc
 install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/kshrc
 install -D -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/binfmt.d/kshcomp.conf
+
+%post
+/bin/systemctl try-restart systemd-binfmt.service >/dev/null 2>&1 || :
 
 %check
 %if 0%{?rhel} > 6
@@ -129,6 +132,10 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Sep 14 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120801-3
+- fix typo in binfmt config file
+- register binary format after package installation
+
 * Thu Sep 13 2012 Michal Hlavinka <mhlavink@redhat.com> - 20120801-2
 - add support for direct execution of compiled scripts
 
