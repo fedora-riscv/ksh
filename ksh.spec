@@ -66,9 +66,6 @@ install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/skel/.kshrc
 install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/kshrc
 install -D -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/binfmt.d/kshcomp.conf
 
-%post
-/bin/systemctl try-restart systemd-binfmt.service >/dev/null 2>&1 || :
-
 %check
 %if 0%{?rhel} > 6
 %ifarch s390
@@ -102,6 +99,8 @@ else
                 echo "/bin/ksh" >> /etc/shells
         fi
 fi
+
+/bin/systemctl try-restart systemd-binfmt.service >/dev/null 2>&1 || :
 
 %postun
 if [ ! -f /bin/ksh ]; then
