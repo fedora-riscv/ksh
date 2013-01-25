@@ -47,6 +47,9 @@ with "sh" (the Bourne Shell).
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
 
+# sh/main.c was not using CCFLAGS
+sed -i '/-c sh\/main.c/s|${mam_cc_FLAGS} |${mam_cc_FLAGS} ${CCFLAGS} |p' src/cmd/ksh93/Mamfile
+
 %build
 ./bin/package
 ./bin/package make mamake ||:
