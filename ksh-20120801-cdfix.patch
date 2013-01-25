@@ -1,0 +1,14 @@
+diff -up ksh-20120801/src/cmd/ksh93/bltins/cd_pwd.c.cdfix ksh-20120801/src/cmd/ksh93/bltins/cd_pwd.c
+--- ksh-20120801/src/cmd/ksh93/bltins/cd_pwd.c.cdfix	2013-01-04 18:54:11.890462334 +0100
++++ ksh-20120801/src/cmd/ksh93/bltins/cd_pwd.c	2013-01-04 18:54:11.914462535 +0100
+@@ -214,7 +214,10 @@ int	b_cd(int argc, char *argv[],Shbltin_
+ 			if(*++dp=='.' && (*++dp=='/' || *dp==0))
+ 				n++;
+ 			else if(*dp && *dp!='/')
++			{
++				dp--;
+ 				break;
++			}
+ 			if(*dp==0)
+ 				break;
+ 		}
