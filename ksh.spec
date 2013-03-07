@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      EPL
 Version:      20120801
-Release:      7%{?dist}
+Release:      8%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      kshcomp.conf
@@ -80,6 +80,7 @@ install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/kshrc
 install -D -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %check
+[ -f ./skipcheck -o -f ./../skipcheck] && exit 0 ||:
 %if 0%{?rhel} > 6
 %ifarch s390
 exit 0
@@ -144,6 +145,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Mar 07 2013 Michal Hlavinka <mhlavink@redhat.com> - 20120801-8
+- fix another reproducer for tab completion
+
 * Fri Feb 22 2013 Michal Hlavinka <mhlavink@redhat.com> - 20120801-7
 - do not segfault on kill % (#914669)
 
