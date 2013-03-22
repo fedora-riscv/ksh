@@ -1,0 +1,12 @@
+diff -up ksh-20130214/src/cmd/ksh93/sh/fault.c.nobomb ksh-20130214/src/cmd/ksh93/sh/fault.c
+--- ksh-20130214/src/cmd/ksh93/sh/fault.c.nobomb	2013-03-20 09:56:30.247997758 +0100
++++ ksh-20130214/src/cmd/ksh93/sh/fault.c	2013-03-20 09:57:13.285343999 +0100
+@@ -484,7 +484,7 @@ void sh_exit_20120720(Shell_t *shp,regis
+ 	if(pp && pp->mode>1)
+ 		cursig = -1;
+ #ifdef SIGTSTP
+-	if(shp->trapnote&SH_SIGTSTP)
++	if(shp->trapnote&SH_SIGTSTP && job.jobcontrol)
+ 	{
+ 		/* ^Z detected by the shell */
+ 		shp->trapnote = 0;

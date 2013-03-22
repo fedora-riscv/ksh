@@ -1,0 +1,27 @@
+diff -up ksh-20130214/src/cmd/ksh93/sh/array.c.memleak ksh-20130214/src/cmd/ksh93/sh/array.c
+--- ksh-20130214/src/cmd/ksh93/sh/array.c.memleak	2013-03-15 09:29:34.950010824 +0100
++++ ksh-20130214/src/cmd/ksh93/sh/array.c	2013-03-15 09:30:12.859321060 +0100
+@@ -1735,7 +1735,11 @@ void *nv_associative(register Namval_t *
+ 			ap->header.scope = 0;
+ 		}
+ 		else
++		{
++			if(ap->cur=nv_search("0",ap->header.table,0))
++				nv_associative(np,(char*)0,NV_ADELETE);
+ 			dtclose(ap->header.table);
++		}
+ 		return((void*)ap);
+ 	    case NV_ANEXT:
+ 		if(!ap->pos)
+diff -up ksh-20130214/src/cmd/ksh93/sh/name.c.memleak ksh-20130214/src/cmd/ksh93/sh/name.c
+--- ksh-20130214/src/cmd/ksh93/sh/name.c.memleak	2013-02-13 23:01:38.000000000 +0100
++++ ksh-20130214/src/cmd/ksh93/sh/name.c	2013-03-15 09:28:53.534671426 +0100
+@@ -2440,6 +2440,8 @@ static void table_unset(Shell_t *shp, re
+ 			}
+ 		}
+ 		npnext = (Namval_t*)dtnext(root,np);
++		if(nv_arrayptr(np))
++			nv_putsub(np,NIL(char*),ARRAY_SCAN);
+ 		_nv_unset(np,flags);
+ 		nv_delete(np,root,0);
+ 	}

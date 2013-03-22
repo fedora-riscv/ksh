@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      EPL
 Version:      20120801
-Release:      8%{?dist}
+Release:      9%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      kshcomp.conf
@@ -25,6 +25,10 @@ Patch4: ksh-20120801-cdfix.patch
 Patch5: ksh-20120801-tabfix.patch
 Patch6: ksh-20120801-cdfix2.patch
 Patch7: ksh-20130214-fixkill.patch
+
+# for ksh <= 2013-03-14
+Patch8: ksh-20120801-memleak.patch
+Patch9: ksh-20130214-nobomb.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -51,6 +55,8 @@ with "sh" (the Bourne Shell).
 %patch5 -p1 -b .tabfix
 %patch6 -p1 -b .cdfix2
 %patch7 -p1 -b .fixkill
+%patch8 -p1 -b .memleak
+%patch9 -p1 -b .nobomb
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -77,7 +83,7 @@ install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/kshrc
 install -D -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %check
-[ -f ./skipcheck -o -f ./../skipcheck] && exit 0 ||:
+[ -f ./skipcheck -o -f ./../skipcheck ] && exit 0 ||:
 %if 0%{?rhel} > 6
 %ifarch s390
 exit 0
@@ -142,6 +148,9 @@ fi
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Mar 14 2013 Michal Hlavinka <mhlavink@redhat.com> - 20120801-9
+- fix memory leak
+
 * Thu Mar 07 2013 Michal Hlavinka <mhlavink@redhat.com> - 20120801-8
 - fix another reproducer for tab completion
 
