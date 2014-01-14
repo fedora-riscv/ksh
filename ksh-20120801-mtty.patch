@@ -1,0 +1,12 @@
+diff -up ksh-20120801/src/cmd/ksh93/sh/xec.c.mtty ksh-20120801/src/cmd/ksh93/sh/xec.c
+--- ksh-20120801/src/cmd/ksh93/sh/xec.c.mtty	2013-10-30 13:23:31.342298357 +0100
++++ ksh-20120801/src/cmd/ksh93/sh/xec.c	2013-10-30 13:24:20.453885803 +0100
+@@ -3144,7 +3144,7 @@ pid_t _sh_fork(Shell_t *shp,register pid
+ 			 * completed.  Make parent the job group id.
+ 			 */
+ 			if(postid==0)
+-				job.curpgid = parent;
++				job.curpgid = getpid();
+ 			if(job.jobcontrol || (flags&FAMP))
+ 			{
+ 				if(setpgid(parent,job.curpgid)<0 && errno==EPERM)

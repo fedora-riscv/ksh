@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      EPL
 Version:      20120801
-Release:      10%{?dist}
+Release:      11%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      kshcomp.conf
@@ -27,6 +27,8 @@ Patch6: ksh-20120801-cdfix2.patch
 Patch7: ksh-20130214-fixkill.patch
 Patch8: ksh-20120801-kshmfix.patch
 Patch9: ksh-20120801-memlik.patch
+Patch10: ksh-20120801-mtty.patch
+Patch11: ksh-20120801-argvfix.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -55,6 +57,8 @@ with "sh" (the Bourne Shell).
 %patch7 -p1 -b .fixkill
 %patch8 -p1 -b .kshmfix
 %patch9 -p1 -b .memlik
+%patch10 -p1 -b .mtty
+%patch11 -p1 -b .argvfix
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -149,6 +153,10 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Jan 14 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-11
+- fix argv rewrite (#1047508)
+- ksh stops on read when monitor mode is enabled
+
 * Wed Jun 12 2013 Michal Hlavinka <mhlavink@redhat.com> - 20120801-10
 - fix memory leak
 
@@ -389,7 +397,7 @@ fi
 * Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20081104-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
-* Tue Jan 21 2009 Michal Hlavinka <mhlavink@redhat.com> 20081104-1
+* Wed Jan 21 2009 Michal Hlavinka <mhlavink@redhat.com> 20081104-1
 - update to 2008-11-04
 - ast-ksh-locales are not useable remove them
 
