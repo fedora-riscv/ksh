@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      EPL
 Version:      20120801
-Release:      13%{?dist}
+Release:      14%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      kshcomp.conf
@@ -29,6 +29,7 @@ Patch8: ksh-20120801-kshmfix.patch
 Patch9: ksh-20120801-memlik.patch
 Patch10: ksh-20120801-mtty.patch
 Patch11: ksh-20120801-argvfix.patch
+Patch12: ksh-20130628-longer.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -59,6 +60,7 @@ with "sh" (the Bourne Shell).
 %patch9 -p1 -b .memlik
 %patch10 -p1 -b .mtty
 %patch11 -p1 -b .argvfix
+%patch12 -p1 -b .longer
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -153,6 +155,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Jan 17 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-14
+- fix overflow in subshell loop
+
 * Tue Jan 14 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-13
 - fix argv rewrite (#1047508)
 
