@@ -6,7 +6,7 @@ diff -up ksh-20120801/src/cmd/ksh93/sh/xec.c.mtty ksh-20120801/src/cmd/ksh93/sh/
  			 */
  			if(postid==0)
 -				job.curpgid = parent;
-+				job.curpgid = getpid();
++				job.curpgid = job.jobcontrol?parent:getpid();
  			if(job.jobcontrol || (flags&FAMP))
  			{
  				if(setpgid(parent,job.curpgid)<0 && errno==EPERM)
