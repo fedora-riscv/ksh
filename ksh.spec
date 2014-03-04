@@ -6,7 +6,7 @@ URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
 License:      EPL
 Version:      20120801
-Release:      16%{?dist}
+Release:      17%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
 Source2:      kshcomp.conf
@@ -33,6 +33,7 @@ Patch12: ksh-20130628-longer.patch
 
 # for ksh <= 2013-04-09, rhbz#960371
 Patch13: ksh-20120801-lexfix.patch
+Patch14: ksh-20120801-filecomsubst.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -65,6 +66,7 @@ with "sh" (the Bourne Shell).
 %patch11 -p1 -b .argvfix
 %patch12 -p1 -b .longer
 %patch13 -p1 -b .lexfix
+%patch14 -p1 -b .filecomsubst
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -159,6 +161,10 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Mar 04 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-17
+- reading a file via command substitution did not work when any of stdin,
+  stdout or stderr were closed
+
 * Mon Mar 03 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-16
 - fix man page hang (#1071574)
 
