@@ -69,7 +69,7 @@ diff -up ksh20120801/src/cmd/ksh93/sh/subshell.c.orig ksh20120801/src/cmd/ksh93/
 -				sp->pwdfd = n;
 -				if(n<10)
 -				{
--					sp->pwdfd =  fcntl(n,F_DUPFD,10);
+-					sp->pwdfd = sh_fcntl(n,F_DUPFD,10);
 -					close(n);
 -				}
 -				if(sp->pwdfd>0)

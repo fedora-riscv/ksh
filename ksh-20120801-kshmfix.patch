@@ -51,3 +51,16 @@ diff -up ksh-20120801/src/cmd/ksh93/sh/xec.c.orig ksh-20120801/src/cmd/ksh93/sh/
  				tcsetpgrp(JOBTTY,shp->gd->pid);
  #endif /*SIGTSTP */
  			job.curpgid = savepgid;
+diff -up ksh-20120801/src/cmd/ksh93/edit/edit.c.kshmfix ksh-20120801/src/cmd/ksh93/edit/edit.c
+--- ksh-20120801/src/cmd/ksh93/edit/edit.c.kshmfix      2013-09-23 10:46:57.007256192 +0200
++++ ksh-20120801/src/cmd/ksh93/edit/edit.c      2013-09-23 10:47:43.988937610 +0200
+@@ -1050,7 +1050,7 @@ int ed_getchar(register Edit_t *ep,int m
+ 		{
+ 			if(mode<=0 && -c == ep->e_intr)
+ 			{
+-				sh_fault(SIGINT);
++				killpg(getpgrp(),SIGINT);
+ 				siglongjmp(ep->e_env, UINTR);
+ 			}
+ 			if(mode<=0 && ep->sh->st.trap[SH_KEYTRAP])
+
