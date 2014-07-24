@@ -1,6 +1,6 @@
 diff -up ksh-20120801/src/cmd/ksh93/include/defs.h.longer ksh-20120801/src/cmd/ksh93/include/defs.h
 --- ksh-20120801/src/cmd/ksh93/include/defs.h.longer	2012-06-25 20:47:47.000000000 +0200
-+++ ksh-20120801/src/cmd/ksh93/include/defs.h	2014-01-17 13:10:49.624714556 +0100
++++ ksh-20120801/src/cmd/ksh93/include/defs.h	2013-07-08 17:33:42.238534376 +0200
 @@ -162,8 +162,8 @@ struct shared
  	Namval_t	*prev_table;	/* previous table used in nv_open  */ \
  	Sfio_t		*outpool;	/* ouput stream pool */ \
@@ -14,7 +14,7 @@ diff -up ksh-20120801/src/cmd/ksh93/include/defs.h.longer ksh-20120801/src/cmd/k
  	short		poolfiles; \
 diff -up ksh-20120801/src/cmd/ksh93/include/jobs.h.longer ksh-20120801/src/cmd/ksh93/include/jobs.h
 --- ksh-20120801/src/cmd/ksh93/include/jobs.h.longer	2011-12-19 13:36:37.000000000 +0100
-+++ ksh-20120801/src/cmd/ksh93/include/jobs.h	2014-01-17 13:10:49.625714536 +0100
++++ ksh-20120801/src/cmd/ksh93/include/jobs.h	2013-07-08 17:32:52.881124147 +0200
 @@ -87,7 +87,7 @@ struct process
  	unsigned short	p_exit;		/* exit value or signal number */
  	unsigned short	p_exitmin;	/* minimum exit value for xargs */
@@ -24,9 +24,10 @@ diff -up ksh-20120801/src/cmd/ksh93/include/jobs.h.longer ksh-20120801/src/cmd/k
  #ifdef JOBS
  	off_t		p_name;		/* history file offset for command */
  	struct termios	p_stty;		/* terminal state for job */
+diff -up ksh-20120801/src/cmd/ksh93/sh/jobs.c.longer ksh-20120801/src/cmd/ksh93/sh/jobs.c
 diff -up ksh-20120801/src/cmd/ksh93/sh/subshell.c.longer ksh-20120801/src/cmd/ksh93/sh/subshell.c
---- ksh-20120801/src/cmd/ksh93/sh/subshell.c.longer	2014-01-17 13:10:49.559715864 +0100
-+++ ksh-20120801/src/cmd/ksh93/sh/subshell.c	2014-01-17 13:13:41.392290104 +0100
+--- ksh-20120801/src/cmd/ksh93/sh/subshell.c.longer	2013-07-08 17:32:52.874124090 +0200
++++ ksh-20120801/src/cmd/ksh93/sh/subshell.c	2013-07-08 17:32:52.882124156 +0200
 @@ -98,7 +98,7 @@ static struct subshell
  #endif /* SHOPT_COSHELL */
  } *subshell_data;
@@ -36,16 +37,17 @@ diff -up ksh-20120801/src/cmd/ksh93/sh/subshell.c.longer ksh-20120801/src/cmd/ks
  
  
  /*
-@@ -171,7 +171,7 @@ void sh_subfork(void)
+@@ -171,7 +171,8 @@ void sh_subfork(void)
  {
  	register struct subshell *sp = subshell_data;
  	Shell_t	*shp = sp->shp;
--	int	curenv = shp->curenv;
-+	long curenv = shp->curenv;
+-	int	curenv = shp->curenv, comsub=shp->comsub;
++	long	curenv = shp->curenv;
++	int	comsub=shp->comsub;
  	pid_t pid;
  	char *trap = shp->st.trapcom[0];
  	if(trap)
-@@ -461,7 +461,7 @@ Sfio_t *sh_subshell(Shell_t *shp,Shnode_
+@@ -461,7 +462,7 @@ Sfio_t *sh_subshell(Shell_t *shp,Shnode_
  	struct subshell sub_data;
  	register struct subshell *sp = &sub_data;
  	int jmpval,nsig=0,duped=0;
