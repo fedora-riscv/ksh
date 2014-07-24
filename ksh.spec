@@ -1,39 +1,123 @@
-%global       releasedate 2012-08-01
+%global       releasedate 20120801
+%global       release_date %{lua:reldate=rpm.expand("%{releasedate}");print(("%s-%s-%s"):format(reldate:sub(0,4),reldate:sub(5,6),reldate:sub(7)))}
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 Group:        System Environment/Shells
-License:      EPL
-Version:      20120801
-Release:      15%{?dist}
-Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{releasedate}.tgz
-Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{releasedate}.tgz
+#zlib is used for INIT.2010-02-02.tgz/src/cmd/INIT/ratz.c - used only for build tool
+#CPL everywhere else (for KSH itself)
+License:      CPL
+Version:      %{releasedate}
+Release:      19%{?dist}
+Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
+Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
 Source3:      kshrc.rhs
 Source4:      dotkshrc
-#expected results of test suite
+
+# expected results of test suite
 Source5:      expectedresults.log
 
-#don't use not wanted/needed builtins - Fedora/RHEL specific
+# don't use not wanted/needed builtins - Fedora/RHEL specific
 Patch1:       ksh-20070328-builtins.patch
 
-#fix regression test suite to be usable during packagebuild - Fedora/RHEL specific
-Patch2:       ksh-20100826-fixregr.patch
-Patch3: rmdirfix.patch
-Patch4: ksh-20120801-cdfix.patch
-Patch5: ksh-20120801-tabfix.patch
-Patch6: ksh-20120801-cdfix2.patch
-Patch7: ksh-20130214-fixkill.patch
-Patch8: ksh-20120801-kshmfix.patch
-Patch9: ksh-20120801-memlik.patch
-Patch10: ksh-20120801-mtty.patch
-Patch11: ksh-20120801-argvfix.patch
-Patch12: ksh-20130628-longer.patch
+# fedora/rhel specific, rhbz#619692
+Patch6:       ksh-20080202-manfix.patch
+
+# rhbz#702008
+Patch17:      ksh-20100202-pathvar.patch
+
+# rhbz#924440
+Patch18:      ksh-20100621-fdstatus.patch
+
+# fixes for regressions found in ksh-20120801 rebase
+Patch19:      ksh-20120801-rmdirfix.patch
+Patch20:      ksh-20120801-cdfix.patch
+Patch21:      ksh-20120801-cdfix2.patch
+Patch22:      ksh-20120801-tabfix.patch
+Patch23:      ksh-20130214-fixkill.patch
+
+# for ksh <= 2013-05-31, rhbz#960034
+Patch24:      ksh-20120801-kshmfix.patch
+
+# for ksh <= 2016-06-28, rhbz#921455
+Patch25:      ksh-20120801-memlik.patch
+
+# for ksh <= 2013-03-20, rhbz#922851
+Patch26:      ksh-20120801-forkbomb.patch
+
+# for ksh <= 2013-04-19, rhbz#913110
+Patch27:      ksh-20120801-macro.patch
+
+# not completely upstream yet, rhbz#858263
+Patch29:      ksh-20130628-longer.patch
+
+# fix regression test suite to be usable during packagebuild - Fedora/RHEL specific
+Patch99:      ksh-20100826-fixregr.patch
+
+# for ksh <= 2013-07-19, rhbz#982142
+Patch30: ksh-20120801-mlikfiks.patch
+
+# not yet upstream, related to 2012-08-01 rebase
+Patch31: ksh-20120801-covsfix.patch
+
+# rhbz#1007816
+Patch32: ksh-20100621-manfix3.patch
+
+# rhbz#1016611
+Patch33: ksh-20120801-nomulti.patch
+
+# for ksh <= 2014-01-14, rhbz#
+Patch34: ksh-20120801-mtty.patch
+
+# from upstream, rbzh#1048272
+Patch35: ksh-20120801-fd2lost.patch
+
+# sent upstream 2014-01, rhbz#1047507
+Patch36: ksh-20120801-argvfix.patch
+
+# for ksh <= 2014-01-14, rhbz#1048995
+Patch37: ksh-20120801-memlik3.patch
 
 # for ksh <= 2013-04-09, rhbz#960371
-Patch13: ksh-20120801-lexfix.patch
-Patch14: ksh-20120801-filecomsubst.patch
+Patch38: ksh-20120801-lexfix.patch
+
+# not yet upstream, for ksh <= 2014-02-26, rhbz#1070328
+Patch39: ksh-20120801-filecomsubst.patch
+
+# for ksh <= 2014-06-25, rhbz#825520,rhbz#1084406
+Patch40: ksh-20120801-crash.patch
+
+# for ksh < 2013-03-19, rhbz#1085385
+Patch41: ksh-20120801-sufix.patch
+
+# sent upstream, rhbz#1099935
+Patch42: ksh-20140301-fikspand.patch
+
+# for ksh < 2014-04-15, rhbz#1070871
+Patch43: ksh-20120801-roundit.patch
+
+# for ksh < 2014-04-15, rhbz#1111120
+Patch44: ksh-20120801-heresub.patch
+
+# not included upstream yet, rhbz#1077090
+Patch45: ksh-20140415-hokaido.patch
+
+# for ksh < 2012-10-04, rhbz#1121960
+Patch46: ksh-20120801-tpstl.patch
+
+# sent upstream, rhbz#1100215
+Patch47: ksh-20120801-manfix4.patch
+
+# not upstream yet, rhbz#1100215
+Patch48: ksh-20120801-fununset.patch
+
+# for ksh < 2014-06-25, rhbz#1109893
+Patch49: ksh-20120801-cdfix3.patch
+
+# sent upstream, rhbz#1116506
+Patch50: ksh-20120801-locking.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -54,19 +138,41 @@ with "sh" (the Bourne Shell).
 %setup -q -c
 %setup -q -T -D -a 1
 %patch1 -p1 -b .builtins
-%patch2 -p1 -b .fixregr
-%patch3 -p1 -b .rmdirfix
-%patch4 -p1 -b .cdfix
-%patch5 -p1 -b .tabfix
-%patch6 -p1 -b .cdfix2
-%patch7 -p1 -b .fixkill
-%patch8 -p1 -b .kshmfix
-%patch9 -p1 -b .memlik
-%patch10 -p1 -b .mtty
-%patch11 -p1 -b .argvfix
-%patch12 -p1 -b .longer
-%patch13 -p1 -b .lexfix
-%patch14 -p1 -b .filecomsubst
+%patch6 -p1 -b .manfix
+%patch17 -p1 -b .pathvar
+%patch99 -p1 -b .fixregr
+%patch18 -p1 -b .fdstatus
+%patch19 -p1 -b .rmdirfix
+%patch20 -p1 -b .cdfix
+%patch21 -p1 -b .cdfix2
+%patch22 -p1 -b .tabfix
+%patch23 -p1 -b .fixkill
+%patch24 -p1 -b .kshmfix
+%patch25 -p1 -b .memlik
+%patch26 -p1 -b .forkbomb
+%patch27 -p1 -b .macro
+%patch29 -p1 -b .longer
+%patch30 -p1 -b .mlikfiks
+%patch31 -p1 -b .covsfix
+%patch32 -p1 -b .manfix3
+%patch33 -p1 -b .nomulti
+%patch34 -p1 -b .mtty
+%patch35 -p1 -b .fd2lost
+%patch36 -p1 -b .argvfix
+%patch37 -p1 -b .memlik3
+%patch38 -p1 -b .lexfix
+%patch39 -p1 -b .filecomsubst
+%patch40 -p1 -b .crash
+%patch41 -p1 -b .sufix
+%patch42 -p1 -b .fikspand
+%patch43 -p1 -b .roundit
+%patch44 -p1 -b .heresub
+%patch45 -p1 -b .hokaido
+%patch46 -p1 -b .tpstl
+%patch47 -p1 -b .manfix4
+%patch48 -p1 -b .fununset
+%patch49 -p1 -b .cdfix3
+%patch50 -p1 -b .locking
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -75,12 +181,17 @@ sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
 sed -i '/-c sh\/main.c/s|${mam_cc_FLAGS} |${mam_cc_FLAGS} ${CCFLAGS} |p' src/cmd/ksh93/Mamfile
 
 %build
+XTRAFLAGS=""
+for f in -Wno-unknown-pragmas -Wno-missing-braces -Wno-unused-result -Wno-return-type -Wno-int-to-pointer-cast -Wno-parentheses -Wno-unused -Wno-unused-but-set-variable -Wno-cpp
+do
+  gcc $f -E - </dev/null >/dev/null 2>&1 && XTRAFLAGS="$XTRAFLAGS $f"
+done
 ./bin/package
 ./bin/package make mamake ||:
 ./bin/package make mamake ||:
-export CCFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -Wno-unknown-pragmas -Wno-parentheses -Wno-unused -Wno-unused-but-set-variable -Wno-cpp"
+export CCFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing $XTRAFLAGS"
 export CC=gcc
-./bin/package "make"
+./bin/package make -S
 
 #cp lib/package/LICENSES/epl LICENSE
 
@@ -112,6 +223,7 @@ then
   exit 0
 fi
 $SHELL ./shtests 2>&1 | tee testresults.log
+ls core.* 2>/dev/null ||:
 exit 0
 sed -e '/begins at/d' -e '/ 0 error/d' -e 's/at [^\[]*\[/\[/' testresults.log -e '/tests skipped/d' >filteredresults.log
 if ! cmp filteredresults.log %{SOURCE5} >/dev/null || ls core.*
@@ -134,7 +246,7 @@ fi
 
 %postun
 if [ ! -f /bin/ksh ]; then
-	sed -i '/^\/bin\/ksh$/ d' /etc/shells
+    sed -i '/^\/bin\/ksh$/ d' /etc/shells
 fi
 
 %verifyscript
@@ -161,22 +273,45 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Wed Mar 05 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-15
+* Thu Jul 24 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-19
+- fix segfault in job list code
+- do not resend signal on termination (#1092132)
+- fix brace expansion on/off
+- fix incorrect rounding of numsers 0.5 < |x| <1.0 in printf (#1080940)
+- fix parser errors related to the end of the here-document marker
+- ksh hangs when command substitution fills out the pipe buffer
+- using typeset -l with a restricted variabled caused segmentation fault
+- monitor mode was documented incorrectly
+- do not crash when unsetting running function from another one (#1105139)
+- should report an error when trying to cd into directory without execution bit
+- job locking mechanism did not survive compiler optimization
 - reading a file via command substitution did not work when any of stdin,
-  stdout or stderr were closed
+  stdout or stderr were closed (#1070308)
+- fix lexical parser crash
 
-* Mon Mar 03 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-14
-- fix man page hang (#1071574)
+* Tue Jun 10 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-18
+- fix FTBFS(#1107070)
 
-* Thu Feb 06 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-13
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20120801-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
+* Tue Feb 11 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-16
+- ksh could hang when command substitution printed too much data
+
+* Thu Feb 06 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-15
 - fix lexical parser crash (#960371)
 
-* Fri Jan 17 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-12
+* Fri Jan 17 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-14
 - fix overflow in subshell loop
 
-* Tue Jan 14 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-11
+* Mon Jan 06 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-13
 - fix argv rewrite (#1047508)
+
+* Wed Oct 30 2013 Michal Hlavinka <mhlavink@redhat.com> - 20120801-12
 - ksh stops on read when monitor mode is enabled
+
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20120801-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
 * Wed Jun 12 2013 Michal Hlavinka <mhlavink@redhat.com> - 20120801-10
 - fix memory leak
