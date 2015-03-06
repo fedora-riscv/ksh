@@ -9,7 +9,7 @@ Group:        System Environment/Shells
 #CPL everywhere else (for KSH itself)
 License:      CPL
 Version:      %{releasedate}
-Release:      22%{?dist}
+Release:      23%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -118,7 +118,8 @@ Patch49: ksh-20120801-cdfix3.patch
 
 # sent upstream, rhbz#1116506
 Patch50: ksh-20120801-locking.patch
-Patch100: ksh-20130613-cdfix4.patch
+Patch51: ksh-20130613-cdfix4.patch
+Patch52: ksh-20120801-xufix.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -174,7 +175,8 @@ with "sh" (the Bourne Shell).
 %patch48 -p1 -b .fununset
 %patch49 -p1 -b .cdfix3
 %patch50 -p1 -b .locking
-%patch100 -p1 -b .cdfix4
+%patch51 -p1 -b .cdfix4
+%patch52 -p1 -b .xufix
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -275,8 +277,11 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Fri Mar 06 2015 Michal Hlavinka <mhlavink@redhat.com> - 20120801-22
+* Fri Mar 06 2015 Michal Hlavinka <mhlavink@redhat.com> - 20120801-23
 - exporting fixed with variable corrupted its data (#1192027)
+
+* Fri Feb 27 2015 Michal Hlavinka <mhlavink@redhat.com> - 20120801-22
+- ksh hangs when command substitution containing a pipe fills out the pipe buffer (#1121204)
 
 * Tue Aug 26 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-21
 - cd builtin file descriptor operations messed with IO redirections (#1133586)
