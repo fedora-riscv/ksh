@@ -9,7 +9,7 @@ Group:        System Environment/Shells
 #CPL everywhere else (for KSH itself)
 License:      CPL
 Version:      %{releasedate}
-Release:      22%{?dist}
+Release:      23%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -21,6 +21,9 @@ Source5:      expectedresults.log
 
 # don't use not wanted/needed builtins - Fedora/RHEL specific
 Patch1:       ksh-20070328-builtins.patch
+
+# fix regression test suite to be usable during packagebuild - Fedora/RHEL specific
+Patch2:      ksh-20100826-fixregr.patch
 
 # fedora/rhel specific, rhbz#619692
 Patch6:       ksh-20080202-manfix.patch
@@ -52,9 +55,6 @@ Patch27:      ksh-20120801-macro.patch
 
 # not completely upstream yet, rhbz#858263
 Patch29:      ksh-20130628-longer.patch
-
-# fix regression test suite to be usable during packagebuild - Fedora/RHEL specific
-Patch99:      ksh-20100826-fixregr.patch
 
 # for ksh <= 2013-07-19, rhbz#982142
 Patch30: ksh-20120801-mlikfiks.patch
@@ -119,6 +119,7 @@ Patch49: ksh-20120801-cdfix3.patch
 # sent upstream, rhbz#1116506
 Patch50: ksh-20120801-locking.patch
 Patch51: ksh-20130613-cdfix4.patch
+Patch52: ksh-20120801-xufix.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -139,9 +140,9 @@ with "sh" (the Bourne Shell).
 %setup -q -c
 %setup -q -T -D -a 1
 %patch1 -p1 -b .builtins
+%patch2 -p1 -b .fixregr
 %patch6 -p1 -b .manfix
 %patch17 -p1 -b .pathvar
-%patch99 -p1 -b .fixregr
 %patch18 -p1 -b .fdstatus
 %patch19 -p1 -b .rmdirfix
 %patch20 -p1 -b .cdfix
@@ -175,6 +176,7 @@ with "sh" (the Bourne Shell).
 %patch49 -p1 -b .cdfix3
 %patch50 -p1 -b .locking
 %patch51 -p1 -b .cdfix4
+%patch52 -p1 -b .xufix
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -275,6 +277,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Mar 06 2015 Michal Hlavinka <mhlavink@redhat.com> - 20120801-23
+- exporting fixed with variable corrupted its data (#1192027)
+
 * Fri Feb 27 2015 Michal Hlavinka <mhlavink@redhat.com> - 20120801-22
 - ksh hangs when command substitution containing a pipe fills out the pipe buffer (#1121204)
 
