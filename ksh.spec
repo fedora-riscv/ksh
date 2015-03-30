@@ -9,7 +9,7 @@ Group:        System Environment/Shells
 #CPL everywhere else (for KSH itself)
 License:      CPL
 Version:      %{releasedate}
-Release:      23%{?dist}
+Release:      24%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -68,58 +68,87 @@ Patch32: ksh-20100621-manfix3.patch
 # rhbz#1016611
 Patch33: ksh-20120801-nomulti.patch
 
-# for ksh <= 2014-01-14, rhbz#
-Patch34: ksh-20120801-mtty.patch
+# from upstream, rhbz#1036802
+Patch34: ksh-20120801-fd2lost.patch
 
-# from upstream, rbzh#1048272
-Patch35: ksh-20120801-fd2lost.patch
+# for ksh <= 2014-01-14, rhbz#1036470
+Patch35: ksh-20120801-memlik3.patch
 
-# sent upstream 2014-01, rhbz#1047507
-Patch36: ksh-20120801-argvfix.patch
+# for ksh <= 2014-03-04, rhbz#1066589
+Patch36: ksh-20120801-filecomsubst.patch
 
-# for ksh <= 2014-01-14, rhbz#1048995
-Patch37: ksh-20120801-memlik3.patch
+# for ksh <= 2014-04-05, rhbz#825520
+Patch37: ksh-20120801-crash.patch
+
+# for ksh < 2013-03-19, rhbz#1075635
+Patch38: ksh-20120801-sufix.patch
+
+# for ksh < 2014-03, rhbz#1047506
+Patch39: ksh-20120801-argvfix.patch
+
+# sent upstream, rhbz#1078698
+Patch40: ksh-20140301-fikspand.patch
+
+# for ksh < 2014-04-15, rhbz#1070350
+Patch41: ksh-20120801-roundit.patch
+
+# for ksh < 2014-04-15, rhbz#1036931
+Patch42: ksh-20120801-heresub.patch
+
+# not included upstream yet, rhbz#1062296
+Patch43: ksh-20140415-hokaido.patch
+
+# for ksh < 20121004, rhbz#1083713
+Patch44: ksh-20120801-tpstl.patch
+
+# for ksh <= 20120214, rhbz#1023109
+Patch45: ksh-20120801-mtty.patch
+
+# sent upstream, rhbz#1019334
+Patch46: ksh-20120801-manfix4.patch
+
+# not upstream yet, rhbz#1105138
+Patch47: ksh-20120801-fununset.patch
+
+# not upstream yet, rhbz#1102627
+Patch48: ksh-20120801-cdfix3.patch
+
+# sent upstream, rhbz#1112306
+Patch49: ksh-20120801-locking.patch
+
+# for ksh <= 2013-06-13, rhbz#1133582
+Patch50: ksh-20130613-cdfix4.patch
+Patch51: ksh-20120801-retfix.patch
+
+# not upstream yet, rhbz#1147645
+Patch52: ksh-20120801-oldenvinit.patch
+
+# not upstream yet, rhbz#1160923
+Patch53: ksh-20120801-noexeccdfix.patch
+
+# sent upstream, for ksh <= 2014-09-30, rhbz#1168611
+Patch54: ksh-20120801-cdfork.patch
+
+# from upsteam, for ksh < 2012-10-04, rhbz#1173668
+Patch55: ksh-20120801-emptyarrayinit.patch
+
+# not upstream yet, rhbz#1188377
+Patch56: ksh-20120801-xufix.patch
+
+# sent upstream, for ksh <= 2015-02-10, rhbz#1189294
+Patch57: ksh-20120801-assoc-unset-leak.patch
+
+# sent upstream, for ksh <= 2014-12-18, rhbz#1176670
+Patch58: ksh-20120801-alarmifs.patch
+
+# not yet upstream, rhbz#1116072
+Patch59: ksh-20140929-safefd.patch
+
+# workaround, for ksh < 2013-05-24, rhbz#1117404
+Patch60: ksh-20120801-trapcom.patch
 
 # for ksh <= 2013-04-09, rhbz#960371
-Patch38: ksh-20120801-lexfix.patch
-
-# not yet upstream, for ksh <= 2014-02-26, rhbz#1070328
-Patch39: ksh-20120801-filecomsubst.patch
-
-# for ksh <= 2014-06-25, rhbz#825520,rhbz#1084406
-Patch40: ksh-20120801-crash.patch
-
-# for ksh < 2013-03-19, rhbz#1085385
-Patch41: ksh-20120801-sufix.patch
-
-# sent upstream, rhbz#1099935
-Patch42: ksh-20140301-fikspand.patch
-
-# for ksh < 2014-04-15, rhbz#1070871
-Patch43: ksh-20120801-roundit.patch
-
-# for ksh < 2014-04-15, rhbz#1111120
-Patch44: ksh-20120801-heresub.patch
-
-# not included upstream yet, rhbz#1077090
-Patch45: ksh-20140415-hokaido.patch
-
-# for ksh < 2012-10-04, rhbz#1121960
-Patch46: ksh-20120801-tpstl.patch
-
-# sent upstream, rhbz#1100215
-Patch47: ksh-20120801-manfix4.patch
-
-# not upstream yet, rhbz#1100215
-Patch48: ksh-20120801-fununset.patch
-
-# for ksh < 2014-06-25, rhbz#1109893
-Patch49: ksh-20120801-cdfix3.patch
-
-# sent upstream, rhbz#1116506
-Patch50: ksh-20120801-locking.patch
-Patch51: ksh-20130613-cdfix4.patch
-Patch52: ksh-20120801-xufix.patch
+Patch61: ksh-20120801-lexfix.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -158,31 +187,43 @@ with "sh" (the Bourne Shell).
 %patch31 -p1 -b .covsfix
 %patch32 -p1 -b .manfix3
 %patch33 -p1 -b .nomulti
-%patch34 -p1 -b .mtty
-%patch35 -p1 -b .fd2lost
-%patch36 -p1 -b .argvfix
-%patch37 -p1 -b .memlik3
-%patch38 -p1 -b .lexfix
-%patch39 -p1 -b .filecomsubst
-%patch40 -p1 -b .crash
-%patch41 -p1 -b .sufix
-%patch42 -p1 -b .fikspand
-%patch43 -p1 -b .roundit
-%patch44 -p1 -b .heresub
-%patch45 -p1 -b .hokaido
-%patch46 -p1 -b .tpstl
-%patch47 -p1 -b .manfix4
-%patch48 -p1 -b .fununset
-%patch49 -p1 -b .cdfix3
-%patch50 -p1 -b .locking
-%patch51 -p1 -b .cdfix4
-%patch52 -p1 -b .xufix
+%patch34 -p1 -b .fd2lost
+%patch35 -p1 -b .memlik3
+%patch36 -p1 -b .filecomsubst
+%patch37 -p1 -b .crash
+%patch38 -p1 -b .sufix
+%patch39 -p1 -b .argvfix
+%patch40 -p1 -b .fikspand
+%patch41 -p1 -b .roundit
+%patch42 -p1 -b .heresub
+%patch43 -p1 -b .hokaido
+%patch44 -p1 -b .tpstl
+%patch45 -p1 -b .mtty
+%patch46 -p1 -b .manfix4
+%patch47 -p1 -b .fununset
+%patch48 -p1 -b .cdfix3
+%patch49 -p1 -b .locking
+%patch50 -p1 -b .cdfix4
+%patch51 -p1 -b .retfix
+%patch52 -p1 -b .oldenvinit
+%patch53 -p1 -b .noexeccdfix
+%patch54 -p1 -b .cdfork
+%patch55 -p1 -b .emptyarrayinit
+%patch56 -p1 -b .xufix
+%patch57 -p1 -b .assoc-unset-leak
+%patch58 -p1 -b .alarmifs
+%patch59 -p1 -b .safefd
+%patch60 -p1 -b .trapcom
+%patch61 -p1 -b .lexfix
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
 
 # sh/main.c was not using CCFLAGS
 sed -i '/-c sh\/main.c/s|${mam_cc_FLAGS} |${mam_cc_FLAGS} ${CCFLAGS} |p' src/cmd/ksh93/Mamfile
+
+# disable register for debugging
+sed -i 1i"#define register" src/lib/libast/include/ast.h
 
 %build
 XTRAFLAGS=""
@@ -277,6 +318,12 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Mar 30 2015 Michal Hlavinka <mhlavink@redhat.com> - 20120801-24
+- cd builtin could break IO redirection
+- fix segfault when handling a trap
+- exporting fixed with variable corrupted its data
+- and more fixes
+
 * Fri Mar 06 2015 Michal Hlavinka <mhlavink@redhat.com> - 20120801-23
 - exporting fixed with variable corrupted its data (#1192027)
 
