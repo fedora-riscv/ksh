@@ -9,7 +9,7 @@ Group:        System Environment/Shells
 #CPL everywhere else (for KSH itself)
 License:      CPL
 Version:      %{releasedate}
-Release:      23%{?dist}
+Release:      26%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -21,6 +21,9 @@ Source5:      expectedresults.log
 
 # don't use not wanted/needed builtins - Fedora/RHEL specific
 Patch1:       ksh-20070328-builtins.patch
+
+# fix regression test suite to be usable during packagebuild - Fedora/RHEL specific
+Patch2:      ksh-20100826-fixregr.patch
 
 # fedora/rhel specific, rhbz#619692
 Patch6:       ksh-20080202-manfix.patch
@@ -52,9 +55,6 @@ Patch27:      ksh-20120801-macro.patch
 
 # not completely upstream yet, rhbz#858263
 Patch29:      ksh-20130628-longer.patch
-
-# fix regression test suite to be usable during packagebuild - Fedora/RHEL specific
-Patch99:      ksh-20100826-fixregr.patch
 
 # for ksh <= 2013-07-19, rhbz#982142
 Patch30: ksh-20120801-mlikfiks.patch
@@ -149,6 +149,8 @@ Patch60: ksh-20120801-trapcom.patch
 
 # for ksh <= 2013-04-09, rhbz#960371
 Patch61: ksh-20120801-lexfix.patch
+Patch62: ksh-20140801-arraylen.patch
+Patch63: ksh-20120801-diskfull.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -169,9 +171,9 @@ with "sh" (the Bourne Shell).
 %setup -q -c
 %setup -q -T -D -a 1
 %patch1 -p1 -b .builtins
+%patch2 -p1 -b .fixregr
 %patch6 -p1 -b .manfix
 %patch17 -p1 -b .pathvar
-%patch99 -p1 -b .fixregr
 %patch18 -p1 -b .fdstatus
 %patch19 -p1 -b .rmdirfix
 %patch20 -p1 -b .cdfix
@@ -215,6 +217,8 @@ with "sh" (the Bourne Shell).
 %patch59 -p1 -b .safefd
 %patch60 -p1 -b .trapcom
 %patch61 -p1 -b .lexfix
+%patch62 -p1 -b .arraylen
+%patch63 -p1 -b .diskfull
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -227,7 +231,7 @@ sed -i 1i"#define register" src/lib/libast/include/ast.h
 
 %build
 XTRAFLAGS=""
-for f in -Wno-unknown-pragmas -Wno-missing-braces -Wno-unused-result -Wno-return-type -Wno-int-to-pointer-cast -Wno-parentheses -Wno-unused -Wno-unused-but-set-variable -Wno-cpp
+for f in -Wno-unknown-pragmas -Wno-missing-braces -Wno-unused-result -Wno-return-type -Wno-int-to-pointer-cast -Wno-parentheses -Wno-unused -Wno-unused-but-set-variable -Wno-cpp -P
 do
   gcc $f -E - </dev/null >/dev/null 2>&1 && XTRAFLAGS="$XTRAFLAGS $f"
 done
@@ -318,23 +322,31 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Mon Mar 30 2015 Michal Hlavinka <mhlavink@redhat.com> - 20120801-23
+* Wed May 06 2015 Michal Hlavinka <mhlavink@redhat.com> - 20120801-26
+- do not crash, when disk is full, report an error (#1212994)
+
+* Tue Apr 07 2015 Michal Hlavinka <mhlavink@redhat.com> - 20120801-25
+- using trap DEBUG could cause segmentation fault
+
+* Mon Mar 30 2015 Michal Hlavinka <mhlavink@redhat.com> - 20120801-24
 - cd builtin could break IO redirection
 - fix segfault when handling a trap
 - exporting fixed with variable corrupted its data
 - and more fixes
 
-* Fri Mar 06 2015 Michal Hlavinka <mhlavink@redhat.com> - 20120801-22
+* Fri Mar 06 2015 Michal Hlavinka <mhlavink@redhat.com> - 20120801-23
 - exporting fixed with variable corrupted its data (#1192027)
+
+* Fri Feb 27 2015 Michal Hlavinka <mhlavink@redhat.com> - 20120801-22
 - ksh hangs when command substitution containing a pipe fills out the pipe buffer (#1121204)
 
-* Wed Aug 27 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-21
+* Tue Aug 26 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-21
 - cd builtin file descriptor operations messed with IO redirections (#1133586)
 
 * Sun Aug 17 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20120801-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
-* Thu Jul 24 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-19
+* Tue Jul 22 2014 Michal Hlavinka <mhlavink@redhat.com> - 20120801-19
 - fix segfault in job list code
 - do not resend signal on termination (#1092132)
 - fix brace expansion on/off
