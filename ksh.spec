@@ -9,7 +9,7 @@ Group:        System Environment/Shells
 #CPL everywhere else (for KSH itself)
 License:      CPL
 Version:      %{releasedate}
-Release:      24%{?dist}
+Release:      26%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -149,6 +149,8 @@ Patch60: ksh-20120801-trapcom.patch
 
 # for ksh <= 2013-04-09, rhbz#960371
 Patch61: ksh-20120801-lexfix.patch
+Patch62: ksh-20140801-arraylen.patch
+Patch63: ksh-20120801-diskfull.patch
 
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
@@ -215,6 +217,8 @@ with "sh" (the Bourne Shell).
 %patch59 -p1 -b .safefd
 %patch60 -p1 -b .trapcom
 %patch61 -p1 -b .lexfix
+%patch62 -p1 -b .arraylen
+%patch63 -p1 -b .diskfull
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -318,6 +322,12 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed May 06 2015 Michal Hlavinka <mhlavink@redhat.com> - 20120801-26
+- do not crash, when disk is full, report an error (#1212994)
+
+* Tue Apr 07 2015 Michal Hlavinka <mhlavink@redhat.com> - 20120801-25
+- using trap DEBUG could cause segmentation fault
+
 * Mon Mar 30 2015 Michal Hlavinka <mhlavink@redhat.com> - 20120801-24
 - cd builtin could break IO redirection
 - fix segfault when handling a trap
