@@ -9,7 +9,7 @@ Group:        System Environment/Shells
 #CPL everywhere else (for KSH itself)
 License:      CPL
 Version:      %{releasedate}
-Release:      29%{?dist}
+Release:      30%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -324,6 +324,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 20120801-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 20120801-29
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
