@@ -1,0 +1,26 @@
+--- ksh_20120801/src/cmd/ksh93/sh/lex.c	2012-06-12 21:05:18.000000000 +0200
++++ ksh_20120801/src/cmd/ksh93/sh/lex.c	2015-08-18 17:42:06.138076565 +0200
+@@ -1603,7 +1603,14 @@ static int comsub(register Lex_t *lp, in
+ 				if(n==4)
+ 					break;
+ 				if(sh_lexstates[ST_NAME][c])
++				{
++					if(c==' ' || c=='\t')
++					{
++						n = 0;
++						continue;
++					}
+ 					goto skip;
++				}
+ 				word[n++] = c;
+ 			}
+ 			if(sh_lexstates[ST_NAME][c]==S_BREAK)
+--- ksh_20120801/src/cmd/ksh93/tests/subshell.sh	2012-07-25 23:40:29.000000000 +0200
++++ ksh_20120801/src/cmd/ksh93/tests/subshell.sh	2015-08-18 17:42:06.143076553 +0200
+@@ -617,4 +617,6 @@ do	if	[[ -e $f ]]
+ 	fi
+ done
+ 
++$SHELL > /dev/null -c 'echo $(for x in whatever; do case y in *) true;; esac; done)' || err_exit 'syntax error with case in command substitution'
++
+ exit $((Errors<125?Errors:125))
