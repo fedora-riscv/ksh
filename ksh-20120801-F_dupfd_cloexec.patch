@@ -1,0 +1,22 @@
+diff -up ksh-20120801/src/cmd/ksh93/sh/io.c.orig ksh-20120801/src/cmd/ksh93/sh/io.c
+--- ksh-20120801/src/cmd/ksh93/sh/io.c.orig	2015-08-12 11:35:36.882268954 -0300
++++ ksh-20120801/src/cmd/ksh93/sh/io.c	2015-08-12 11:44:06.324587019 -0300
+@@ -2580,10 +2580,18 @@ int sh_fcntl(register int fd, int op, ..
+ 	if(newfd>=0) switch(op)
+ 	{
+ 	    case F_DUPFD:
++#if F_dupfd_cloexec != F_DUPFD
++	    case F_dupfd_cloexec:
++#endif
+ 		if(shp->fdstatus[fd] == IOCLOSE)
+ 			shp->fdstatus[fd] = 0;
+ 		if(newfd>=shp->gd->lim.open_max)
+ 			sh_iovalidfd(shp,newfd);
++#if F_dupfd_cloexec != F_DUPFD
++		if(op==F_dupfd_cloexec)
++			shp->fdstatus[newfd] = (shp->fdstatus[fd]|IOCLEX);
++		else
++#endif
+ 		shp->fdstatus[newfd] = (shp->fdstatus[fd]&~IOCLEX);
+ 		if(fdnotify)
+ 			(*fdnotify)(fd,newfd);

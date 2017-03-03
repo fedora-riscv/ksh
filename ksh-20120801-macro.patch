@@ -176,30 +176,3 @@ diff -up ksh-20120801/src/cmd/ksh93/sh/xec.c.macro ksh-20120801/src/cmd/ksh93/sh
  #if 0
  	nv_putval(SH_FUNNAMENOD,shp->st.funname,NV_NOFREE);
  #else
-diff -up ksh-20120801/src/cmd/ksh93/sh/macro.c.orig ksh-20120801/src/cmd/ksh93/sh/macro.c
---- ksh-20120801/src/cmd/ksh93/sh/macro.c.orig	2012-06-29 20:05:47.000000000 +0200
-+++ ksh-20120801/src/cmd/ksh93/sh/macro.c	2013-08-12 18:06:17.291843164 +0200
-@@ -2152,6 +2152,11 @@ static void comsubst(Mac_t *mp,register
- 	mp->ifsp = nv_getval(np);
- 	stkset(stkp,savptr,savtop);
- 	newlines = 0;
-+	if(type/*==3 - don't break `` vs $() */ && mp->shp->spid)
-+	{
-+		job_wait(mp->shp->spid);
-+		mp->shp->spid = 0;
-+	}
- 	sfsetbuf(sp,(void*)sp,0);
- 	bufsize = sfvalue(sp);
- 	/* read command substitution output and put on stack or here-doc */
-diff -up ksh-20120801/src/cmd/ksh93/sh/xec.c.orig ksh-20120801/src/cmd/ksh93/sh/xec.c
---- ksh-20120801/src/cmd/ksh93/sh/xec.c.orig	2013-08-12 18:06:57.567497226 +0200
-+++ ksh-20120801/src/cmd/ksh93/sh/xec.c	2013-08-12 18:20:36.443454280 +0200
-@@ -1734,6 +1734,8 @@ int sh_exec(register const Shnode_t *t,
- 					nlock--;
- 					job_unlock();
- 				}
-+				if(shp->subshell)
-+					shp->spid = parent;
- 				if(type&FPCL)
- 					sh_close(shp->inpipe[0]);
- 				if(type&(FCOOP|FAMP))
