@@ -9,7 +9,7 @@ Group:        System Environment/Shells
 #CPL everywhere else (for KSH itself)
 License:      CPL
 Version:      %{releasedate}
-Release:      31%{?dist}
+Release:      32%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -320,9 +320,13 @@ fi
 %post
 if [ ! -f /etc/shells ]; then
         echo "/bin/ksh" > /etc/shells
+        echo "/usr/bin/ksh" >> /etc/shells
 else
         if ! grep -q '^/bin/ksh$' /etc/shells ; then
                 echo "/bin/ksh" >> /etc/shells
+        fi
+        if ! grep -q '^/usr/bin/ksh$' /etc/shells ; then
+                echo "/usr/bin/ksh" >> /etc/shells
         fi
 fi
 
@@ -331,6 +335,9 @@ fi
 %postun
 if [ ! -f /bin/ksh ]; then
     sed -i '/^\/bin\/ksh$/ d' /etc/shells
+fi
+if [ ! -f /usr/bin/ksh ]; then
+    sed -i '/^\/usr\/bin\/ksh$/ d' /etc/shells
 fi
 
 %verifyscript
@@ -357,6 +364,9 @@ fi
     rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Mar 10 2017 Michal Hlavinka <mhlavink@redhat.com> - 20120801-32
+- add /usr/bin/ksh to /etc/shells (#1381113)
+
 * Fri Mar 03 2017 Michal Hlavinka <mhlavink@redhat.com> - 20120801-31
 - use latest set of patches
 
