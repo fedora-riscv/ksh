@@ -279,7 +279,6 @@ export CC=gcc
 #cp lib/package/LICENSES/epl LICENSE
 
 %install
-rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT{/bin,%{_bindir},%{_mandir}/man1}
 install -c -m 755 arch/*/bin/ksh $RPM_BUILD_ROOT/bin/ksh
 install -c -m 755 arch/*/bin/shcomp $RPM_BUILD_ROOT%{_bindir}/shcomp
@@ -360,7 +359,6 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %clean
-    rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Fri Mar 10 2017 Michal Hlavinka <mhlavink@redhat.com> - 20120801-32
