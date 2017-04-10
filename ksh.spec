@@ -279,14 +279,14 @@ export CC=gcc
 #cp lib/package/LICENSES/epl LICENSE
 
 %install
-mkdir -p $RPM_BUILD_ROOT{/bin,%{_bindir},%{_mandir}/man1}
-install -c -m 755 arch/*/bin/ksh $RPM_BUILD_ROOT/bin/ksh
-install -c -m 755 arch/*/bin/shcomp $RPM_BUILD_ROOT%{_bindir}/shcomp
-install -c -m 644 arch/*/man/man1/sh.1 $RPM_BUILD_ROOT%{_mandir}/man1/ksh.1
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/skel
-install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/skel/.kshrc
-install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/kshrc
-install -D -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/binfmt.d/kshcomp.conf
+mkdir -p %{buildroot}{/bin,%{_bindir},%{_mandir}/man1}
+install -c -m 755 arch/*/bin/ksh %{buildroot}/bin/ksh
+install -c -m 755 arch/*/bin/shcomp %{buildroot}%{_bindir}/shcomp
+install -c -m 644 arch/*/man/man1/sh.1 %{buildroot}%{_mandir}/man1/ksh.1
+mkdir -p %{buildroot}%{_sysconfdir}/skel
+install -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/skel/.kshrc
+install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/kshrc
+install -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %check
 [ -f ./skipcheck -o -f ./../skipcheck ] && exit 0 ||:
