@@ -188,7 +188,7 @@ BuildRequires: bison
 # regression test suite uses 'ps' from procps
 BuildRequires: procps
 Requires(post): grep, coreutils, systemd-units
-Requires(preun): grep, coreutils
+Requires(postun): sed
 
 %description
 KSH-93 is the most recent version of the KornShell by David Korn of
