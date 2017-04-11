@@ -8,7 +8,7 @@ URL:          http://www.kornshell.com/
 #CPL everywhere else (for KSH itself)
 License:      CPL
 Version:      %{releasedate}
-Release:      32%{?dist}
+Release:      33%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -178,6 +178,9 @@ Patch73: ksh-20120801-badgcc.patch
 Patch74: ksh-20120801-mb-after-argvar.patch
 Patch75: ksh-20120801-F_dupfd_cloexec.patch
 
+# rhbz#1441142
+Patch76: ksh-20120801-kia.patch
+
 BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
 Requires: coreutils, diffutils, chkconfig
@@ -253,6 +256,7 @@ with "sh" (the Bourne Shell).
 %patch73 -p1 -b .badgcc
 %patch74 -p1 -b .mb-after-argvar
 %patch75 -p1 -b .F_dupfd_cloexec
+%patch76 -p1 -b .kia
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -360,6 +364,10 @@ fi
 %clean
 
 %changelog
+* Tue Apr 11 2017 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-33
+- Avoid spurrious output in kia file creation
+  Resolves: #1441142
+
 * Fri Mar 10 2017 Michal Hlavinka <mhlavink@redhat.com> - 20120801-32
 - add /usr/bin/ksh to /etc/shells (#1381113)
 
