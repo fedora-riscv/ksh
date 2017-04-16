@@ -360,8 +360,6 @@ fi
 %config(noreplace) %{_sysconfdir}/kshrc
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
-%clean
-
 %changelog
 * Tue Apr 11 2017 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-33
 - Avoid spurrious output in kia file creation
