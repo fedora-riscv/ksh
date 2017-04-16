@@ -181,7 +181,6 @@ Patch75: ksh-20120801-F_dupfd_cloexec.patch
 # rhbz#1441142
 Patch76: ksh-20120801-kia.patch
 
-BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Conflicts:    pdksh
 Requires: coreutils, diffutils, chkconfig
 BuildRequires: bison
