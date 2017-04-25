@@ -8,7 +8,7 @@ URL:          http://www.kornshell.com/
 #CPL everywhere else (for KSH itself)
 License:      CPL
 Version:      %{releasedate}
-Release:      33%{?dist}
+Release:      34%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -181,6 +181,9 @@ Patch75: ksh-20120801-F_dupfd_cloexec.patch
 # rhbz#1441142
 Patch76: ksh-20120801-kia.patch
 
+# rhbz#1417886
+Patch77: ksh-20120801-iso8859.patch
+
 Conflicts:    pdksh
 Requires: coreutils, diffutils, chkconfig
 BuildRequires: bison
@@ -256,6 +259,7 @@ with "sh" (the Bourne Shell).
 %patch74 -p1 -b .mb-after-argvar
 %patch75 -p1 -b .F_dupfd_cloexec
 %patch76 -p1 -b .kia
+%patch77 -p1 -b .iso8859
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -361,6 +365,10 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Tue Apr 25 2017 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-34
+- Fix parsing of iso8859 characters
+  Resolves: #1417886
+
 * Tue Apr 11 2017 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-33
 - Avoid spurrious output in kia file creation
   Resolves: #1441142
