@@ -4,12 +4,11 @@
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
-Group:        System Environment/Shells
 #zlib is used for INIT.2010-02-02.tgz/src/cmd/INIT/ratz.c - used only for build tool
 #CPL everywhere else (for KSH itself)
 License:      CPL
 Version:      %{releasedate}
-Release:      32%{?dist}
+Release:      33%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -179,14 +178,16 @@ Patch73: ksh-20120801-badgcc.patch
 Patch74: ksh-20120801-mb-after-argvar.patch
 Patch75: ksh-20120801-F_dupfd_cloexec.patch
 
-BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+# rhbz#1441142
+Patch76: ksh-20120801-kia.patch
+
 Conflicts:    pdksh
 Requires: coreutils, diffutils, chkconfig
 BuildRequires: bison
 # regression test suite uses 'ps' from procps
 BuildRequires: procps
 Requires(post): grep, coreutils, systemd-units
-Requires(preun): grep, coreutils
+Requires(postun): sed
 
 %description
 KSH-93 is the most recent version of the KornShell by David Korn of
@@ -254,6 +255,7 @@ with "sh" (the Bourne Shell).
 %patch73 -p1 -b .badgcc
 %patch74 -p1 -b .mb-after-argvar
 %patch75 -p1 -b .F_dupfd_cloexec
+%patch76 -p1 -b .kia
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
@@ -280,15 +282,14 @@ export CC=gcc
 #cp lib/package/LICENSES/epl LICENSE
 
 %install
-rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT{/bin,%{_bindir},%{_mandir}/man1}
-install -c -m 755 arch/*/bin/ksh $RPM_BUILD_ROOT/bin/ksh
-install -c -m 755 arch/*/bin/shcomp $RPM_BUILD_ROOT%{_bindir}/shcomp
-install -c -m 644 arch/*/man/man1/sh.1 $RPM_BUILD_ROOT%{_mandir}/man1/ksh.1
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/skel
-install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/skel/.kshrc
-install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/kshrc
-install -D -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/binfmt.d/kshcomp.conf
+mkdir -p %{buildroot}{/bin,%{_bindir},%{_mandir}/man1}
+install -c -m 755 arch/*/bin/ksh %{buildroot}/bin/ksh
+install -c -m 755 arch/*/bin/shcomp %{buildroot}%{_bindir}/shcomp
+install -c -m 644 arch/*/man/man1/sh.1 %{buildroot}%{_mandir}/man1/ksh.1
+mkdir -p %{buildroot}%{_sysconfdir}/skel
+install -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/skel/.kshrc
+install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/kshrc
+install -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %check
 [ -f ./skipcheck -o -f ./../skipcheck ] && exit 0 ||:
@@ -350,7 +351,6 @@ else
 fi
 
 %files 
-%defattr(-, root, root,-)
 %doc src/cmd/ksh93/COMPATIBILITY src/cmd/ksh93/RELEASE src/cmd/ksh93/TYPES 
 # LICENSE file is missing, temporarily?
 /bin/ksh
@@ -360,10 +360,11 @@ fi
 %config(noreplace) %{_sysconfdir}/kshrc
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
-%clean
-    rm -rf $RPM_BUILD_ROOT
-
 %changelog
+* Tue Apr 11 2017 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-33
+- Avoid spurrious output in kia file creation
+  Resolves: #1441142
+
 * Fri Mar 10 2017 Michal Hlavinka <mhlavink@redhat.com> - 20120801-32
 - add /usr/bin/ksh to /etc/shells (#1381113)
 
