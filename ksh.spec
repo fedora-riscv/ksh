@@ -204,66 +204,7 @@ with "sh" (the Bourne Shell).
 %prep
 %setup -q -c
 %setup -q -T -D -a 1
-%patch1 -p1 -b .builtins
-%patch6 -p1 -b .manfix
-%patch17 -p1 -b .pathvar
-%patch2 -p1 -b .fixregr
-%patch18 -p1 -b .fdstatus
-%patch19 -p1 -b .rmdirfix
-%patch20 -p1 -b .cdfix
-%patch21 -p1 -b .cdfix2
-%patch22 -p1 -b .tabfix
-%patch23 -p1 -b .fixkill
-%patch24 -p1 -b .kshmfix
-%patch25 -p1 -b .memlik
-%patch26 -p1 -b .forkbomb
-%patch27 -p1 -b .macro
-%patch29 -p1 -b .longer
-%patch30 -p1 -b .mlikfiks
-%patch31 -p1 -b .covsfix
-%patch32 -p1 -b .manfix3
-%patch33 -p1 -b .nomulti
-%patch34 -p1 -b .mtty
-%patch35 -p1 -b .fd2lost
-%patch36 -p1 -b .argvfix
-%patch37 -p1 -b .memlik3
-%patch38 -p1 -b .lexfix
-%patch39 -p1 -b .filecomsubst
-%patch40 -p1 -b .crash
-%patch41 -p1 -b .sufix
-%patch42 -p1 -b .fikspand
-%patch43 -p1 -b .roundit
-%patch44 -p1 -b .heresub
-%patch45 -p1 -b .hokaido
-%patch46 -p1 -b .tpstl
-%patch47 -p1 -b .manfix4
-%patch48 -p1 -b .fununset
-%patch49 -p1 -b .cdfix3
-%patch50 -p1 -b .locking
-%patch51 -p1 -b .cdfix4
-%patch52 -p1 -b .retfix
-%patch53 -p1 -b .cdfork
-%patch54 -p1 -b .arraylen
-%patch55 -p1 -b .diskfull
-%patch56 -p1 -b .xufix
-%patch58 -p1 -b .alarmifs
-%patch59 -p1 -b .safefd
-%patch60 -p1 -b .trapcom
-%patch64 -p1 -b .nohupfork
-%patch65 -p1 -b .parserfix
-%patch66 -p1 -b .oldenvinit
-%patch67 -p1 -b .emptyarrayinit
-%patch68 -p1 -b .typeset_a
-%patch69 -p1 -b .dotdoublefree
-%patch70 -p1 -b .subshell-leak
-%patch71 -p1 -b .assoc-unset-leak
-%patch72 -p1 -b .unset-param
-%patch73 -p1 -b .badgcc
-%patch74 -p1 -b .mb-after-argvar
-%patch75 -p1 -b .F_dupfd_cloexec
-%patch76 -p1 -b .kia
-%patch77 -p1 -b .iso8859
-%patch78 -p1 -b .syntax-error
+%autopatch -p1
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
