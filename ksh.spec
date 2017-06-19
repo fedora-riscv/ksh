@@ -232,7 +232,7 @@ export CC=gcc
 
 %install
 mkdir -p %{buildroot}{/bin,%{_bindir},%{_mandir}/man1}
-install -p -m 755 arch/*/bin/ksh %{buildroot}/bin/ksh
+install -p -m 755 arch/*/bin/ksh %{buildroot}%{_bindir}/ksh
 install -p -m 755 arch/*/bin/shcomp %{buildroot}%{_bindir}/shcomp
 install -p -m 644 arch/*/man/man1/sh.1 %{buildroot}%{_mandir}/man1/ksh.1
 mkdir -p %{buildroot}%{_sysconfdir}/skel
@@ -302,8 +302,8 @@ fi
 %files 
 %doc src/cmd/ksh93/COMPATIBILITY src/cmd/ksh93/RELEASE src/cmd/ksh93/TYPES 
 # LICENSE file is missing, temporarily?
-/bin/ksh
-/usr/bin/shcomp
+%{_bindir}/ksh
+%{_bindir}/shcomp
 %{_mandir}/man1/*
 %config(noreplace) %{_sysconfdir}/skel/.kshrc
 %config(noreplace) %{_sysconfdir}/kshrc
