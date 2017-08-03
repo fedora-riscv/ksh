@@ -8,7 +8,7 @@ URL:          http://www.kornshell.com/
 #CPL everywhere else (for KSH itself)
 License:      CPL
 Version:      %{releasedate}
-Release:      37%{?dist}
+Release:      38%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -187,6 +187,9 @@ Patch77: ksh-20120801-iso8859.patch
 # rhbz#1451057
 Patch78: ksh-20120801-syntax-error.patch
 
+# rhbz#1477082
+Patch79: ksh-20120801-glibc-build-fix.patch
+
 Conflicts:    pdksh
 Requires: coreutils, diffutils, chkconfig
 BuildRequires: bison
@@ -310,6 +313,10 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Thu Aug 03 2017 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-38
+- Fix build failures caused by update in glibc
+  Resolves: #1477082
+
 * Thu Aug 03 2017 Fedora Release Engineering <releng@fedoraproject.org> - 20120801-37
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
 
