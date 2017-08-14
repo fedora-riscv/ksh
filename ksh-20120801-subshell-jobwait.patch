@@ -1,0 +1,14 @@
+diff --git a/src/cmd/ksh93/sh/xec.c b/src/cmd/ksh93/sh/xec.c
+--- a/src/cmd/ksh93/sh/xec.c
++++ b/src/cmd/ksh93/sh/xec.c
+@@ -1647,8 +1647,9 @@ int sh_exec(register const Shnode_t *t, int flags)
+ 					{
+ 						if (!unpipe)
+ 							unpipe = iousepipe(shp);
+-						sh_subfork();
+ 					}
++
++					sh_subfork();
+ 				}
+ 			}
+ 			no_fork = !ntflag && !(type&(FAMP|FPOU)) && !shp->subshell &&
