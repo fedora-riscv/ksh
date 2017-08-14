@@ -8,7 +8,7 @@ URL:          http://www.kornshell.com/
 #CPL everywhere else (for KSH itself)
 License:      CPL
 Version:      %{releasedate}
-Release:      40%{?dist}
+Release:      41%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -196,6 +196,9 @@ Patch80: ksh-20120801-jobwait-sigstop.patch
 # rhbz#1462347
 Patch81: ksh-20120801-subshell-jobwait.patch
 
+# rhbz#1471874
+Patch82: ksh-20120801-posix-exit.patch
+
 Conflicts:    pdksh
 Requires: coreutils, diffutils, chkconfig
 BuildRequires: bison
@@ -319,6 +322,10 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Mon Aug 14 2017 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-41
+- Use posix exit code if last command exits due to a signal
+  Resolves: #1471874
+
 * Mon Aug 14 2017 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-40
 - Fix condition to fork subshell
   Resolves: #1462347

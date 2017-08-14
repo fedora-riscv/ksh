@@ -1,0 +1,24 @@
+diff --git a/src/cmd/ksh93/sh/fault.c b/src/cmd/ksh93/sh/fault.c
+--- a/src/cmd/ksh93/sh/fault.c
++++ b/src/cmd/ksh93/sh/fault.c
+@@ -643,7 +643,7 @@ void sh_done(void *ptr, register int sig)
+ 	sfsync((Sfio_t*)sfstdin);
+ 	sfsync((Sfio_t*)shp->outpool);
+ 	sfsync((Sfio_t*)sfstdout);
+-	if(savxit&SH_EXITSIG)
++	if((savxit&SH_EXITMASK) == shp->lastsig)
+ 		sig = savxit&SH_EXITMASK;
+ 	if(sig)
+ 	{
+@@ -668,6 +668,12 @@ void sh_done(void *ptr, register int sig)
+ 	if(sh_isoption(SH_NOEXEC))
+ 		kiaclose((Lex_t*)shp->lex_context);
+ #endif /* SHOPT_KIA */
++
++	/* Return POSIX exit code if last process exits due to signal */
++	if (savxit & SH_EXITSIG) {
++		exit(128 + (savxit&SH_EXITMASK));
++	}
++
+ 	exit(savxit&SH_EXITMASK);
+ }
