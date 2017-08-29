@@ -8,7 +8,7 @@ URL:          http://www.kornshell.com/
 #CPL everywhere else (for KSH itself)
 License:      CPL
 Version:      %{releasedate}
-Release:      41%{?dist}
+Release:      42%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -199,6 +199,9 @@ Patch81: ksh-20120801-subshell-jobwait.patch
 # rhbz#1471874
 Patch82: ksh-20120801-posix-exit.patch
 
+# rhbz#1464409
+Patch83: ksh-20120801-sh_iovalidfd.patch
+
 Conflicts:    pdksh
 Requires: coreutils, diffutils, chkconfig
 BuildRequires: bison
@@ -322,6 +325,10 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Mon Aug 28 2017 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-42
+- Fix a memory corruption
+  Resolves: #1464409
+
 * Mon Aug 14 2017 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-41
 - Use posix exit code if last command exits due to a signal
   Resolves: #1471874
