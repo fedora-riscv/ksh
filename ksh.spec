@@ -6,7 +6,7 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 License:      EPL
 Version:      %{releasedate}
-Release:      42%{?dist}
+Release:      43%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -208,6 +208,8 @@ BuildRequires: procps
 Requires(post): grep, coreutils, systemd-units
 Requires(postun): sed
 
+Provides: /bin/ksh
+
 %description
 KSH-93 is the most recent version of the KornShell by David Korn of
 AT&T Bell Laboratories.
@@ -323,6 +325,10 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Tue Nov 21 2017 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-43
+- Add virtual provide for /bin/ksh
+  Resolves: #1513096
+
 * Mon Aug 28 2017 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-42
 - Fix a memory corruption
   Resolves: #1464409
