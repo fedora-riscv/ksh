@@ -1,0 +1,41 @@
+---
+
+# Tests that run in classic context
+- hosts: localhost
+  roles:
+  - role: standard-test-beakerlib
+    tags:
+    - classic
+    repositories:
+    - repo: "https://src.fedoraproject.org/tests/shell.git"
+      dest: "shell"
+    tests:
+    - shell/func
+    - shell/login
+    - shell/smoke
+    environment:
+      PACKAGES: ksh
+      SH_BIN: ksh
+    required_packages:
+    - ksh
+    - expect            # login requires expect
+    - which             # smoke requires which
+
+# Tests that run in container
+- hosts: localhost
+  roles:
+  - role: standard-test-beakerlib
+    tags:
+    - container
+    repositories:
+    - repo: "https://src.fedoraproject.org/tests/shell.git"
+      dest: "shell"
+    tests:
+    - shell/func
+    - shell/smoke
+    environment:
+      PACKAGES: ksh
+      SH_BIN: ksh
+    required_packages:
+    - ksh
+    - which             # smoke requires which
