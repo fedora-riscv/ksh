@@ -6,7 +6,7 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 License:      EPL
 Version:      %{releasedate}
-Release:      44%{?dist}
+Release:      45%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -200,6 +200,9 @@ Patch82: ksh-20120801-posix-exit.patch
 # rhbz#1464409
 Patch83: ksh-20120801-sh_iovalidfd.patch
 
+# rhbz#1537053
+Patch84: ksh-20120801-validate-fd.patch
+
 Conflicts:    pdksh
 Requires: coreutils, diffutils, chkconfig
 BuildRequires: bison
@@ -325,6 +328,10 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Mon Feb 12 2018 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-45
+- Fix a crash due to out of bounds write
+  Resolves: #1537053
+
 * Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 20120801-44
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
