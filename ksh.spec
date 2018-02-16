@@ -6,7 +6,7 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 License:      EPL
 Version:      %{releasedate}
-Release:      45%{?dist}
+Release:      245%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -328,6 +328,9 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Fri Feb 16 2018 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-245
+- Increase release number by 200 to ensure update path
+
 * Mon Feb 12 2018 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-45
 - Fix a crash due to out of bounds write
   Resolves: #1537053
