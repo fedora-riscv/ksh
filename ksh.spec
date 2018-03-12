@@ -6,7 +6,7 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 License:      EPL
 Version:      %{releasedate}
-Release:      245%{?dist}
+Release:      246%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -203,6 +203,10 @@ Patch83: ksh-20120801-sh_iovalidfd.patch
 # rhbz#1537053
 Patch84: ksh-20120801-validate-fd.patch
 
+# There were couple of places where CCFLAGS variable was not passed while
+# compiling binaries. This patch fixes it. Loosely related to rhbz#1548549.
+Patch85: ksh-20120801-ccflags.patch
+
 Conflicts:    pdksh
 Requires: coreutils, diffutils, chkconfig
 BuildRequires: bison
@@ -242,7 +246,7 @@ done
 ./bin/package
 ./bin/package make mamake ||:
 ./bin/package make mamake ||:
-export CCFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing $XTRAFLAGS"
+export CCFLAGS="$RPM_OPT_FLAGS $RPM_LD_FLAGS -fno-strict-aliasing $XTRAFLAGS"
 export CC=gcc
 ./bin/package make -S
 
@@ -328,6 +332,10 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Mon Mar 12 2018 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-246
+- Enable standard Fedora LDFLAGS
+  Resolves: #1548549
+
 * Fri Feb 16 2018 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-245
 - Increase release number by 200 to ensure update path
 
