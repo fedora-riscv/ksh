@@ -6,7 +6,7 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 License:      EPL
 Version:      %{releasedate}
-Release:      246%{?dist}
+Release:      247%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -207,6 +207,8 @@ Patch84: ksh-20120801-validate-fd.patch
 # compiling binaries. This patch fixes it. Loosely related to rhbz#1548549.
 Patch85: ksh-20120801-ccflags.patch
 
+Patch86: ksh-20120801-nv_open-memcmp.patch
+
 Conflicts:    pdksh
 Requires: coreutils, diffutils, chkconfig
 BuildRequires: bison
@@ -332,6 +334,10 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Mon Jun 04 2018 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-247
+- Fix a crash caused by memcmp()
+  Resolves: #1583226
+
 * Mon Mar 12 2018 Siteshwar Vashisht <svashisht@redhat.com> - 20120801-246
 - Enable standard Fedora LDFLAGS
   Resolves: #1548549
