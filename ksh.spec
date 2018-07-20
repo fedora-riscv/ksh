@@ -211,6 +211,7 @@ Patch86: ksh-20120801-nv_open-memcmp.patch
 
 Conflicts:    pdksh
 Requires: coreutils, diffutils, chkconfig
+BuildRequires: gcc
 BuildRequires: bison
 # regression test suite uses 'ps' from procps
 BuildRequires: procps
