@@ -9,10 +9,7 @@
     repositories:
     - repo: "https://src.fedoraproject.org/tests/shell.git"
       dest: "shell"
-    tests:
-    - shell/func
-    - shell/login
-    - shell/smoke
+      fmf_filter: "tier: 1, 2 & tags: classic"
     environment:
       PACKAGES: ksh
       SH_BIN: ksh
@@ -30,9 +27,7 @@
     repositories:
     - repo: "https://src.fedoraproject.org/tests/shell.git"
       dest: "shell"
-    tests:
-    - shell/func
-    - shell/smoke
+      fmf_filter: "tier: 1, 2 & tags: container, atomic"
     environment:
       PACKAGES: ksh
       SH_BIN: ksh
