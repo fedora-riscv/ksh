@@ -6,7 +6,7 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 License:      EPL
 Version:      %{releasedate}
-Release:      248%{?dist}
+Release:      249%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -210,12 +210,12 @@ Patch85: ksh-20120801-ccflags.patch
 Patch86: ksh-20120801-nv_open-memcmp.patch
 
 Conflicts:    pdksh
-Requires: coreutils, diffutils, chkconfig
+Requires: coreutils, diffutils
 BuildRequires: gcc
 BuildRequires: bison
 # regression test suite uses 'ps' from procps
 BuildRequires: procps
-Requires(post): grep, coreutils, systemd-units
+Requires(post): grep, coreutils, systemd
 Requires(postun): sed
 
 Provides: /bin/ksh
@@ -335,6 +335,9 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Sun Oct 14 2018 Peter Robinson <pbrobinson@fedoraproject.org> 20120801-249
+- chkconfig is no longer needed
+
 * Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 20120801-248
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
