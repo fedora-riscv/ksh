@@ -119,9 +119,6 @@ fi
 - Rebase to 2020.0.0-alpha1
   Resolves: #1700777
 
-* Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 20120801-250
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
-
 * Sun Oct 14 2018 Peter Robinson <pbrobinson@fedoraproject.org> 20120801-249
 - chkconfig is no longer needed
 
