@@ -3,7 +3,7 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 License:      EPL
 Version:      2020.0.0
-Release:      0.2%{?dist}
+Release:      0.3%{?dist}
 # We are upgrading from ksh-20120801-250, so set epoch.
 Epoch:        1
 Source0:      https://github.com/att/ast/releases/download/%{version}-alpha1/%{name}-%{version}-alpha1.tar.gz
@@ -108,6 +108,9 @@ done
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1:2020.0.0-0.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Wed Apr 24 2019 Siteshwar Vashisht <svashisht@redhat.com> - 1:2020.0.0-0.2
 - Add virtual provider for `/usr/bin/ksh`
 
