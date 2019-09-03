@@ -3,10 +3,10 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 License:      EPL
 Version:      2020.0.0
-Release:      0.2%{?dist}
+Release:      0.3%{?dist}
 # We are upgrading from ksh-20120801-250, so set epoch.
 Epoch:        1
-Source0:      https://github.com/att/ast/releases/download/%{version}-alpha1/%{name}-%{version}-alpha1.tar.gz
+Source0:      https://github.com/att/ast/releases/download/%{version}-beta1/%{name}-%{version}-beta1.tar.gz
 Source1:      kshcomp.conf
 Source2:      kshrc.rhs
 Source3:      dotkshrc
@@ -32,7 +32,7 @@ KornShell is a shell programming language, which is upward compatible
 with "sh" (the Bourne Shell).
 
 %prep
-%autosetup -n %{name}-%{version}-alpha1
+%autosetup -n %{name}-%{version}-beta1
 
 %build
 %meson -Dbuild-api-tests=false
@@ -108,6 +108,9 @@ done
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Tue Sep 03 2019 Siteshwar Vashisht <svashisht@redhat.com> - 1:2020.0.0-0.3
+- Rebase to 2020.0.0-beta1
+
 * Wed Apr 24 2019 Siteshwar Vashisht <svashisht@redhat.com> - 1:2020.0.0-0.2
 - Add virtual provider for `/usr/bin/ksh`
 
