@@ -3,13 +3,15 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 License:      EPL
 Version:      2020.0.0
-Release:      2%{?dist}
+Release:      3%{?dist}
 # We are upgrading from ksh-20120801-250, so set epoch.
 Epoch:        1
 Source0:      https://github.com/att/ast/releases/download/%{version}/%{name}-%{version}.tar.gz
 Source1:      kshcomp.conf
 Source2:      kshrc.rhs
 Source3:      dotkshrc
+
+Patch1: ksh-2020.0.0-cve-2019-14868.patch
 
 Provides: /bin/ksh
 
@@ -32,7 +34,7 @@ KornShell is a shell programming language, which is upward compatible
 with "sh" (the Bourne Shell).
 
 %prep
-%autosetup -n %{name}-%{version}
+%autosetup -n %{name}-%{version} -p1
 
 %build
 %meson -Dbuild-api-tests=false
@@ -108,6 +110,10 @@ done
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Fri Feb 07 2020 Siteshwar Vashisht <svashisht@redhat.com> - 1:2020.0.0-3
+- Do not evaluate arithmetic expressions from environment variables at startup
+  Resolves: #1790549
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2020.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
