@@ -3,7 +3,7 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 License:      EPL
 Version:      2020.0.0
-Release:      1%{?dist}
+Release:      2%{?dist}
 # We are upgrading from ksh-20120801-250, so set epoch.
 Epoch:        1
 Source0:      https://github.com/att/ast/releases/download/%{version}/%{name}-%{version}.tar.gz
