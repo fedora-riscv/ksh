@@ -3,7 +3,7 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 License:      EPL
 Version:      2020.0.0
-Release:      3%{?dist}
+Release:      4%{?dist}
 # We are upgrading from ksh-20120801-250, so set epoch.
 Epoch:        1
 Source0:      https://github.com/att/ast/releases/download/%{version}/%{name}-%{version}.tar.gz
@@ -110,6 +110,9 @@ done
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2020.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 07 2020 Siteshwar Vashisht <svashisht@redhat.com> - 1:2020.0.0-3
 - Do not evaluate arithmetic expressions from environment variables at startup
   Resolves: #1790549
