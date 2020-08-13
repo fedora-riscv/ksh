@@ -1,0 +1,21 @@
+diff -up ksh-20120801/src/cmd/ksh93/sh/main.c.orig ksh-20120801/src/cmd/ksh93/sh/main.c
+--- ksh-20120801/src/cmd/ksh93/sh/main.c.orig	2015-04-29 16:49:11.502958000 -0300
++++ ksh-20120801/src/cmd/ksh93/sh/main.c	2015-05-08 18:19:55.688776922 -0300
+@@ -423,7 +423,7 @@ static void	exfile(register Shell_t *shp
+ 		sfsync(shp->outpool);
+ 		shp->st.execbrk = shp->st.breakcnt = 0;
+ 		/* check for return from profile or env file */
+-		if(sh_isstate(SH_PROFILE) && (jmpval==SH_JMPFUN || jmpval==SH_JMPEXIT))
++		if(sh_isstate(SH_PROFILE) && (jmpval==SH_JMPFUN || jmpval==SH_JMPEXIT || jmpval==SH_JMPERREXIT))
+ 		{
+ 			sh_setstate(states);
+ 			goto done;
+@@ -598,7 +598,7 @@ done:
+ 	}
+ 	if(jmpval == SH_JMPSCRIPT)
+ 		siglongjmp(*shp->jmplist,jmpval);
+-	else if(jmpval == SH_JMPEXIT)
++	else if(jmpval == SH_JMPEXIT || jmpval == SH_JMPERREXIT)
+ 		sh_done(shp,0);
+ 	if(fno>0)
+ 		sh_close(fno);

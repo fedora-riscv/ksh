@@ -1,0 +1,57 @@
+diff --git a/src/cmd/ksh93/edit/edit.c b/src/cmd/ksh93/edit/edit.c
+--- a/src/cmd/ksh93/edit/edit.c
++++ b/src/cmd/ksh93/edit/edit.c
+@@ -46,6 +46,8 @@
+     extern char ed_errbuf[];
+     char e_version[] = "\n@(#)$Id: Editlib version 1993-12-28 r $\0\n";
+ #endif	/* KSHELL */
++
++#include <sys/ioctl.h>
+ #include	"io.h"
+ #include	"terminal.h"
+ #include	"history.h"
+diff --git a/src/cmd/ksh93/include/defs.h b/src/cmd/ksh93/include/defs.h
+--- a/src/cmd/ksh93/include/defs.h
++++ b/src/cmd/ksh93/include/defs.h
+@@ -449,6 +449,8 @@ extern int 		sh_whence(char**,int);
+     extern Namval_t	*sh_fsearch(Shell_t*,const char *,int);
+ #endif /* SHOPT_NAMESPACE */
+ 
++extern int sh_diropenat(Shell_t *, int, const char *, bool xattr);
++
+ #ifndef ERROR_dictionary
+ #   define ERROR_dictionary(s)	(s)
+ #endif
+diff --git a/src/lib/libast/port/astwinsize.c b/src/lib/libast/port/astwinsize.c
+--- a/src/lib/libast/port/astwinsize.c
++++ b/src/lib/libast/port/astwinsize.c
+@@ -28,6 +28,7 @@
+ 
+ #include <ast.h>
+ #include <ast_tty.h>
++#include <sys/ioctl.h>
+ 
+ #if defined(__STDPP__directive) && defined(__STDPP__hide)
+ __STDPP__directive pragma pp:hide ioctl sleep
+@@ -36,10 +37,6 @@ __STDPP__directive pragma pp:hide ioctl sleep
+ #define sleep		______sleep
+ #endif
+ 
+-#if _sys_ioctl
+-#include <sys/ioctl.h>
+-#endif
+-
+ #if defined(TIOCGWINSZ)
+ #if _sys_stream && _sys_ptem
+ #include <sys/stream.h>
+diff --git a/src/lib/libcmd/tail.c b/src/lib/libcmd/tail.c
+--- a/src/lib/libcmd/tail.c
++++ b/src/lib/libcmd/tail.c
+@@ -104,6 +104,7 @@ USAGE_LICENSE
+ #include <ls.h>
+ #include <tv.h>
+ #include <rev.h>
++#include <time.h>
+ 
+ #define COUNT		(1<<0)
+ #define ERROR		(1<<1)

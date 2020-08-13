@@ -1,0 +1,98 @@
+diff -up ksh-20120801/src/cmd/ksh93/sh/subshell.c.orig ksh-20120801/src/cmd/ksh93/sh/subshell.c
+--- ksh-20120801/src/cmd/ksh93/sh/subshell.c.orig	2015-08-13 15:20:14.022167794 -0300
++++ ksh-20120801/src/cmd/ksh93/sh/subshell.c	2015-08-13 15:21:43.263088168 -0300
+@@ -481,12 +481,12 @@ Sfio_t *sh_subshell(Shell_t *shp,Shnode_
+ {
+ 	struct subshell sub_data;
+ 	register struct subshell *sp = &sub_data;
+-	int jmpval,nsig=0,duped=0;
++	int jmpval,isig,nsig=0,duped=0;
+ 	long savecurenv = shp->curenv;
+ 	int savejobpgid = job.curpgid;
+ 	int *saveexitval = job.exitval;
+ 	int16_t subshell;
+-	char *savsig;
++	char **savsig;
+ 	Sfio_t *iop=0;
+ 	struct checkpt buff;
+ 	struct sh_scoped savst;
+@@ -561,10 +561,13 @@ Sfio_t *sh_subshell(Shell_t *shp,Shnode_
+ 		/* save trap table */
+ 		shp->st.otrapcom = 0;
+ 		shp->st.otrap = savst.trap;
+-		if((nsig=shp->st.trapmax*sizeof(char*))>0 || shp->st.trapcom[0])
++		if((nsig=shp->st.trapmax)>0 || shp->st.trapcom[0])
+ 		{
+-			nsig += sizeof(char*);
+-			memcpy(savsig=malloc(nsig),(char*)&shp->st.trapcom[0],nsig);
++			++nsig;
++			savsig = malloc(nsig * sizeof(char*));
++			/* contents of shp->st.trapcom may change */
++			for (isig = 0; isig < nsig; ++isig)
++				savsig[isig] = shp->st.trapcom[isig] == Empty ? Empty : (shp->st.trapcom[isig] ? strdup(shp->st.trapcom[isig]) : NULL);
+ 			/* this nonsense needed for $(trap) */
+ 			shp->st.otrapcom = (char**)savsig;
+ 		}
+@@ -732,7 +735,10 @@ Sfio_t *sh_subshell(Shell_t *shp,Shnode_
+ 		shp->st.otrap = 0;
+ 		if(nsig)
+ 		{
+-			memcpy((char*)&shp->st.trapcom[0],savsig,nsig);
++			for (isig = 0; isig < nsig; ++isig)
++				if (shp->st.trapcom[isig] && shp->st.trapcom[isig]!=Empty)
++					free(shp->st.trapcom[isig]);
++			memcpy((char*)&shp->st.trapcom[0],savsig,nsig*sizeof(char*));
+ 			free((void*)savsig);
+ 		}
+ 		shp->options = sp->options;
+diff -up ksh-20120801/src/cmd/ksh93/sh/xec.c.orig ksh-20120801/src/cmd/ksh93/sh/xec.c
+--- ksh-20120801/src/cmd/ksh93/sh/xec.c.orig	2015-08-13 15:22:09.821062351 -0300
++++ ksh-20120801/src/cmd/ksh93/sh/xec.c	2015-08-13 15:28:06.166662530 -0300
+@@ -3383,10 +3383,10 @@ int sh_funscope(int argn, char *argv[],i
+ 	struct dolnod		*argsav=0,*saveargfor;
+ 	struct sh_scoped	savst, *prevscope = shp->st.self;
+ 	struct argnod		*envlist=0;
+-	int			jmpval;
++	int			isig,jmpval;
+ 	volatile int		r = 0;
+ 	int			n;
+-	char 			*savstak;
++	char 			**savsig;
+ 	struct funenv		*fp = 0;
+ 	struct checkpt	*buffp = (struct checkpt*)stkalloc(shp->stk,sizeof(struct checkpt));
+ 	Namval_t		*nspace = shp->namespace;
+@@ -3435,10 +3435,13 @@ int sh_funscope(int argn, char *argv[],i
+ 	}
+ 	shp->st.cmdname = argv[0];
+ 	/* save trap table */
+-	if((nsig=shp->st.trapmax*sizeof(char*))>0 || shp->st.trapcom[0])
++	if((nsig=shp->st.trapmax)>0 || shp->st.trapcom[0])
+ 	{
+-		nsig += sizeof(char*);
+-		memcpy(savstak=stakalloc(nsig),(char*)&shp->st.trapcom[0],nsig);
++		++nsig;
++		savsig = malloc(nsig * sizeof(char*));
++		/* contents of shp->st.trapcom may change */
++		for (isig = 0; isig < nsig; ++isig)
++			savsig[isig] = shp->st.trapcom[isig] == Empty ? Empty : (shp->st.trapcom[isig] ? strdup(shp->st.trapcom[isig]) : NULL);
+ 	}
+ 	sh_sigreset(0);
+ 	argsav = sh_argnew(shp,argv,&saveargfor);
+@@ -3502,10 +3505,14 @@ int sh_funscope(int argn, char *argv[],i
+ 	shp->topscope = (Shscope_t*)prevscope;
+ 	nv_getval(sh_scoped(shp,IFSNOD));
+ 	if(nsig)
+-		memcpy((char*)&shp->st.trapcom[0],savstak,nsig);
++	{
++		for (isig = 0; isig < nsig; ++isig)
++			if (shp->st.trapcom[isig] && shp->st.trapcom[isig]!=Empty)
++				free(shp->st.trapcom[isig]);
++		memcpy((char*)&shp->st.trapcom[0],savsig,nsig*sizeof(char*));
++		free((void*)savsig);
++	}
+ 	shp->trapnote=0;
+-	if(nsig)
+-		stakset(savstak,0);
+ 	shp->options = options;
+ 	shp->last_root = last_root;
+ 	if(jmpval == SH_JMPSUB)

@@ -1,0 +1,14 @@
+diff -up ksh-20120801/src/cmd/ksh93/sh/subshell.c.retfix ksh-20120801/src/cmd/ksh93/sh/subshell.c
+--- ksh-20120801/src/cmd/ksh93/sh/subshell.c.retfix	2014-10-01 17:34:47.720532950 +0200
++++ ksh-20120801/src/cmd/ksh93/sh/subshell.c	2014-10-01 17:35:25.850350378 +0200
+@@ -655,7 +655,10 @@ Sfio_t *sh_subshell(Shell_t *shp,Shnode_
+ 			job.hack1_waitall=0;
+ 			if(comsub!=1 && shp->spid)
+ 			{
++				int c = shp->exitval;
+ 				job_wait(shp->spid);
++				shp->exitval = c;
++				exitset();
+ 				if(shp->pipepid==shp->spid)
+ 					shp->spid = 0;
+ 				shp->pipepid = 0;

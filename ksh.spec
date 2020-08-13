@@ -1,115 +1,379 @@
+%global       releasedate 20120801
+%global       release_date %{lua:reldate=rpm.expand("%{releasedate}");print(("%s-%s-%s"):format(reldate:sub(0,4),reldate:sub(5,6),reldate:sub(7)))}
+
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 License:      EPL
-Version:      2020.0.0
-Release:      4%{?dist}
-# We are upgrading from ksh-20120801-250, so set epoch.
-Epoch:        1
-Source0:      https://github.com/att/ast/releases/download/%{version}/%{name}-%{version}.tar.gz
-Source1:      kshcomp.conf
-Source2:      kshrc.rhs
-Source3:      dotkshrc
+Epoch:        2
+Version:      %{releasedate}
+Release:      251%{?dist}
+Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
+Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
+Source2:      kshcomp.conf
+Source3:      kshrc.rhs
+Source4:      dotkshrc
 
-Patch1: ksh-2020.0.0-cve-2019-14868.patch
+# expected results of test suite
+Source5:      expectedresults.log
+
+# don't use not wanted/needed builtins - Fedora/RHEL specific
+Patch1:       ksh-20070328-builtins.patch
+
+# fix regression test suite to be usable during packagebuild - Fedora/RHEL specific
+Patch2:      ksh-20100826-fixregr.patch
+
+# fedora/rhel specific, rhbz#619692
+Patch6:       ksh-20080202-manfix.patch
+
+# rhbz#702008
+Patch17:      ksh-20100202-pathvar.patch
+
+# rhbz#924440
+Patch18:      ksh-20100621-fdstatus.patch
+
+# fixes for regressions found in ksh-20120801 rebase
+Patch19:      ksh-20120801-rmdirfix.patch
+Patch20:      ksh-20120801-cdfix.patch
+Patch21:      ksh-20120801-cdfix2.patch
+Patch22:      ksh-20120801-tabfix.patch
+Patch23:      ksh-20130214-fixkill.patch
+
+# for ksh <= 2013-05-31, rhbz#960034
+Patch24:      ksh-20120801-kshmfix.patch
+
+# for ksh <= 2016-06-28, rhbz#921455
+Patch25:      ksh-20120801-memlik.patch
+
+# for ksh <= 2013-03-20, rhbz#922851
+Patch26:      ksh-20120801-forkbomb.patch
+
+# for ksh <= 2013-04-19, rhbz#913110
+Patch27:      ksh-20120801-macro.patch
+
+# not completely upstream yet, rhbz#858263
+Patch29:      ksh-20130628-longer.patch
+
+# for ksh <= 2013-07-19, rhbz#982142
+Patch30: ksh-20120801-mlikfiks.patch
+
+# not yet upstream, related to 2012-08-01 rebase
+Patch31: ksh-20120801-covsfix.patch
+
+# rhbz#1007816
+Patch32: ksh-20100621-manfix3.patch
+
+# rhbz#1016611
+Patch33: ksh-20120801-nomulti.patch
+
+# for ksh <= 2014-01-14, rhbz#
+Patch34: ksh-20120801-mtty.patch
+
+# from upstream, rbzh#1048272
+Patch35: ksh-20120801-fd2lost.patch
+
+# sent upstream 2014-01, rhbz#1047507
+Patch36: ksh-20120801-argvfix.patch
+
+# for ksh <= 2014-01-14, rhbz#1048995
+Patch37: ksh-20120801-memlik3.patch
+
+# for ksh <= 2013-04-09, rhbz#960371
+Patch38: ksh-20120801-lexfix.patch
+
+# not yet upstream, for ksh <= 2014-02-26, rhbz#1070328
+Patch39: ksh-20120801-filecomsubst.patch
+
+# for ksh <= 2014-06-25, rhbz#825520,rhbz#1084406
+Patch40: ksh-20120801-crash.patch
+
+# for ksh < 2013-03-19, rhbz#1085385
+Patch41: ksh-20120801-sufix.patch
+
+# sent upstream, rhbz#1099935
+Patch42: ksh-20140301-fikspand.patch
+
+# for ksh < 2014-04-15, rhbz#1070871
+Patch43: ksh-20120801-roundit.patch
+
+# for ksh < 2014-04-15, rhbz#1111120
+Patch44: ksh-20120801-heresub.patch
+
+# not included upstream yet, rhbz#1077090
+Patch45: ksh-20140415-hokaido.patch
+
+# for ksh < 2012-10-04, rhbz#1121960
+Patch46: ksh-20120801-tpstl.patch
+
+# sent upstream, rhbz#1100215
+Patch47: ksh-20120801-manfix4.patch
+
+# not upstream yet, rhbz#1100215
+Patch48: ksh-20120801-fununset.patch
+
+# for ksh < 2014-06-25, rhbz#1109893
+Patch49: ksh-20120801-cdfix3.patch
+
+# sent upstream, rhbz#1116506
+Patch50: ksh-20120801-locking.patch
+
+# for ksh <= 2013-06-13, rhbz#1133585
+Patch51: ksh-20130613-cdfix4.patch
+
+Patch52: ksh-20120801-retfix.patch
+
+# sent upstream, for ksh <= 2014-09-30
+Patch53: ksh-20120801-cdfork.patch
+
+# not upstream yet, for ksh <= 2015-04-03, rhbz#1200534
+Patch54: ksh-20140801-arraylen.patch
+
+# sent upstream, for ksh <= 2014-09-29, rhbz#1212993
+Patch55: ksh-20140801-diskfull.patch
+
+# not upstream yet, rhbz#1192026
+Patch56: ksh-20120801-xufix.patch
+
+# sent upstream, for ksh <= 2014-12-18, rhbz#1192119
+Patch58: ksh-20120801-alarmifs.patch
+
+# not yet upstream, rhbz#1202439
+Patch59: ksh-20140929-safefd.patch
+
+# workaround, for ksh < 2013-05-24, rhbz#1211540
+Patch60: ksh-20120801-trapcom.patch
+
+# not yet upstream, rhbz#1217237
+Patch64: ksh-20120801-nohupfork.patch
+
+# from upstream, for ksh <= 20130409, rhbz#1241014
+Patch65: ksh-20120801-parserfix.patch
+
+# not upstream yet, rhbz#1211538
+Patch66: ksh-20120801-oldenvinit.patch
+
+# from upsteam, for ksh < 2012-10-04, rhbz#1193557
+Patch67: ksh-20120801-emptyarrayinit.patch
+
+# not upstream yet, rhbz#1371630
+Patch68: ksh-20120801-typeset.patch
+
+# not upstream yet, rhbz#1321443
+Patch69: ksh-20120801-dotdoublefree.patch
+
+# not upstream yet, rhbz#1405784
+Patch70: ksh-20120801-subshell-leak.patch
+
+# rhbz#1189297
+Patch71: ksh-20120801-assoc-unset-leak.patch
+
+# rhbz#1222025
+Patch72: ksh-20120801-unset-param.patch
+
+# rhbz#1269088
+Patch73: ksh-20120801-badgcc.patch
+
+# rhbz#1299484
+Patch74: ksh-20120801-mb-after-argvar.patch
+Patch75: ksh-20120801-F_dupfd_cloexec.patch
+
+# rhbz#1441142
+Patch76: ksh-20120801-kia.patch
+
+# rhbz#1417886
+Patch77: ksh-20120801-iso8859.patch
+
+# rhbz#1451057
+Patch78: ksh-20120801-syntax-error.patch
+
+# rhbz#1477082
+Patch79: ksh-20120801-glibc-build-fix.patch
+
+# rhbz#1459000
+Patch80: ksh-20120801-jobwait-sigstop.patch
+
+# rhbz#1462347
+Patch81: ksh-20120801-subshell-jobwait.patch
+
+# rhbz#1471874
+Patch82: ksh-20120801-posix-exit.patch
+
+# rhbz#1464409
+Patch83: ksh-20120801-sh_iovalidfd.patch
+
+# rhbz#1537053
+Patch84: ksh-20120801-validate-fd.patch
+
+# There were couple of places where CCFLAGS variable was not passed while
+# compiling binaries. This patch fixes it. Loosely related to rhbz#1548549.
+Patch85: ksh-20120801-ccflags.patch
+
+Patch86: ksh-20120801-nv_open-memcmp.patch
+
+Patch87: ksh-20120801-covsfix2.patch
+
+# rhbz#1624125
+Patch88: ksh-20120801-annocheck.patch
+
+# rhbz#1790547
+Patch89: ksh-20120801-cve-2019-14868.patch
+
+Conflicts:    pdksh
+Requires: coreutils, diffutils
+BuildRequires: gcc
+BuildRequires: bison
+# regression test suite uses 'ps' from procps
+BuildRequires: procps
+Requires(post): grep, coreutils, systemd
+Requires(postun): sed
 
 Provides: /bin/ksh
 
-BuildRequires:  meson
-BuildRequires:  gcc
-BuildRequires:  glibc-devel
-# This package is require by test cases
-# It should be enabled when we start running test cases in package builds
-# BuildRequires:  glibc-langpack-zh
-BuildRequires:  ed
-Conflicts:      pdksh
-Requires(post): grep, coreutils, systemd-units
-Requires(postun): sed
-
-Provides:       /bin/ksh
-Provides:       /usr/bin/ksh
-
 %description
+KSH-93 is the most recent version of the KornShell by David Korn of
+AT&T Bell Laboratories.
 KornShell is a shell programming language, which is upward compatible
 with "sh" (the Bourne Shell).
 
 %prep
-%autosetup -n %{name}-%{version} -p1
+%setup -q -c
+%setup -q -T -D -a 1
+%autopatch -p1
+
+#/dev/fd test does not work because of mock
+sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
+
+# sh/main.c was not using CCFLAGS
+sed -i '/-c sh\/main.c/s|${mam_cc_FLAGS} |${mam_cc_FLAGS} ${CCFLAGS} |p' src/cmd/ksh93/Mamfile
+
+# disable register for debugging
+sed -i 1i"#define register" src/lib/libast/include/ast.h
 
 %build
-%meson -Dbuild-api-tests=false
-%meson_build
+XTRAFLAGS=""
+for f in -Wno-unknown-pragmas -Wno-missing-braces -Wno-unused-result -Wno-return-type -Wno-int-to-pointer-cast -Wno-parentheses -Wno-unused -Wno-unused-but-set-variable -Wno-cpp -P
+do
+  gcc $f -E - </dev/null >/dev/null 2>&1 && XTRAFLAGS="$XTRAFLAGS $f"
+done
+./bin/package
+./bin/package make mamake ||:
+./bin/package make mamake ||:
+export CCFLAGS="$RPM_OPT_FLAGS $RPM_LD_FLAGS -fno-strict-aliasing $XTRAFLAGS"
+export CC=gcc
+./bin/package make -S
+
+#cp lib/package/LICENSES/epl LICENSE
 
 %install
-%meson_install
-# Allow switching between different ksh implementations (for e.g. mksh) through alternatives.
-mv %{buildroot}/%{_bindir}/ksh %{buildroot}/%{_bindir}/ksh93
-mv %{buildroot}/%{_bindir}/shcomp %{buildroot}/%{_bindir}/shcomp93
-# http://mesonbuild.com/Release-notes-for-0-49-0.html#manpages-are-no-longer-compressed-implicitly
-# meson 0.49 does not compress man pages
-if [[ -e  %{buildroot}/%{_mandir}/man1/ksh.1.gz ]]
+mkdir -p %{buildroot}{/bin,%{_bindir},%{_mandir}/man1}
+install -p -m 755 arch/*/bin/ksh %{buildroot}%{_bindir}/ksh93
+install -p -m 755 arch/*/bin/shcomp %{buildroot}%{_bindir}/shcomp
+install -p -m 644 arch/*/man/man1/sh.1 %{buildroot}%{_mandir}/man1/ksh93.1
+mkdir -p %{buildroot}%{_sysconfdir}/skel
+install -p -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/skel/.kshrc
+install -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/kshrc
+install -p -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/binfmt.d/kshcomp.conf
+
+ln -s %{_bindir}/ksh93 %{buildroot}/%{_bindir}/rksh
+
+touch %{buildroot}%{_bindir}/ksh
+touch %{buildroot}%{_mandir}/man1/ksh.1.gz
+
+%check
+[ -f ./skipcheck -o -f ./../skipcheck ] && exit 0 ||:
+%if 0%{?rhel} > 6
+%ifarch s390
+exit 0
+%endif
+%endif
+
+export SHELL=$(ls $(pwd)/arch/*/bin/ksh)
+cd src/cmd/ksh93/tests/
+ulimit -c unlimited
+if [ ! -e /dev/fd ]
 then
-    mv %{buildroot}/%{_mandir}/man1/ksh.1.gz %{buildroot}/%{_mandir}/man1/ksh93.1.gz
-else
-    mv %{buildroot}/%{_mandir}/man1/ksh.1 %{buildroot}/%{_mandir}/man1/ksh93.1
+  echo "ERROR: /dev/fd does not exist, regression tests skipped"
+  exit 0
+fi
+$SHELL ./shtests 2>&1 | tee testresults.log
+ls core.* 2>/dev/null ||:
+exit 0
+sed -e '/begins at/d' -e '/ 0 error/d' -e 's/at [^\[]*\[/\[/' testresults.log -e '/tests skipped/d' >filteredresults.log
+if ! cmp filteredresults.log %{SOURCE5} >/dev/null || ls core.*
+then
+  echo "Regression tests failed"
+  diff -Naurp %{SOURCE5} filteredresults.log
+  exit -1
 fi
 
-install -p -D -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/binfmt.d/kshcomp.conf
-install -p -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/kshrc
-install -p -D -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/skel/.kshrc
-
 %post
-for s in /bin/ksh /usr/bin/ksh
-do
-  if [ ! -f /etc/shells ]; then
-        echo "$s" > /etc/shells
-  else
-        if ! grep -q '^'"$s"'$' /etc/shells ; then
-                echo "$s" >> /etc/shells
+if [ ! -f /etc/shells ]; then
+        echo "/bin/ksh" > /etc/shells
+        echo "/usr/bin/ksh" >> /etc/shells
+else
+        if ! grep -q '^/bin/ksh$' /etc/shells ; then
+                echo "/bin/ksh" >> /etc/shells
         fi
-  fi
-done
+        if ! grep -q '^/usr/bin/ksh$' /etc/shells ; then
+                echo "/usr/bin/ksh" >> /etc/shells
+        fi
+fi
+
+%{_sbindir}/alternatives --install %{_bindir}/ksh ksh \
+                %{_bindir}/ksh93 50 \
+        --slave %{_mandir}/man1/ksh.1.gz ksh-man \
+                %{_mandir}/man1/ksh93.1.gz
+
+#if not symlink we are updating ksh where there was no alternatives before
+#so replace with symlink and set alternatives
+if [ ! -L %{_bindir}/ksh ]; then
+        %{_sbindir}/alternatives --auto ksh
+        ln -sf /etc/alternatives/ksh %{_bindir}/ksh
+        ln -sf /etc/alternatives/ksh-man %{_mandir}/man1/ksh.1.gz
+fi
 
 /bin/systemctl try-restart systemd-binfmt.service >/dev/null 2>&1 || :
 
-# Suppress any error encountered while upgrading from ksh-20120801-250
-%{_sbindir}/alternatives --install /bin/ksh ksh \
-            /bin/ksh93 50 \
-    --slave %{_mandir}/man1/ksh.1.gz ksh-man \
-            %{_mandir}/man1/ksh93.1.gz \
-    --slave /bin/shcomp shcomp93 \
-            /bin/shcomp93 2>/dev/null
-
-%preun
-# Do not remove ksh from alternatives on upgrades
-if [ $1 -eq 0 ]; then
-    %{_sbindir}/alternatives --remove ksh /bin/ksh93
+%postun
+if [ ! -f /bin/ksh ]; then
+    sed -i '/^\/bin\/ksh$/ d' /etc/shells
+fi
+if [ ! -f /usr/bin/ksh ]; then
+    sed -i '/^\/usr\/bin\/ksh$/ d' /etc/shells
 fi
 
-%postun
-for s in /bin/ksh /usr/bin/ksh
-do
-  if [ ! -f $s ]; then
-	sed -i '\|^'"$s"'$|d' /etc/shells
-  fi
-done
+%preun
+if [ $1 = 0 ]; then
+        %{_sbindir}/alternatives --remove ksh %{_bindir}/ksh93
+fi
 
-# ksh-20120801-250 did not use alternatives, so while upgrading ensure that
-# alternatives are set correctly
-%triggerpostun -- ksh < 1:2020.0.0-0.1
-%{_sbindir}/alternatives --auto ksh
+%verifyscript
+echo -n "Looking for ksh in /etc/shells... "
+if ! grep '^/bin/ksh$' /etc/shells > /dev/null; then
+    echo "missing"
+    echo "ksh missing from /etc/shells" >&2
+else
+    echo "found"
+fi
 
 %files 
 %doc src/cmd/ksh93/COMPATIBILITY src/cmd/ksh93/RELEASE src/cmd/ksh93/TYPES 
 # LICENSE file is missing, temporarily?
 %{_bindir}/ksh93
-%{_bindir}/shcomp93
+%ghost %{_bindir}/ksh
+%{_bindir}/rksh
+%{_bindir}/shcomp
 %{_mandir}/man1/*
+%ghost %{_mandir}/man1/ksh.1.gz
 %config(noreplace) %{_sysconfdir}/skel/.kshrc
 %config(noreplace) %{_sysconfdir}/kshrc
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Thu Aug 13 2020 Siteshwar Vashisht <svashisht@redhat.com> - 2:20120801-251
+- Restore ksh to version 20120801
+  Resolves: #1868715
+
 * Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1:2020.0.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
