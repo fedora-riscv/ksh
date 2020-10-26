@@ -1,0 +1,14 @@
+summary:
+    Run relevant tests from the shell tests repository
+discover:
+    how: fmf
+    url: https://src.fedoraproject.org/tests/shell
+    filter: component:ksh
+prepare:
+    how: install
+    package: ksh
+execute:
+    how: tmt
+environment:
+    PACKAGES: ksh
+    SH_BIN: ksh
