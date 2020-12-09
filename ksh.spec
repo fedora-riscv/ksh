@@ -250,16 +250,16 @@ sed -i '/-c sh\/main.c/s|${mam_cc_FLAGS} |${mam_cc_FLAGS} ${CCFLAGS} |p' src/cmd
 sed -i 1i"#define register" src/lib/libast/include/ast.h
 
 %build
+%set_build_flags
 XTRAFLAGS=""
 for f in -Wno-unknown-pragmas -Wno-missing-braces -Wno-unused-result -Wno-return-type -Wno-int-to-pointer-cast -Wno-parentheses -Wno-unused -Wno-unused-but-set-variable -Wno-cpp -P
 do
-  gcc $f -E - </dev/null >/dev/null 2>&1 && XTRAFLAGS="$XTRAFLAGS $f"
+  $CC $f -E - </dev/null >/dev/null 2>&1 && XTRAFLAGS="$XTRAFLAGS $f"
 done
 ./bin/package
 ./bin/package make mamake ||:
 ./bin/package make mamake ||:
 export CCFLAGS="$RPM_OPT_FLAGS $RPM_LD_FLAGS -fno-strict-aliasing $XTRAFLAGS"
-export CC=gcc
 ./bin/package make -S
 
 #cp lib/package/LICENSES/epl LICENSE
