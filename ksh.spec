@@ -7,7 +7,7 @@ URL:          http://www.kornshell.com/
 License:      EPL
 Epoch:        2
 Version:      %{releasedate}
-Release:      251%{?dist}
+Release:      252%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -370,6 +370,9 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Fri Jan 22 2021 Vincent Mihalkovic <vmihalko@redhat.com> - 2:20120801-252
+- Use set_build_flags and standard CC variables (commit: c488ab6)
+
 * Thu Aug 13 2020 Siteshwar Vashisht <svashisht@redhat.com> - 2:20120801-251
 - Restore ksh to version 20120801
   Resolves: #1868715
