@@ -7,7 +7,7 @@ URL:          http://www.kornshell.com/
 License:      EPL
 Epoch:        2
 Version:      %{releasedate}
-Release:      253%{?dist}
+Release:      254%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -274,10 +274,11 @@ install -p -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/skel/.kshrc
 install -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/kshrc
 install -p -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/binfmt.d/kshcomp.conf
 
-ln -s %{_bindir}/ksh93 %{buildroot}/%{_bindir}/rksh
-
 touch %{buildroot}%{_bindir}/ksh
 touch %{buildroot}%{_mandir}/man1/ksh.1.gz
+
+touch %{buildroot}%{_bindir}/rksh
+touch %{buildroot}%{_mandir}/man1/rksh.1.gz
 
 %check
 [ -f ./skipcheck -o -f ./../skipcheck ] && exit 0 ||:
@@ -307,20 +308,23 @@ then
 fi
 
 %post
-if [ ! -f /etc/shells ]; then
-        echo "/bin/ksh" > /etc/shells
-        echo "/usr/bin/ksh" >> /etc/shells
-else
-        if ! grep -q '^/bin/ksh$' /etc/shells ; then
-                echo "/bin/ksh" >> /etc/shells
+for s in /bin/ksh /bin/rksh /usr/bin/ksh /usr/bin/rksh
+do
+  if [ ! -f /etc/shells ]; then
+        echo "$s" > /etc/shells
+  else
+        if ! grep -q '^'"$s"'$' /etc/shells ; then
+                echo "$s" >> /etc/shells
         fi
-        if ! grep -q '^/usr/bin/ksh$' /etc/shells ; then
-                echo "/usr/bin/ksh" >> /etc/shells
-        fi
-fi
+  fi
+done
 
 %{_sbindir}/alternatives --install %{_bindir}/ksh ksh \
                 %{_bindir}/ksh93 50 \
+        --slave %{_bindir}/rksh rksh \
+                %{_bindir}/ksh93 \
+        --slave %{_mandir}/man1/rksh.1.gz ksh-man \
+                %{_mandir}/man1/ksh93.1.gz \
         --slave %{_mandir}/man1/ksh.1.gz ksh-man \
                 %{_mandir}/man1/ksh93.1.gz
 
@@ -335,12 +339,12 @@ fi
 /bin/systemctl try-restart systemd-binfmt.service >/dev/null 2>&1 || :
 
 %postun
-if [ ! -f /bin/ksh ]; then
-    sed -i '/^\/bin\/ksh$/ d' /etc/shells
-fi
-if [ ! -f /usr/bin/ksh ]; then
-    sed -i '/^\/usr\/bin\/ksh$/ d' /etc/shells
-fi
+for s in /bin/ksh /bin/rksh /usr/bin/ksh /usr/bin/rksh
+do
+  if [ ! -f $s ]; then
+        sed -i '\|^'"$s"'$|d' /etc/shells
+  fi
+done
 
 %preun
 if [ $1 = 0 ]; then
@@ -361,15 +365,20 @@ fi
 # LICENSE file is missing, temporarily?
 %{_bindir}/ksh93
 %ghost %{_bindir}/ksh
-%{_bindir}/rksh
+%ghost %{_bindir}/rksh
 %{_bindir}/shcomp
 %{_mandir}/man1/*
 %ghost %{_mandir}/man1/ksh.1.gz
+%ghost %{_mandir}/man1/rksh.1.gz
 %config(noreplace) %{_sysconfdir}/skel/.kshrc
 %config(noreplace) %{_sysconfdir}/kshrc
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Tue Feb 23 2021 Vincent Mihalkovic <vmihalko@redhat.com> - 2:20120801-253
+- Add alternatives switching for rksh
+  Resolves #1893919
+
 * Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2:20120801-253
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
