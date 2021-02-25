@@ -228,6 +228,7 @@ Requires(post): grep, coreutils, systemd
 Requires(postun): sed
 
 Provides: /bin/ksh
+Provides: /bin/rksh
 
 %description
 KSH-93 is the most recent version of the KornShell by David Korn of
@@ -375,7 +376,7 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
-* Tue Feb 23 2021 Vincent Mihalkovic <vmihalko@redhat.com> - 2:20120801-253
+* Tue Feb 23 2021 Vincent Mihalkovic <vmihalko@redhat.com> - 2:20120801-254
 - Add alternatives switching for rksh
   Resolves #1893919
 
