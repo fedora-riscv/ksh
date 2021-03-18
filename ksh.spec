@@ -7,7 +7,7 @@ URL:          http://www.kornshell.com/
 License:      EPL
 Epoch:        2
 Version:      %{releasedate}
-Release:      254%{?dist}
+Release:      255%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -324,7 +324,7 @@ done
                 %{_bindir}/ksh93 50 \
         --slave %{_bindir}/rksh rksh \
                 %{_bindir}/ksh93 \
-        --slave %{_mandir}/man1/rksh.1.gz ksh-man \
+        --slave %{_mandir}/man1/rksh.1.gz rksh-man \
                 %{_mandir}/man1/ksh93.1.gz \
         --slave %{_mandir}/man1/ksh.1.gz ksh-man \
                 %{_mandir}/man1/ksh93.1.gz
@@ -376,6 +376,9 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Thu Mar 18 2021 Vincent Mihalkovic <vmihalko@redhat.com> - 2:20120801-255
+- fix rksh-man in alternatives
+
 * Tue Feb 23 2021 Vincent Mihalkovic <vmihalko@redhat.com> - 2:20120801-254
 - Add alternatives switching for rksh
   Resolves #1893919
