@@ -7,7 +7,7 @@ URL:          http://www.kornshell.com/
 License:      EPL
 Epoch:        2
 Version:      %{releasedate}
-Release:      255%{?dist}
+Release:      256%{?dist}
 Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
 Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
@@ -376,6 +376,9 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2:20120801-256
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
 * Thu Mar 18 2021 Vincent Mihalkovic <vmihalko@redhat.com> - 2:20120801-255
 - fix rksh-man in alternatives
 
