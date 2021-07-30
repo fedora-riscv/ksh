@@ -4,12 +4,12 @@
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
-License:      EPL
+License:      EPL-1.0
 Epoch:        2
 Version:      %{releasedate}
-Release:      256%{?dist}
-Source0:      http://www.research.att.com/~gsf/download/tgz/ast-ksh.%{release_date}.tgz
-Source1:      http://www.research.att.com/~gsf/download/tgz/INIT.%{release_date}.tgz
+Release:      257%{?dist}
+Source0:      ast-ksh.%{release_date}.tgz
+Source1:      INIT.%{release_date}.tgz
 Source2:      kshcomp.conf
 Source3:      kshrc.rhs
 Source4:      dotkshrc
@@ -376,6 +376,9 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Fri Jul 30 2021 Vincent Mihalkovic <vmihalko@redhat.com> - 2:20120801-257
+- fix invalid source URLs and license tag
+
 * Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2:20120801-256
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
