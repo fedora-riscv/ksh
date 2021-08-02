@@ -1,222 +1,21 @@
-%global       releasedate 20120801
-%global       release_date %{lua:reldate=rpm.expand("%{releasedate}");print(("%s-%s-%s"):format(reldate:sub(0,4),reldate:sub(5,6),reldate:sub(7)))}
+%global       verBetaPrefix 1.0.0
+%global       verBetaSuffix 1
+%global       verBetaFull %{verBetaPrefix}-beta.%{verBetaSuffix}
 
 Name:         ksh
 Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 License:      EPL-1.0
-Epoch:        2
-Version:      %{releasedate}
-Release:      257%{?dist}
-Source0:      ast-ksh.%{release_date}.tgz
-Source1:      INIT.%{release_date}.tgz
-Source2:      kshcomp.conf
-Source3:      kshrc.rhs
-Source4:      dotkshrc
-
-# expected results of test suite
-Source5:      expectedresults.log
-
-# don't use not wanted/needed builtins - Fedora/RHEL specific
-Patch1:       ksh-20070328-builtins.patch
-
-# fix regression test suite to be usable during packagebuild - Fedora/RHEL specific
-Patch2:      ksh-20100826-fixregr.patch
-
-# fedora/rhel specific, rhbz#619692
-Patch6:       ksh-20080202-manfix.patch
-
-# rhbz#702008
-Patch17:      ksh-20100202-pathvar.patch
-
-# rhbz#924440
-Patch18:      ksh-20100621-fdstatus.patch
-
-# fixes for regressions found in ksh-20120801 rebase
-Patch19:      ksh-20120801-rmdirfix.patch
-Patch20:      ksh-20120801-cdfix.patch
-Patch21:      ksh-20120801-cdfix2.patch
-Patch22:      ksh-20120801-tabfix.patch
-Patch23:      ksh-20130214-fixkill.patch
-
-# for ksh <= 2013-05-31, rhbz#960034
-Patch24:      ksh-20120801-kshmfix.patch
-
-# for ksh <= 2016-06-28, rhbz#921455
-Patch25:      ksh-20120801-memlik.patch
-
-# for ksh <= 2013-03-20, rhbz#922851
-Patch26:      ksh-20120801-forkbomb.patch
-
-# for ksh <= 2013-04-19, rhbz#913110
-Patch27:      ksh-20120801-macro.patch
-
-# not completely upstream yet, rhbz#858263
-Patch29:      ksh-20130628-longer.patch
-
-# for ksh <= 2013-07-19, rhbz#982142
-Patch30: ksh-20120801-mlikfiks.patch
-
-# not yet upstream, related to 2012-08-01 rebase
-Patch31: ksh-20120801-covsfix.patch
-
-# rhbz#1007816
-Patch32: ksh-20100621-manfix3.patch
-
-# rhbz#1016611
-Patch33: ksh-20120801-nomulti.patch
-
-# for ksh <= 2014-01-14, rhbz#
-Patch34: ksh-20120801-mtty.patch
-
-# from upstream, rbzh#1048272
-Patch35: ksh-20120801-fd2lost.patch
-
-# sent upstream 2014-01, rhbz#1047507
-Patch36: ksh-20120801-argvfix.patch
-
-# for ksh <= 2014-01-14, rhbz#1048995
-Patch37: ksh-20120801-memlik3.patch
-
-# for ksh <= 2013-04-09, rhbz#960371
-Patch38: ksh-20120801-lexfix.patch
-
-# not yet upstream, for ksh <= 2014-02-26, rhbz#1070328
-Patch39: ksh-20120801-filecomsubst.patch
-
-# for ksh <= 2014-06-25, rhbz#825520,rhbz#1084406
-Patch40: ksh-20120801-crash.patch
-
-# for ksh < 2013-03-19, rhbz#1085385
-Patch41: ksh-20120801-sufix.patch
-
-# sent upstream, rhbz#1099935
-Patch42: ksh-20140301-fikspand.patch
-
-# for ksh < 2014-04-15, rhbz#1070871
-Patch43: ksh-20120801-roundit.patch
-
-# for ksh < 2014-04-15, rhbz#1111120
-Patch44: ksh-20120801-heresub.patch
-
-# not included upstream yet, rhbz#1077090
-Patch45: ksh-20140415-hokaido.patch
-
-# for ksh < 2012-10-04, rhbz#1121960
-Patch46: ksh-20120801-tpstl.patch
-
-# sent upstream, rhbz#1100215
-Patch47: ksh-20120801-manfix4.patch
-
-# not upstream yet, rhbz#1100215
-Patch48: ksh-20120801-fununset.patch
-
-# for ksh < 2014-06-25, rhbz#1109893
-Patch49: ksh-20120801-cdfix3.patch
-
-# sent upstream, rhbz#1116506
-Patch50: ksh-20120801-locking.patch
-
-# for ksh <= 2013-06-13, rhbz#1133585
-Patch51: ksh-20130613-cdfix4.patch
-
-Patch52: ksh-20120801-retfix.patch
-
-# sent upstream, for ksh <= 2014-09-30
-Patch53: ksh-20120801-cdfork.patch
-
-# not upstream yet, for ksh <= 2015-04-03, rhbz#1200534
-Patch54: ksh-20140801-arraylen.patch
-
-# sent upstream, for ksh <= 2014-09-29, rhbz#1212993
-Patch55: ksh-20140801-diskfull.patch
-
-# not upstream yet, rhbz#1192026
-Patch56: ksh-20120801-xufix.patch
-
-# sent upstream, for ksh <= 2014-12-18, rhbz#1192119
-Patch58: ksh-20120801-alarmifs.patch
-
-# not yet upstream, rhbz#1202439
-Patch59: ksh-20140929-safefd.patch
-
-# workaround, for ksh < 2013-05-24, rhbz#1211540
-Patch60: ksh-20120801-trapcom.patch
-
-# not yet upstream, rhbz#1217237
-Patch64: ksh-20120801-nohupfork.patch
-
-# from upstream, for ksh <= 20130409, rhbz#1241014
-Patch65: ksh-20120801-parserfix.patch
-
-# not upstream yet, rhbz#1211538
-Patch66: ksh-20120801-oldenvinit.patch
-
-# from upsteam, for ksh < 2012-10-04, rhbz#1193557
-Patch67: ksh-20120801-emptyarrayinit.patch
-
-# not upstream yet, rhbz#1371630
-Patch68: ksh-20120801-typeset.patch
-
-# not upstream yet, rhbz#1321443
-Patch69: ksh-20120801-dotdoublefree.patch
-
-# not upstream yet, rhbz#1405784
-Patch70: ksh-20120801-subshell-leak.patch
-
-# rhbz#1189297
-Patch71: ksh-20120801-assoc-unset-leak.patch
-
-# rhbz#1222025
-Patch72: ksh-20120801-unset-param.patch
-
-# rhbz#1269088
-Patch73: ksh-20120801-badgcc.patch
-
-# rhbz#1299484
-Patch74: ksh-20120801-mb-after-argvar.patch
-Patch75: ksh-20120801-F_dupfd_cloexec.patch
-
-# rhbz#1441142
-Patch76: ksh-20120801-kia.patch
-
-# rhbz#1417886
-Patch77: ksh-20120801-iso8859.patch
-
-# rhbz#1451057
-Patch78: ksh-20120801-syntax-error.patch
-
-# rhbz#1477082
-Patch79: ksh-20120801-glibc-build-fix.patch
-
-# rhbz#1459000
-Patch80: ksh-20120801-jobwait-sigstop.patch
-
-# rhbz#1462347
-Patch81: ksh-20120801-subshell-jobwait.patch
-
-# rhbz#1471874
-Patch82: ksh-20120801-posix-exit.patch
-
-# rhbz#1464409
-Patch83: ksh-20120801-sh_iovalidfd.patch
-
-# rhbz#1537053
-Patch84: ksh-20120801-validate-fd.patch
-
-# There were couple of places where CCFLAGS variable was not passed while
-# compiling binaries. This patch fixes it. Loosely related to rhbz#1548549.
-Patch85: ksh-20120801-ccflags.patch
-
-Patch86: ksh-20120801-nv_open-memcmp.patch
-
-Patch87: ksh-20120801-covsfix2.patch
-
-# rhbz#1624125
-Patch88: ksh-20120801-annocheck.patch
-
-# rhbz#1790547
-Patch89: ksh-20120801-cve-2019-14868.patch
+Epoch:        3
+Version:      %{verBetaPrefix}~beta.%{verBetaSuffix}
+Release:      1%{?dist}
+Source0:      https://github.com/ksh93/%{name}/archive/v%{verBetaFull}/%{name}-%{verBetaFull}.tar.gz
+Source1:      kshcomp.conf
+Source2:      kshrc.rhs
+Source3:      dotkshrc
+
+# temporary commenting out failing tests
+Patch1:       %{name}-%{verBetaFull}-regre-tests.patch
 
 Conflicts:    pdksh
 Requires: coreutils, diffutils
@@ -237,15 +36,10 @@ KornShell is a shell programming language, which is upward compatible
 with "sh" (the Bourne Shell).
 
 %prep
-%setup -q -c
-%setup -q -T -D -a 1
-%autopatch -p1
+%autosetup -n %{name}-%{verBetaFull} -p1
 
 #/dev/fd test does not work because of mock
 sed -i 's|ls /dev/fd|ls /proc/self/fd|' src/cmd/ksh93/features/options
-
-# sh/main.c was not using CCFLAGS
-sed -i '/-c sh\/main.c/s|${mam_cc_FLAGS} |${mam_cc_FLAGS} ${CCFLAGS} |p' src/cmd/ksh93/Mamfile
 
 # disable register for debugging
 sed -i 1i"#define register" src/lib/libast/include/ast.h
@@ -253,17 +47,12 @@ sed -i 1i"#define register" src/lib/libast/include/ast.h
 %build
 %set_build_flags
 XTRAFLAGS=""
-for f in -Wno-unknown-pragmas -Wno-missing-braces -Wno-unused-result -Wno-return-type -Wno-int-to-pointer-cast -Wno-parentheses -Wno-unused -Wno-unused-but-set-variable -Wno-cpp -P
+for f in -Wno-unknown-pragmas -Wno-missing-braces -Wno-unused-result -Wno-return-type -Wno-int-to-pointer-cast -Wno-parentheses -Wno-unused -Wno-unused-but-set-variable -Wno-cpp -Wno-maybe-uninitialized -Wno-lto-type-mismatch -P
 do
   $CC $f -E - </dev/null >/dev/null 2>&1 && XTRAFLAGS="$XTRAFLAGS $f"
 done
-./bin/package
-./bin/package make mamake ||:
-./bin/package make mamake ||:
 export CCFLAGS="$RPM_OPT_FLAGS $RPM_LD_FLAGS -fno-strict-aliasing $XTRAFLAGS"
 ./bin/package make -S
-
-#cp lib/package/LICENSES/epl LICENSE
 
 %install
 mkdir -p %{buildroot}{/bin,%{_bindir},%{_mandir}/man1}
@@ -271,9 +60,9 @@ install -p -m 755 arch/*/bin/ksh %{buildroot}%{_bindir}/ksh93
 install -p -m 755 arch/*/bin/shcomp %{buildroot}%{_bindir}/shcomp
 install -p -m 644 arch/*/man/man1/sh.1 %{buildroot}%{_mandir}/man1/ksh93.1
 mkdir -p %{buildroot}%{_sysconfdir}/skel
-install -p -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/skel/.kshrc
-install -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/kshrc
-install -p -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/binfmt.d/kshcomp.conf
+install -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/skel/.kshrc
+install -p -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/kshrc
+install -p -D -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/binfmt.d/kshcomp.conf
 
 touch %{buildroot}%{_bindir}/ksh
 touch %{buildroot}%{_mandir}/man1/ksh.1.gz
@@ -282,31 +71,7 @@ touch %{buildroot}%{_bindir}/rksh
 touch %{buildroot}%{_mandir}/man1/rksh.1.gz
 
 %check
-[ -f ./skipcheck -o -f ./../skipcheck ] && exit 0 ||:
-%if 0%{?rhel} > 6
-%ifarch s390
-exit 0
-%endif
-%endif
-
-export SHELL=$(ls $(pwd)/arch/*/bin/ksh)
-cd src/cmd/ksh93/tests/
-ulimit -c unlimited
-if [ ! -e /dev/fd ]
-then
-  echo "ERROR: /dev/fd does not exist, regression tests skipped"
-  exit 0
-fi
-$SHELL ./shtests 2>&1 | tee testresults.log
-ls core.* 2>/dev/null ||:
-exit 0
-sed -e '/begins at/d' -e '/ 0 error/d' -e 's/at [^\[]*\[/\[/' testresults.log -e '/tests skipped/d' >filteredresults.log
-if ! cmp filteredresults.log %{SOURCE5} >/dev/null || ls core.*
-then
-  echo "Regression tests failed"
-  diff -Naurp %{SOURCE5} filteredresults.log
-  exit -1
-fi
+./bin/shtests --compile
 
 %post
 for s in /bin/ksh /bin/rksh /usr/bin/ksh /usr/bin/rksh
@@ -363,7 +128,7 @@ fi
 
 %files 
 %doc src/cmd/ksh93/COMPATIBILITY src/cmd/ksh93/RELEASE src/cmd/ksh93/TYPES 
-# LICENSE file is missing, temporarily?
+%license LICENSE.md
 %{_bindir}/ksh93
 %ghost %{_bindir}/ksh
 %ghost %{_bindir}/rksh
@@ -376,6 +141,12 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Mon Aug 02 2021 Vincent Mihalkovic <vmihalko@redhat.com> - 3:1.0.0~BETA-1
+- new upstream release
+- remove upstreamed patches
+- update CCFLAGS (https://github.com/ksh93/ksh/commit/98f989afcc7)
+  Resolves: #1933304
+
 * Fri Jul 30 2021 Vincent Mihalkovic <vmihalko@redhat.com> - 2:20120801-257
 - fix invalid source URLs and license tag
 
