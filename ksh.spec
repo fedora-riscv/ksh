@@ -8,7 +8,7 @@ URL:          http://www.kornshell.com/
 License:      EPL-1.0
 Epoch:        3
 Version:      %{verBetaPrefix}~beta.%{verBetaSuffix}
-Release:      2%{?dist}
+Release:      3%{?dist}
 Source0:      https://github.com/ksh93/%{name}/archive/v%{verBetaFull}/%{name}-%{verBetaFull}.tar.gz
 Source1:      kshcomp.conf
 Source2:      kshrc.rhs
@@ -16,6 +16,8 @@ Source3:      dotkshrc
 
 # temporary commenting out failing tests
 Patch1:       %{name}-%{verBetaFull}-regre-tests.patch
+# in some build commands relocate "-lm" flag
+Patch2:       %{name}-%{verBetaFull}-fix-build.patch
 
 Conflicts:    pdksh
 Requires: coreutils, diffutils
@@ -141,6 +143,9 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Wed Feb 23 2022 Vincent Mihalkovic <vmihalko@redhat.com> - 3:1.0.0~BETA.1-3
+- fix FTBFS in Fedora-36 (#2045778)
+
 * Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 3:1.0.0~beta.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
