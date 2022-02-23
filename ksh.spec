@@ -1,5 +1,5 @@
 %global       verBetaPrefix 1.0.0
-%global       verBetaSuffix 1
+%global       verBetaSuffix 2
 %global       verBetaFull %{verBetaPrefix}-beta.%{verBetaSuffix}
 
 Name:         ksh
@@ -8,14 +8,17 @@ URL:          http://www.kornshell.com/
 License:      EPL-1.0
 Epoch:        3
 Version:      %{verBetaPrefix}~beta.%{verBetaSuffix}
-Release:      2%{?dist}
+Release:      1%{?dist}
 Source0:      https://github.com/ksh93/%{name}/archive/v%{verBetaFull}/%{name}-%{verBetaFull}.tar.gz
 Source1:      kshcomp.conf
 Source2:      kshrc.rhs
 Source3:      dotkshrc
 
-# temporary commenting out failing tests
+# temporary commenting out failing i686 test
 Patch1:       %{name}-%{verBetaFull}-regre-tests.patch
+# in some build commands relocate "-lm" flag
+Patch2:       %{name}-%{verBetaFull}-fix-build.patch
+
 
 Conflicts:    pdksh
 Requires: coreutils, diffutils
@@ -52,7 +55,7 @@ do
   $CC $f -E - </dev/null >/dev/null 2>&1 && XTRAFLAGS="$XTRAFLAGS $f"
 done
 export CCFLAGS="$RPM_OPT_FLAGS $RPM_LD_FLAGS -fno-strict-aliasing $XTRAFLAGS"
-./bin/package make -S
+./bin/package make
 
 %install
 mkdir -p %{buildroot}{/bin,%{_bindir},%{_mandir}/man1}
@@ -141,6 +144,9 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Tue Feb 22 2022 Vincent Mihalkovic <vmihalko@redhat.com> - 3:1.0.0~BETA.2-1
+- new upstream release
+
 * Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 3:1.0.0~beta.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
