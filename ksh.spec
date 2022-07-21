@@ -8,7 +8,7 @@ URL:          http://www.kornshell.com/
 License:      EPL-1.0
 Epoch:        3
 Version:      %{verBetaPrefix}~beta.%{verBetaSuffix}
-Release:      1%{?dist}
+Release:      2%{?dist}
 Source0:      https://github.com/ksh93/%{name}/archive/v%{verBetaFull}/%{name}-%{verBetaFull}.tar.gz
 Source1:      kshcomp.conf
 Source2:      kshrc.rhs
@@ -144,6 +144,9 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Thu Jul 21 2022 Fedora Release Engineering <releng@fedoraproject.org> - 3:1.0.0~beta.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
+
 * Tue Feb 22 2022 Vincent Mihalkovic <vmihalko@redhat.com> - 3:1.0.0~BETA.2-1
 - new upstream release
 
