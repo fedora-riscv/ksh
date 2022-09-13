@@ -3,14 +3,15 @@ Summary:      The Original ATT Korn Shell
 URL:          http://www.kornshell.com/
 License:      EPL-2.0
 Epoch:        3
-Version:      1.0.2
+Version:      1.0.3
 Release:      1%{?dist}
 Source0:      https://github.com/ksh93/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 Source1:      kshcomp.conf
 Source2:      kshrc.rhs
 Source3:      dotkshrc
 
-# temporary commenting out failing i686 test
+# skip a test failing on 32-bit systems
+# https://github.com/ksh93/ksh/issues/203
 Patch1:       %{name}-%{version}-regre-tests.patch
 
 
@@ -141,6 +142,10 @@ fi
 %config(noreplace) %{_sysconfdir}/binfmt.d/kshcomp.conf
 
 %changelog
+* Tue Sep 13 2022 Lukáš Zaoral <lzaoral@redhat.com> - 3:1.0.3-1
+- new upstream release
+  Resolves: rhbz#2110530
+
 * Mon Aug 08 2022 Vincent Mihalkovic <vmihalko@redhat.com> - 3:1.0.2-1
 - new upstream release
   Resolves: #2110530, #2114545
